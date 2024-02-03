@@ -4,7 +4,7 @@
 #include "MQTTAgentObserver.h"
 #include "MQTTConfig.h"
 #include "MQTTTopicHelper.h"
-#include "TCPTransport.h"
+#include "tcp_transport/TCPTransport.h"
 #include "core_mqtt.h"
 #include "core_mqtt_agent.h"
 

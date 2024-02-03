@@ -1,15 +1,12 @@
 add_executable(${NAME}
-        WiFiHelper.cpp
-        TCPTransport.cpp
-        MQTTAgent.cpp
-        MQTTAgentObserver.cpp
-        MQTTTopicHelper.cpp
         main.cpp
-        logger.cpp
-        # blink_queue.c
-        # scheduling_priorities.c
-        # mutex.c
-        # semaphore.c
+        wifi_helper/WiFiHelper.cpp
+        tcp_transport/TCPTransport.cpp
+        mqtt/MQTTAgent.cpp
+        mqtt/MQTTAgentObserver.cpp
+        mqtt/MQTTTopicHelper.cpp
+        logger/logger.cpp
+        run_time_stats/run_time_stats.cpp
         )
 
 # pull in common dependencies

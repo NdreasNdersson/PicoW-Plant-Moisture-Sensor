@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "WiFiHelper.h"
+#include "wifi_helper/WiFiHelper.h"
 
 /* MQTT Agent ports. */
 #include "freertos_agent_message.h"
