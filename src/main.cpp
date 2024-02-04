@@ -10,6 +10,7 @@
 /* #include "lwip/dns.h" */
 /* #include "lwip/ip4_addr.h" */
 /* #include "lwip/sockets.h" */
+#include "logging_stack.h"
 
 #include <atomic>
 #include <stdio.h>
@@ -47,7 +48,7 @@ std::atomic<bool> initialized{false};
 
 void status_task(void *params) {
 
-    logger("Started\n");
+    LogDebug(("Started\n"));
 
     while(!initialized);
     while(true) {
@@ -67,34 +68,34 @@ void status_task(void *params) {
 
 void main_task(void *params) {
 
-    logger("Started\n");
+    LogDebug(("Started\n"));
 
     if (WifiHelper::init()) {
         initialized = true;
-        logger("Wifi Controller Initialised\n");
+        LogDebug(("Wifi Controller Initialised\n"));
     } else {
-        logger("Failed to initialise controller\n");
+        LogError(("Failed to initialise controller\n"));
         return;
     }
 
-    logger("Connecting to WiFi... %s \n", WIFI_SSID);
+    LogDebug(("Connecting to WiFi... %s \n", WIFI_SSID));
 
     if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
-        logger("Connect to Wifi\n");
+        LogInfo(("Connect to Wifi\n"));
         wifi_connected = true;
     } else {
-        logger("Failed to connect to Wifi \n");
+        LogError(("Failed to connect to Wifi \n"));
     }
 
     // Print MAC Address
     char macStr[20];
     WifiHelper::getMACAddressStr(macStr);
-    logger("MAC ADDRESS: %s\n", macStr);
+    LogInfo(("MAC ADDRESS: %s\n", macStr));
 
     // Print IP Address
     char ipStr[20];
     WifiHelper::getIPAddressStr(ipStr);
-    logger("IP ADDRESS: %s\n", ipStr);
+    LogInfo(("IP ADDRESS: %s\n", ipStr));
 
     // Setup for MQTT Connection
     char mqttTarget[] = MQTT_HOST;
@@ -102,7 +103,7 @@ void main_task(void *params) {
     char mqttClient[] = MQTT_CLIENT;
     char mqttUser[] = MQTT_USER;
     char mqttPwd[] = MQTT_PASSWD;
-
+    
     /* MQTTAgent mqttAgent; */
     /* MQTTAgentObserver mqttObs; */
 
@@ -122,13 +123,13 @@ void main_task(void *params) {
         vTaskDelay(3000);
 
         if (!WifiHelper::isJoined()) {
-            logger("AP Link is down\n");
+            LogError(("AP Link is down\n"));
 
             if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
-                logger("Connect to Wifi\n");
+                LogInfo(("Connect to Wifi\n"));
                 wifi_connected = true;
             } else {
-                logger("Failed to connect to Wifi \n");
+                LogError(("Failed to connect to Wifi \n"));
                 wifi_connected = false;
             }
         }
@@ -146,12 +147,11 @@ void vLaunch(void) {
 int main(void) {
     stdio_init_all();
 
-    sleep_ms(2000);
-    logger("GO\n");
+    sleep_ms(1000);
 
     const char *rtos_name;
     rtos_name = "FreeRTOS";
-    logger("Starting %s\n", rtos_name);
+    LogInfo(("Starting %s\n", rtos_name));
     vLaunch();
 
     return 0;

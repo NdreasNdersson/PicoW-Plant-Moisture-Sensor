@@ -1,11 +1,11 @@
 add_executable(${NAME}
+        logger/logger.cpp
         main.cpp
         wifi_helper/WiFiHelper.cpp
-        tcp_transport/TCPTransport.cpp
-        mqtt/MQTTAgent.cpp
-        mqtt/MQTTAgentObserver.cpp
-        mqtt/MQTTTopicHelper.cpp
-        logger/logger.cpp
+        # tcp_transport/TCPTransport.cpp
+        # mqtt/MQTTAgent.cpp
+        # mqtt/MQTTAgentObserver.cpp
+        # mqtt/MQTTTopicHelper.cpp
         run_time_stats/run_time_stats.cpp
         )
 
@@ -19,8 +19,8 @@ target_link_libraries(${NAME}
         # twinThingPicoW                     # twinThingPicoW helper lib
 	# json_maker                         # Library for constructing json
 	# tiny_json                          # Library for parsing json
-	coreMQTT                           # coreMQTT for FreeRTOS
-	coreMQTTAgent                      # coreMQTT Agent for FreeRTOS
+	# coreMQTT                           # coreMQTT for FreeRTOS
+	# coreMQTTAgent                      # coreMQTT Agent for FreeRTOS
         )
 
 # Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
@@ -47,4 +47,5 @@ pico_enable_stdio_uart(${NAME} 0)
 pico_add_extra_outputs(${NAME})
 
 target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
+target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/utilities )
 

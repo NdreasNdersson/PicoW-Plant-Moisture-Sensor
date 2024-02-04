@@ -1,6 +1,6 @@
 /*
- * coreMQTT Agent v1.1.0
- * Copyright (C) 2021 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ * FreeRTOS V202212.00
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -18,15 +18,42 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * https://www.FreeRTOS.org
+ * https://github.com/FreeRTOS
+ *
  */
 
 /**
  * @file logging_levels.h
- * @brief Defines the logging level macros.
+ * @brief Defines the configuration constants for all logging verbosity levels.
  */
 
-#ifndef LOGGING_LEVELS_H_
-#define LOGGING_LEVELS_H_
+#ifndef LOGGING_LEVELS_H
+#define LOGGING_LEVELS_H
+
+/**
+ * @constantspage{logging,logging library}
+ *
+ * @section logging_constants_levels Log levels
+ * @brief Log levels for the libraries in this SDK.
+ *
+ * Each library should specify a log level by setting @ref LIBRARY_LOG_LEVEL.
+ * All log messages with a level at or below the specified level will be printed
+ * for that library.
+ *
+ * Currently, there are 4 log levels. In the order of lowest to highest, they are:
+ * - #LOG_NONE <br>
+ *   @copybrief LOG_NONE
+ * - #LOG_ERROR <br>
+ *   @copybrief LOG_ERROR
+ * - #LOG_WARN <br>
+ *   @copybrief LOG_WARN
+ * - #LOG_INFO <br>
+ *   @copybrief LOG_INFO
+ * - #LOG_DEBUG <br>
+ *   @copybrief LOG_DEBUG
+ */
 
 /**
  * @brief No log messages.
@@ -83,23 +110,4 @@
  */
 #define LOG_DEBUG    4
 
-/* The macro definition for LIBRARY_LOG_LEVEL is for Doxygen
- * documentation only. This macro is typically defined in only the
- * <library>_config.h file or the demo_config.h file. */
-
-/**
- * @brief The logging level verbosity configuration of log messages from library.
- *
- * The logging verbosity levels are one of #LOG_DEBUG, #LOG_INFO, #LOG_WARN,
- * and #LOG_ERROR.
- * - With level #LOG_NONE, logging will be disabled.
- * - With level #LOG_DEBUG, all log messages will print.
- * - With level #LOG_INFO, all log messages, except level #LOG_DEBUG, will print.
- * - With level #LOG_WARN, only messages this level and #LOG_ERROR level will print.
- * - With level #LOG_ERROR, only messages at this level will print.
- */
-#ifdef DOXYGEN
-    #define LIBRARY_LOG_LEVEL    LOG_ERROR
-#endif
-
-#endif /* ifndef LOGGING_LEVELS_H_ */
+#endif /* ifndef LOGGING_LEVELS_H */
