@@ -13,13 +13,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(PICO_BOARD pico_w) # Set the board used
 
 # Set config files paths to be used
-set(TWIN_THING_PICO_CONFIG_PATH ${CMAKE_CURRENT_LIST_DIR}/configs/twinThing) # twinThingPicoW config files
+# set(TWIN_THING_PICO_CONFIG_PATH ${CMAKE_CURRENT_LIST_DIR}/configs/twinThing) # twinThingPicoW config files
 set(COREMQTT_PORT_PATH ${CMAKE_CURRENT_LIST_DIR}/configs/CoreMQTT) # coreMQTT config files
 set(COREMQTT_AGENT_PORT_PATH ${CMAKE_CURRENT_LIST_DIR}/configs/CoreMQTT-Agent) # coreMQTT config files
 include(lwip_import.cmake) # lwip config files
 SET(FREERTOS_CONFIG_FILE_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/configs/FreeRTOS-Kernel" CACHE STRING "Local Config")
 include_directories("${FREERTOS_CONFIG_FILE_DIRECTORY}") # FreeRTOS config files
-include_directories("${TWIN_THING_PICO_CONFIG_PATH}") # twinThingPicoW config files
+# include_directories("${TWIN_THING_PICO_CONFIG_PATH}") # twinThingPicoW config files
 
 # Initialize the Pico SDK
 pico_sdk_init() 
