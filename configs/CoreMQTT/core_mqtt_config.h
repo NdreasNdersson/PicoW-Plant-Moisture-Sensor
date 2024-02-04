@@ -72,63 +72,61 @@ struct NetworkContext
 };
 
 /**
- * @brief The maximum number of MQTT PUBLISH messages that may be pending
- * acknowledgement at any time.
+ * @brief Determines the maximum number of MQTT PUBLISH messages, pending
+ * acknowledgement at a time, that are supported for incoming and outgoing
+ * direction of messages, separately.
  *
- * QoS 1 and 2 MQTT PUBLISHes require acknowledgment from the server before
- * they can be completed. While they are awaiting the acknowledgment, the
+ * QoS 1 and 2 MQTT PUBLISHes require acknowledgement from the server before
+ * they can be completed. While they are awaiting the acknowledgement, the
  * client must maintain information about their state. The value of this
  * macro sets the limit on how many simultaneous PUBLISH states an MQTT
- * context maintains.
+ * context maintains, separately, for both incoming and outgoing direction of
+ * PUBLISHes.
+ *
+ * @note This definition must exist in order to compile. 10U is a typical value
+ * used in the MQTT demos.
  */
-#define MQTT_STATE_ARRAY_MAX_COUNT      20U
+#define MQTT_STATE_ARRAY_MAX_COUNT              ( 10U )
 
 /**
- * @brief The maximum duration between non-empty network reads while
- * receiving an MQTT packet via the #MQTT_ProcessLoop or #MQTT_ReceiveLoop
- * API functions.
+ * @brief Retry count for reading CONNACK from network.
+ *
+ * The MQTT_MAX_CONNACK_RECEIVE_RETRY_COUNT will be used only when the
+ * timeoutMs parameter of #MQTT_Connect() is passed as 0 . The transport
+ * receive for CONNACK will be retried MQTT_MAX_CONNACK_RECEIVE_RETRY_COUNT
+ * times before timing out. A value of 0 for this config will cause the
+ * transport receive for CONNACK  to be invoked only once.
+ */
+#define MQTT_MAX_CONNACK_RECEIVE_RETRY_COUNT    ( 2U )
+
+/**
+ * @brief Number of milliseconds to wait for a ping response to a ping
+ * request as part of the keep-alive mechanism.
+ *
+ * If a ping response is not received before this timeout, then
+ * #MQTT_ProcessLoop will return #MQTTKeepAliveTimeout.
+ */
+#define MQTT_PINGRESP_TIMEOUT_MS                ( 5000U )
+
+/**
+ * @brief The maximum duration of receiving no data over network when
+ * attempting to read an incoming MQTT packet by the #MQTT_ProcessLoop or
+ * #MQTT_ReceiveLoop API functions.
  *
  * When an incoming MQTT packet is detected, the transport receive function
- * may be called multiple times until all of the expected number of bytes of the
- * packet are received. This timeout represents the maximum polling duration that
- * is allowed without any data reception from the network for the incoming packet.
+ * may be called multiple times until all the expected number of bytes for the
+ * packet are received. This timeout represents the maximum duration of polling
+ * for any data to be received over the network for the incoming.
+ * If the timeout expires, the #MQTT_ProcessLoop or #MQTT_ReceiveLoop functions
+ * return #MQTTRecvFailed.
  *
- * @note For this demo, the timeout value is configured to zero as the demo uses a
- * dummy timer function (of #MQTTGetCurrentTimeFunc_t) that always returns zero.
- * It is REQUIRED to set the the timeout to zero when using a dummy timer function
- * that always returns zero.
+ * This is set to 1 to exit right away after a zero is received in the transport
+ * receive stub. There is no added value, in proving memory safety, to repeat
+ * the logic that checks if the polling timeout is reached.
  */
-#define MQTT_RECV_POLLING_TIMEOUT_MS    0U
+#define MQTT_RECV_POLLING_TIMEOUT_MS            ( 1U )
 
-/*********************** coreMQTT Agent Configurations **********************/
+#define MQTT_AGENT_COMMAND_QUEUE_LENGTH              ( 25 )
+#define MQTT_COMMAND_CONTEXTS_POOL_SIZE              ( 10 )
 
-/**
- * @brief The maximum number of pending acknowledgments to track for a single
- * connection.
- *
- * @note The MQTT agent tracks MQTT commands (such as PUBLISH and SUBSCRIBE) th
- * at are still waiting to be acknowledged.  MQTT_AGENT_MAX_OUTSTANDING_ACKS set
- * the maximum number of acknowledgments that can be outstanding at any one time.
- * The higher this number is the greater the agent's RAM consumption will be.
- */
-#define MQTT_AGENT_MAX_OUTSTANDING_ACKS         ( 20U )
-
-/**
- * @brief Time in MS that the MQTT agent task will wait in the Blocked state (so
- * not using any CPU time) for a command to arrive in its command queue before
- * exiting the blocked state so it can call MQTT_ProcessLoop().
- *
- * @note It is important MQTT_ProcessLoop() is called often if there is known
- * MQTT traffic, but calling it too often can take processing time away from
- * lower priority tasks and waste CPU time and power.
- */
-#define MQTT_AGENT_MAX_EVENT_QUEUE_WAIT_TIME    ( 1000 )
-
-/**
- * @brief The number of command structures to allocate in the pool
- * for the agent.
- */
-#define MQTT_AGENT_COMMAND_QUEUE_LENGTH         ( 25 )
-#define MQTT_COMMAND_CONTEXTS_POOL_SIZE         ( 10 )
-
-#endif /* ifndef CORE_MQTT_CONFIG_H */
+#endif /* ifndef CORE_MQTT_CONFIG_H_ */
