@@ -4,8 +4,7 @@
 #include "FreeRTOS.h"
 #include "pico/cyw43_arch.h"
 #include "pico/util/datetime.h"
-#include "logger/logger.h"
-#include "logging_stack.h"
+#include "utils/logging.h"
 #include "task.h"
 
 WifiHelper::WifiHelper() {

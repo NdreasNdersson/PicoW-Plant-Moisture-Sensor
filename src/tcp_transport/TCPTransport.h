@@ -2,10 +2,6 @@
 
 #define TCP_TRANSPORT_WAIT 10000
 
-/* #include "MQTTConfig.h" */
-#include "core_mqtt.h"
-// #include "core_mqtt_agent.h"
-
 extern "C" {
 #include <FreeRTOS.h>
 #include <semphr.h>
@@ -16,6 +12,13 @@ extern "C" {
 #include "lwip/ip_addr.h"
 #include "lwip/sockets.h"
 }
+
+/* Setup NetworkContext*/
+struct NetworkContext_t
+{
+    void * tcpTransport;
+    void * mqttTask;
+};
 
 class TCPTransport {
    public:

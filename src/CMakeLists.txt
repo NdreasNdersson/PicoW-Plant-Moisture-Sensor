@@ -1,12 +1,8 @@
 add_executable(${NAME}
-        logger/logger.cpp
-        logger/v_logging_printf.cpp
+        utils/logger.cpp
         main.cpp
         wifi_helper/WiFiHelper.cpp
         tcp_transport/TCPTransport.cpp
-        mqtt/mqtt_agent.cpp
-        mqtt/MQTTAgentObserver.cpp
-        mqtt/MQTTTopicHelper.cpp
         run_time_stats/run_time_stats.cpp
         )
 
@@ -17,11 +13,8 @@ target_link_libraries(${NAME}
         FreeRTOS-Kernel-Heap4              # FreeRTOS kernel and dynamic heap
         FREERTOS_PORT                      # FreeRTOS config files
         LWIP_PORT                          # LWIP config files
-        # twinThingPicoW                     # twinThingPicoW helper lib
 	# json_maker                         # Library for constructing json
 	# tiny_json                          # Library for parsing json
-	coreMQTT                           # coreMQTT for FreeRTOS
-	coreMQTTAgent                      # coreMQTT Agent for FreeRTOS
         )
 
 # Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
@@ -31,12 +24,6 @@ include(../creds/device.cmake)
 target_compile_definitions(${NAME} PRIVATE
     WIFI_SSID=\"${WIFI_SSID_SET}\"
     WIFI_PASSWORD=\"${WIFI_PASSWORD_SET}\"
-    MQTT_CLIENT=\"${MQTT_CLIENT_SET}\"
-    MQTT_USER=\"${MQTT_USER_SET}\"
-    MQTT_PASSWD=\"${MQTT_PASSWD_SET}\"
-    MQTT_HOST=\"${MQTT_HOST_SET}\"
-    MQTT_PORT=${MQTT_PORT_SET}
-    configNUM_CORES=2
 )
 
 
@@ -48,5 +35,4 @@ pico_enable_stdio_uart(${NAME} 0)
 pico_add_extra_outputs(${NAME})
 
 target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
-target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR}/utilities )
 

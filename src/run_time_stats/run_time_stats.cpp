@@ -1,6 +1,6 @@
 #include "run_time_stats.h"
 #include "FreeRTOS.h"
-#include "logger/logger.h"
+#include "utils/logging.h"
 #include "task.h"
 
 void runTimeStats() {
@@ -11,7 +11,7 @@ void runTimeStats() {
     /* Take a snapshot of the number of tasks in case it changes while this
     function is executing. */
     uxArraySize = uxTaskGetNumberOfTasks();
-    logger("Number of tasks %d\n", uxArraySize);
+    LogInfo(("Number of tasks %d\n", uxArraySize));
 
     /* Allocate a TaskStatus_t structure for each task.  An array could be
     allocated statically at compile time. */
@@ -26,25 +26,25 @@ void runTimeStats() {
         /* For each populated position in the pxTaskStatusArray array,
         format the raw data as human readable ASCII data. */
         for (x = 0; x < uxArraySize; x++) {
-            logger("Task: %d \t cPri:%d \t bPri:%d \t hw:%d \t%s\n",
+            LogInfo(("Task: %d \t cPri:%d \t bPri:%d \t hw:%d \t%s\n",
                    pxTaskStatusArray[x].xTaskNumber,
                    pxTaskStatusArray[x].uxCurrentPriority,
                    pxTaskStatusArray[x].uxBasePriority,
                    pxTaskStatusArray[x].usStackHighWaterMark,
-                   pxTaskStatusArray[x].pcTaskName);
+                   pxTaskStatusArray[x].pcTaskName));
         }
 
         /* The array is no longer needed, free the memory it consumes. */
         vPortFree(pxTaskStatusArray);
     } else {
-        logger("Failed to allocate space for stats\n");
+        LogInfo(("Failed to allocate space for stats\n"));
     }
 
     HeapStats_t heapStats;
     vPortGetHeapStats(&heapStats);
-    logger("HEAP avl: %d, blocks %d, alloc: %d, free: %d\n",
+    LogInfo(("HEAP avl: %d, blocks %d, alloc: %d, free: %d\n",
            heapStats.xAvailableHeapSpaceInBytes,
            heapStats.xNumberOfFreeBlocks,
            heapStats.xNumberOfSuccessfulAllocations,
-           heapStats.xNumberOfSuccessfulFrees);
+           heapStats.xNumberOfSuccessfulFrees));
 }
