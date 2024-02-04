@@ -45,7 +45,7 @@
 #endif
 
 #ifndef LIBRARY_LOG_LEVEL
-    #define LIBRARY_LOG_LEVEL    LOG_ERROR
+    #define LIBRARY_LOG_LEVEL    LOG_DEBUG
 #endif
 
 /* Prototype for the function used to print to console on Windows simulator
@@ -58,11 +58,18 @@ extern void vLoggingPrintf( const char * pcFormatString,
 /* Map the SdkLog macro to the logging function to enable logging
  * on Windows simulator. */
 #ifndef SdkLog
-    #define SdkLog( message )    vLoggingPrintf message
+    #define SdkLog( X ) printf X
 #endif
 
 #include "logging_stack.h"
 /************ End of logging configuration ****************/
+
+/* Setup NetworkContext*/
+struct NetworkContext
+{
+    void * tcpTransport;
+    void * mqttTask;
+};
 
 /**
  * @brief The maximum number of MQTT PUBLISH messages that may be pending
@@ -121,6 +128,7 @@ extern void vLoggingPrintf( const char * pcFormatString,
  * @brief The number of command structures to allocate in the pool
  * for the agent.
  */
-#define MQTT_COMMAND_CONTEXTS_POOL_SIZE         10
+#define MQTT_AGENT_COMMAND_QUEUE_LENGTH         ( 25 )
+#define MQTT_COMMAND_CONTEXTS_POOL_SIZE         ( 10 )
 
 #endif /* ifndef CORE_MQTT_CONFIG_H */

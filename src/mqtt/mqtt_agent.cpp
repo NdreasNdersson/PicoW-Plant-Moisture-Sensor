@@ -1,4 +1,4 @@
-#include "MQTTAgent.h"
+#include "mqtt_agent.h"
 
 #include <stdlib.h>
 
@@ -150,10 +150,11 @@ bool MQTTAgent::mqttConnect(const char *target, uint16_t port, bool recon) {
  *  */
 void MQTTAgent::start(UBaseType_t priority) {
     if (init() == MQTTSuccess) {
+        LogDebug(("Start MQTT Agent"));
         xTaskCreate(
             MQTTAgent::vTask,
             "MQTTAgent",
-            2512,
+            4096,
             (void *)this,
             priority,
             &xHandle);

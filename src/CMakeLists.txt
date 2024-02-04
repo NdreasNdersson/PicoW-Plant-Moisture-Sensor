@@ -1,11 +1,12 @@
 add_executable(${NAME}
         logger/logger.cpp
+        logger/v_logging_printf.cpp
         main.cpp
         wifi_helper/WiFiHelper.cpp
-        # tcp_transport/TCPTransport.cpp
-        # mqtt/MQTTAgent.cpp
-        # mqtt/MQTTAgentObserver.cpp
-        # mqtt/MQTTTopicHelper.cpp
+        tcp_transport/TCPTransport.cpp
+        mqtt/mqtt_agent.cpp
+        mqtt/MQTTAgentObserver.cpp
+        mqtt/MQTTTopicHelper.cpp
         run_time_stats/run_time_stats.cpp
         )
 
@@ -19,8 +20,8 @@ target_link_libraries(${NAME}
         # twinThingPicoW                     # twinThingPicoW helper lib
 	# json_maker                         # Library for constructing json
 	# tiny_json                          # Library for parsing json
-	# coreMQTT                           # coreMQTT for FreeRTOS
-	# coreMQTTAgent                      # coreMQTT Agent for FreeRTOS
+	coreMQTT                           # coreMQTT for FreeRTOS
+	coreMQTTAgent                      # coreMQTT Agent for FreeRTOS
         )
 
 # Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"

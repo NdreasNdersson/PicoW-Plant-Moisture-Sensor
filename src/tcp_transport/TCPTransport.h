@@ -2,7 +2,7 @@
 
 #define TCP_TRANSPORT_WAIT 10000
 
-#include "MQTTConfig.h"
+/* #include "MQTTConfig.h" */
 #include "core_mqtt.h"
 // #include "core_mqtt_agent.h"
 

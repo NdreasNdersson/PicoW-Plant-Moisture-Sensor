@@ -1,7 +1,9 @@
 
 #include "MQTTAgentObserver.h"
 
-#include "MQTTConfig.h"
+/* #include "MQTTConfig.h" */
+#include "logger/logger.h"
+#include "logging_stack.h"
 
 MQTTAgentObserver::MQTTAgentObserver() {
     // NOP

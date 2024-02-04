@@ -2,7 +2,7 @@
 
 #include "FreeRTOS.h"
 #include "MQTTAgentObserver.h"
-#include "MQTTConfig.h"
+/* #include "MQTTConfig.h" */
 #include "MQTTTopicHelper.h"
 #include "tcp_transport/TCPTransport.h"
 #include "core_mqtt.h"

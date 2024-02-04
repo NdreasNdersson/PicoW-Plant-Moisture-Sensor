@@ -6,7 +6,7 @@
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
 #include "task.h"
-/* #include "mqtt/MQTTAgent.h" */
+#include "mqtt/mqtt_agent.h"
 /* #include "lwip/dns.h" */
 /* #include "lwip/ip4_addr.h" */
 /* #include "lwip/sockets.h" */
@@ -38,8 +38,9 @@
 #error "MQTT_PORT not defined"
 #endif
 
-#define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
-#define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
+#define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
+#define MQTT_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
+#define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
 
 std::atomic<bool> wifi_connected{false};
 std::atomic<bool> initialized{false};
@@ -52,6 +53,7 @@ void status_task(void *params) {
 
     while(!initialized);
     while(true) {
+        /* runTimeStats(); */
         if (wifi_connected) {
             cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
             vTaskDelay(1000);
@@ -104,21 +106,20 @@ void main_task(void *params) {
     char mqttUser[] = MQTT_USER;
     char mqttPwd[] = MQTT_PASSWD;
     
-    /* MQTTAgent mqttAgent; */
-    /* MQTTAgentObserver mqttObs; */
+    MQTTAgent mqttAgent;
+    MQTTAgentObserver mqttObs;
 
-    /* mqttAgent.setObserver(&mqttObs); */
-    /* mqttAgent.credentials(mqttUser, mqttPwd, mqttClient); */
+    mqttAgent.setObserver(&mqttObs);
+    mqttAgent.credentials(mqttUser, mqttPwd, mqttClient);
 
-    /* logger("Connecting to: %s(%d)\n", mqttTarget, mqttPort); */
-    /* logger("Client id: %.4s...\n", mqttAgent.getId()); */
-    /* logger("User id: %.4s...\n", mqttUser); */
+    LogInfo(("Connecting to: %s(%d)\n", mqttTarget, mqttPort));
+    LogInfo(("Client id: %.4s...\n", mqttAgent.getId()));
+    LogInfo(("User id: %.4s...\n", mqttUser));
 
-    /* mqttAgent.mqttConnect(mqttTarget, mqttPort, true); */
-    /* mqttAgent.start(TASK_PRIORITY); */
+    mqttAgent.mqttConnect(mqttTarget, mqttPort, true);
+    mqttAgent.start(MQTT_TASK_PRIORITY);
 
     while (true) {
-        // runTimeStats();
 
         vTaskDelay(3000);
 
@@ -137,7 +138,7 @@ void main_task(void *params) {
 }
 
 void vLaunch(void) {
-    xTaskCreate(main_task, "MainThread", 256, NULL, MAIN_TASK_PRIORITY, NULL);
+    xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY, NULL);
 
     /* Start the tasks and timer running. */
