@@ -4,10 +4,12 @@
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
 #include "task.h"
-#include "wifi_helper/WiFiHelper.h"
+#include "network/wifi_helper.h"
+#include "network/tcp.h"
 
 #include <atomic>
 #include <stdio.h>
+#include <string>
 
 // Check these definitions where added from the makefile
 #ifndef WIFI_SSID
@@ -74,6 +76,11 @@ void main_task(void *params) {
     char ipStr[20];
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s\n", ipStr));
+
+    auto tcp_server{TCPSERVER(std::string{"0.0.0.0"}, 8080)};
+    if(tcp_server.start()) {
+        LogInfo(("TCP Server started"));
+    }
 
     while (true) {
 

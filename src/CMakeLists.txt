@@ -1,8 +1,9 @@
 add_executable(${NAME}
         utils/logger.cpp
         main.cpp
-        wifi_helper/WiFiHelper.cpp
-        tcp_transport/TCPTransport.cpp
+        network/wifi_helper.cpp
+        network/tcp.cpp
+        network/tcp_server.c
         run_time_stats/run_time_stats.cpp
         )
 
