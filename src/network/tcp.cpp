@@ -18,11 +18,18 @@ bool TCPSERVER::start()
         return false;
     }
 
-    std::string buffer_str{"HTTP/1.0 200 OK\r\nContent-type: application/json\r\n\r\n"};
-    for(int i=0; i < buffer_str.size(); i++) {
-        m_server_state->buffer_sent[i] = buffer_str[i];
+    std::string header_str{"HTTP/1.0 200 OK\r\nContent-type: application/json\r\n\r\n"};
+    std::string body_str{"{\"moisture\":\"5\"}"};
+    for(int i=0; i < header_str.size(); i++) {
+        m_server_state->buffer_sent[0][i] = header_str[i];
     }
-    m_server_state->buffer_send_len = buffer_str.size();
+    for(int i=0; i < body_str.size(); i++) {
+        m_server_state->buffer_sent[1][i] = body_str[i];
+    }
+    m_server_state->buffer_send_len[0] = header_str.size();
+    m_server_state->buffer_send_len[1] = body_str.size();
+    m_server_state->packages_send_len = 2;
+
     return tcp_server_open(static_cast<void *>(m_server_state), m_port);
 }
 

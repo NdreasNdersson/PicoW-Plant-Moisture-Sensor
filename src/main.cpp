@@ -77,7 +77,7 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s\n", ipStr));
 
-    auto tcp_server{TCPSERVER(std::string{"0.0.0.0"}, 8080)};
+    auto tcp_server{TCPSERVER(std::string{"0.0.0.0"}, 80)};
     if(tcp_server.start()) {
         LogInfo(("TCP Server started"));
     }

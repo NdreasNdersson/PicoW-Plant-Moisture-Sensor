@@ -9,6 +9,26 @@ TCP_SERVER_T* tcp_server_init(void) {
     return state;
 }
 
+err_t tcp_client_close(void *arg) {
+    TCP_SERVER_T *state = (TCP_SERVER_T*)arg;
+    err_t err = ERR_OK;
+    if (state->client_pcb != NULL) {
+        tcp_arg(state->client_pcb, NULL);
+        tcp_poll(state->client_pcb, NULL, 0);
+        tcp_sent(state->client_pcb, NULL);
+        tcp_recv(state->client_pcb, NULL);
+        tcp_err(state->client_pcb, NULL);
+        err = tcp_close(state->client_pcb);
+        if (err != ERR_OK) {
+            DEBUG_printf("close failed %d, calling abort\n", err);
+            tcp_abort(state->client_pcb);
+            err = ERR_ABRT;
+        }
+        state->client_pcb = NULL;
+    }
+    return err;
+}
+
 err_t tcp_server_close(void *arg) {
     TCP_SERVER_T *state = (TCP_SERVER_T*)arg;
     err_t err = ERR_OK;
@@ -68,15 +88,17 @@ err_t tcp_server_send_data(void *arg, struct tcp_pcb *tpcb)
     /* } */
 
     state->sent_len = 0;
-    DEBUG_printf("Writing %ld bytes to client\n", state->buffer_send_len);
-    // this method is callback from lwIP, so cyw43_arch_lwip_begin is not required, however you
-    // can use this method to cause an assertion in debug mode, if this method is called when
-    // cyw43_arch_lwip_begin IS needed
-    cyw43_arch_lwip_check();
-    err_t err = tcp_write(tpcb, state->buffer_sent, state->buffer_send_len, TCP_WRITE_FLAG_COPY);
-    if (err != ERR_OK) {
-        DEBUG_printf("Failed to write data %d\n", err);
-        return tcp_server_result(arg, -1);
+    for(int i = 0; i < state->packages_send_len; i++){
+        DEBUG_printf("Writing %ld bytes to client\n", state->buffer_send_len[i]);
+        // this method is callback from lwIP, so cyw43_arch_lwip_begin is not required, however you
+        // can use this method to cause an assertion in debug mode, if this method is called when
+        // cyw43_arch_lwip_begin IS needed
+        cyw43_arch_lwip_check();
+        err_t err = tcp_write(tpcb, state->buffer_sent[i], state->buffer_send_len[i], TCP_WRITE_FLAG_COPY);
+        if (err != ERR_OK) {
+            DEBUG_printf("Failed to write data %d\n", err);
+            return tcp_server_result(arg, -1);
+        }
     }
     return ERR_OK;
 }
@@ -151,8 +173,9 @@ err_t tcp_server_accept(void *arg, struct tcp_pcb *client_pcb, err_t err) {
     tcp_recv(client_pcb, tcp_server_recv);
     /* tcp_poll(client_pcb, tcp_server_poll, POLL_TIME_S * 2); */
     tcp_err(client_pcb, tcp_server_err);
-
-    return tcp_server_send_data(arg, state->client_pcb);
+    
+    err_t result = tcp_server_send_data(arg, state->client_pcb);
+    return tcp_client_close(state);
 }
 
 bool tcp_server_open(void *arg, int port) {
