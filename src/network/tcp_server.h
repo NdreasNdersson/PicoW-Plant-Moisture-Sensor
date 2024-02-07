@@ -11,7 +11,7 @@
 #include "lwip/tcp.h"
 
 #define DEBUG_printf printf
-#define MAX_BUF_SIZE 2048
+#define MAX_BUF_SIZE 128
 #define MAX_PACKAGES 2
 #define TEST_ITERATIONS 10
 #define POLL_TIME_S 5
@@ -29,8 +29,6 @@ typedef struct TCP_SERVER_T_ {
     int run_count;
 } TCP_SERVER_T;
 
-TCP_SERVER_T* tcp_server_init(void);
-
 err_t tcp_server_close(void *arg);
 
 err_t tcp_server_result(void *arg, int status);
@@ -41,12 +39,8 @@ err_t tcp_server_send_data(void *arg, struct tcp_pcb *tpcb);
 
 err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err);
 
-err_t tcp_server_poll(void *arg, struct tcp_pcb *tpcb);
-
 void tcp_server_err(void *arg, err_t err);
 
 err_t tcp_server_accept(void *arg, struct tcp_pcb *client_pcb, err_t err);
-
-bool tcp_server_open(void *arg, int port);
 
 #endif

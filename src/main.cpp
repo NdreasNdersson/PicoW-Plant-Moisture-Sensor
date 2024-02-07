@@ -5,7 +5,7 @@
 #include "run_time_stats/run_time_stats.h"
 #include "task.h"
 #include "network/wifi_helper.h"
-#include "network/tcp.h"
+#include "network/rest_api.h"
 
 #include <atomic>
 #include <stdio.h>
@@ -19,8 +19,9 @@
 #error "WIFI_PASSWORD not defined"
 #endif
 
-#define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
+#define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
+#define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
 
 std::atomic<bool> wifi_connected{false};
 std::atomic<bool> initialized{false};
@@ -77,14 +78,25 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s\n", ipStr));
 
-    auto tcp_server{TCPSERVER(std::string{"0.0.0.0"}, 80)};
-    if(tcp_server.start()) {
-        LogInfo(("TCP Server started"));
+    auto rest_api{RestApi()};
+    if(!rest_api.start()) {
+        LogError(("RestApi failed to launch"));
+        return;
+    }
+    
+    std::string device_name{"moisture"};
+    int device_value{0};
+    if(!rest_api.register_device(device_name, std::to_string(device_value)))
+    {
+        LogError(("Failed to register %s device", device_name));
+        return;
     }
 
     while (true) {
 
         vTaskDelay(3000);
+        device_value++;
+        rest_api.set_data(device_name, std::to_string(device_value));
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down\n"));

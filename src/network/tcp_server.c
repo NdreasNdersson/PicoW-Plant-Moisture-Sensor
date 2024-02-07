@@ -1,13 +1,5 @@
 #include "tcp_server.h"
 
-TCP_SERVER_T* tcp_server_init(void) {
-    TCP_SERVER_T *state = calloc(1, sizeof(TCP_SERVER_T));
-    if (!state) {
-        DEBUG_printf("failed to allocate state\n");
-        return NULL;
-    }
-    return state;
-}
 
 err_t tcp_client_close(void *arg) {
     TCP_SERVER_T *state = (TCP_SERVER_T*)arg;
@@ -146,11 +138,6 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err
     return ERR_OK;
 }
 
-err_t tcp_server_poll(void *arg, struct tcp_pcb *tpcb) {
-    DEBUG_printf("tcp_server_poll_fn\n");
-    return tcp_server_result(arg, -1); // no response is an error?
-}
-
 void tcp_server_err(void *arg, err_t err) {
     if (err != ERR_ABRT) {
         DEBUG_printf("tcp_client_err_fn %d\n", err);
@@ -171,41 +158,10 @@ err_t tcp_server_accept(void *arg, struct tcp_pcb *client_pcb, err_t err) {
     tcp_arg(client_pcb, state);
     tcp_sent(client_pcb, tcp_server_sent);
     tcp_recv(client_pcb, tcp_server_recv);
-    /* tcp_poll(client_pcb, tcp_server_poll, POLL_TIME_S * 2); */
     tcp_err(client_pcb, tcp_server_err);
     
     err_t result = tcp_server_send_data(arg, state->client_pcb);
     return tcp_client_close(state);
 }
 
-bool tcp_server_open(void *arg, int port) {
-    TCP_SERVER_T *state = (TCP_SERVER_T*)arg;
-    DEBUG_printf("Starting server at %s on port %u\n", ip4addr_ntoa(netif_ip4_addr(netif_list)), port);
-
-    struct tcp_pcb *pcb = tcp_new_ip_type(IPADDR_TYPE_ANY);
-    if (!pcb) {
-        DEBUG_printf("failed to create pcb\n");
-        return false;
-    }
-
-    err_t err = tcp_bind(pcb, NULL, port);
-    if (err) {
-        DEBUG_printf("failed to bind to port %u\n", port);
-        return false;
-    }
-
-    state->server_pcb = tcp_listen_with_backlog(pcb, 1);
-    if (!state->server_pcb) {
-        DEBUG_printf("failed to listen\n");
-        if (pcb) {
-            tcp_close(pcb);
-        }
-        return false;
-    }
-
-    tcp_arg(state->server_pcb, state);
-    tcp_accept(state->server_pcb, tcp_server_accept);
-
-    return true;
-}
 

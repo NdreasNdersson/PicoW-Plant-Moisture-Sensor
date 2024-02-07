@@ -2,7 +2,7 @@ add_executable(${NAME}
         utils/logger.cpp
         main.cpp
         network/wifi_helper.cpp
-        network/tcp.cpp
+        network/rest_api.cpp
         network/tcp_server.c
         run_time_stats/run_time_stats.cpp
         )
