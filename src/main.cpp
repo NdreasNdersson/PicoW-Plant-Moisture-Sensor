@@ -83,7 +83,7 @@ void main_task(void *params) {
         LogError(("RestApi failed to launch"));
         return;
     }
-    
+
     std::string device_name{"moisture"};
     int device_value{0};
     if(!rest_api.register_device(device_name, std::to_string(device_value)))
