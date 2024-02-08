@@ -21,13 +21,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: recursive
 
     - name: Dotenv Action
       uses: falti/dotenv-action@v1.0.4
       with:
-          log-variables: true
-          export-variables: true
-          keys-case: upper
+        log-variables: true
+        export-variables: true
+        keys-case: upper
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
