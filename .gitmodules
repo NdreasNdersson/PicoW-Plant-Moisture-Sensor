@@ -10,3 +10,6 @@
 [submodule "external/tiny-json"]
 	path = external/tiny-json
 	url = https://github.com/rafagafe/tiny-json.git
+[submodule "external/pico-ads1115"]
+	path = external/pico-ads1115
+	url = https://github.com/antgon/pico-ads1115.git
