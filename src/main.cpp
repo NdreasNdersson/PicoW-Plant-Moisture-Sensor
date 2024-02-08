@@ -6,10 +6,19 @@
 #include "run_time_stats/run_time_stats.h"
 #include "task.h"
 #include "utils/logging.h"
+extern "C" {
+#include "ads1115.h"
+}
 
 #include <atomic>
 #include <stdio.h>
 #include <string>
+
+#define I2C_PORT i2c0
+#define I2C_FREQ 400000
+#define ADS1115_I2C_ADDR 0x48
+const uint8_t SDA_PIN = 8;
+const uint8_t SCL_PIN = 9;
 
 // Check these definitions where added from the makefile
 #ifndef WIFI_SSID
@@ -91,11 +100,42 @@ void main_task(void *params) {
     return;
   }
 
+  LogDebug(("Initialise I2C"));
+  struct ads1115_adc adc;
+  // Initialise I2C
+  i2c_init(I2C_PORT, I2C_FREQ);
+  gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
+  gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
+  gpio_pull_up(SDA_PIN);
+  gpio_pull_up(SCL_PIN);
+
+  LogDebug(("Initialise ads1115"));
+  // Initialise ADC
+  ads1115_init(I2C_PORT, ADS1115_I2C_ADDR, &adc);
+
+  LogDebug(("Set ads1115 config"));
+  // Modify the default configuration as needed. In this example the
+  // signal will be differential, measured between pins A0 and A3,
+  // and the full-scale voltage range is set to +/- 4.096 V.
+  ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &adc);
+  ads1115_set_pga(ADS1115_PGA_4_096, &adc);
+  ads1115_set_data_rate(ADS1115_RATE_475_SPS, &adc);
+
+  LogDebug(("Write ads1115 config"));
+  // Write the configuration for this to have an effect.
+  ads1115_write_config(&adc);
+
+  // Data containers
+  float volts;
+  uint16_t adc_value;
   while (true) {
 
     vTaskDelay(3000);
-    device_value++;
-    rest_api.set_data(device_name, std::to_string(device_value));
+    ads1115_read_adc(&adc_value, &adc);
+    volts = ads1115_raw_to_volts(adc_value, &adc);
+    printf("ADC: %u  Voltage: %f\n", adc_value, volts);
+
+    rest_api.set_data(device_name, std::to_string(volts));
 
     if (!WifiHelper::isJoined()) {
       LogError(("AP Link is down\n"));

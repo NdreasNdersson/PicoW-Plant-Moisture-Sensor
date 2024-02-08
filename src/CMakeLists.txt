@@ -16,6 +16,7 @@ target_link_libraries(${NAME}
         LWIP_PORT                          # LWIP config files
 	# json_maker                         # Library for constructing json
 	# tiny_json                          # Library for parsing json
+        pico-ads1115
         )
 
 # Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
@@ -36,4 +37,3 @@ pico_enable_stdio_uart(${NAME} 0)
 pico_add_extra_outputs(${NAME})
 
 target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
-
