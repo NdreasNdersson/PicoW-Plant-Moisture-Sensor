@@ -8,4 +8,3 @@ target_include_directories(LWIP_PORT
 #set(LWIP_CONTRIB_DIR ${PICO_LWIP_CONTRIB_PATH})
 #include(${PICO_LWIP_CONTRIB_PATH}/Filelists.cmake)
 #add_subdirectory(${PICO_LWIP_PATH} lwip)
-    

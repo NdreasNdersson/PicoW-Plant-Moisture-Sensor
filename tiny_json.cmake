@@ -15,7 +15,7 @@ target_sources(tiny_json INTERFACE
 )
 
 # Add include directory
-target_include_directories(tiny_json INTERFACE 
+target_include_directories(tiny_json INTERFACE
    ${TINY_JSON_PATH}/
 )
 

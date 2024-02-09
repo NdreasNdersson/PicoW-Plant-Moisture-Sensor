@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pico/cyw43_arch.h"
-#include "pico/stdlib.h"
-
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
+#include "pico/cyw43_arch.h"
+#include "pico/stdlib.h"
 
 #define DEBUG_printf printf
 #define MAX_BUF_SIZE 128
@@ -17,16 +16,16 @@
 #define POLL_TIME_S 5
 
 typedef struct TCP_SERVER_T_ {
-  struct tcp_pcb *server_pcb;
-  struct tcp_pcb *client_pcb;
-  bool complete;
-  uint8_t buffer_sent[MAX_PACKAGES][MAX_BUF_SIZE];
-  uint8_t buffer_recv[MAX_PACKAGES][MAX_BUF_SIZE];
-  int buffer_send_len[MAX_PACKAGES];
-  int packages_send_len;
-  int sent_len;
-  int recv_len;
-  int run_count;
+    struct tcp_pcb *server_pcb;
+    struct tcp_pcb *client_pcb;
+    bool complete;
+    uint8_t buffer_sent[MAX_PACKAGES][MAX_BUF_SIZE];
+    uint8_t buffer_recv[MAX_PACKAGES][MAX_BUF_SIZE];
+    int buffer_send_len[MAX_PACKAGES];
+    int packages_send_len;
+    int sent_len;
+    int recv_len;
+    int run_count;
 } TCP_SERVER_T;
 
 err_t tcp_server_close(void *arg);
