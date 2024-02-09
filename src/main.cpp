@@ -17,7 +17,8 @@ extern "C" {
 
 #define I2C_PORT i2c0
 #define I2C_FREQ 400000
-#define ADS1115_I2C_ADDR 0x48
+#define ADS1115_I2C_ADDR_GND 0x48
+#define ADS1115_I2C_ADDR_VDD 0x49
 const uint8_t SDA_PIN = 8;
 const uint8_t SCL_PIN = 9;
 
@@ -110,7 +111,7 @@ void main_task(void *params) {
 
     LogDebug(("Initialise ads1115"));
     // Initialise ADC
-    ads1115_init(I2C_PORT, ADS1115_I2C_ADDR, &adc);
+    ads1115_init(I2C_PORT, ADS1115_I2C_ADDR_VDD, &adc);
 
     LogDebug(("Set ads1115 config"));
     // Modify the default configuration as needed. In this example the
