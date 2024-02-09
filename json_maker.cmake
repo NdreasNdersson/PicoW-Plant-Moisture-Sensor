@@ -15,7 +15,7 @@ target_sources(json_maker PUBLIC
 )
 
 # Add include directory
-target_include_directories(json_maker PUBLIC 
+target_include_directories(json_maker PUBLIC
     ${JSON_MAKER_PATH}/src/include
 )
 
