@@ -22,3 +22,6 @@ gerbers/
 
 # KiCad lock files
 *.lck
+
+# Gerber files are ziped for delivery
+*.zip
