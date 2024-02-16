@@ -1,26 +1,17 @@
+#include <stdio.h>
+
+#include <atomic>
+#include <string>
+
 #include "FreeRTOS.h"
 #include "network/rest_api.h"
 #include "network/wifi_helper.h"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
+#include "sensors/sensor_factory.h"
 #include "task.h"
 #include "utils/logging.h"
-extern "C" {
-#include "ads1115.h"
-}
-
-#include <stdio.h>
-
-#include <atomic>
-#include <string>
-
-#define I2C_PORT i2c0
-#define I2C_FREQ 400000
-#define ADS1115_I2C_ADDR_GND 0x48
-#define ADS1115_I2C_ADDR_VDD 0x49
-const uint8_t SDA_PIN = 8;
-const uint8_t SCL_PIN = 9;
 
 // Check these definitions where added from the makefile
 #ifndef WIFI_SSID
@@ -93,48 +84,26 @@ void main_task(void *params) {
         return;
     }
 
-    std::string device_name{"moisture"};
-    int device_value{0};
-    if (!rest_api.register_device(device_name, std::to_string(device_value))) {
-        LogError(("Failed to register %s device", device_name));
+    std::vector<std::string> device_names{"moisture 1", "moisture 6"};
+    if (!rest_api.register_device(device_names[0], "0")) {
+        LogError(("Failed to register %s device", device_names[0]));
+        return;
+    }
+    /* if (!rest_api.register_device(device_names[1], "0")) { */
+    /*     LogError(("Failed to register %s device", device_names[1])); */
+    /*     return; */
+    /* } */
+
+    LogInfo(("Initialise sensors"));
+    auto sensor_factory = SensorFactory(2);
+    auto sensors = sensor_factory.create({1, 6});
+    if (sensors.empty()) {
+        LogError(("Failed to initialise sensors"));
         return;
     }
 
-    LogDebug(("Initialise I2C"));
-    struct ads1115_adc adc;
-    // Initialise I2C
-    i2c_init(I2C_PORT, I2C_FREQ);
-    gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
-    gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
-    gpio_pull_up(SDA_PIN);
-    gpio_pull_up(SCL_PIN);
-
-    LogDebug(("Initialise ads1115"));
-    // Initialise ADC
-    ads1115_init(I2C_PORT, ADS1115_I2C_ADDR_VDD, &adc);
-
-    LogDebug(("Set ads1115 config"));
-    // Modify the default configuration as needed. In this example the
-    // signal will be differential, measured between pins A0 and A3,
-    // and the full-scale voltage range is set to +/- 4.096 V.
-    ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &adc);
-    ads1115_set_pga(ADS1115_PGA_4_096, &adc);
-    ads1115_set_data_rate(ADS1115_RATE_475_SPS, &adc);
-
-    LogDebug(("Write ads1115 config"));
-    // Write the configuration for this to have an effect.
-    ads1115_write_config(&adc);
-
-    // Data containers
-    float volts;
-    uint16_t adc_value;
     while (true) {
         vTaskDelay(3000);
-        ads1115_read_adc(&adc_value, &adc);
-        volts = ads1115_raw_to_volts(adc_value, &adc);
-        printf("ADC: %u  Voltage: %f\n", adc_value, volts);
-
-        rest_api.set_data(device_name, std::to_string(volts));
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down\n"));
@@ -146,6 +115,16 @@ void main_task(void *params) {
                 LogError(("Failed to connect to Wifi \n"));
                 wifi_connected = false;
             }
+        }
+
+        auto counter{0};
+        for (auto sensor : sensors) {
+            auto value = sensor();
+            printf("Pin %u: %f\n", counter, value);
+            if (counter == 0) {
+                rest_api.set_data(device_names[counter], std::to_string(value));
+            }
+            counter++;
         }
     }
 }

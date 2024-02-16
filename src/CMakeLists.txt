@@ -5,7 +5,7 @@ add_executable(${NAME}
         network/rest_api.cpp
         network/tcp_server.c
         run_time_stats/run_time_stats.cpp
-        sensors/sensors.cpp
+        sensors/sensor_factory.cpp
         sensors/ads1115_adc.cpp
         )
 
