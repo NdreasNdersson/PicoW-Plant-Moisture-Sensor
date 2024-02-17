@@ -26,12 +26,12 @@ target_link_libraries(${NAME}
 # Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
 include(../creds/device.cmake)
 
-# Compile definitions needed by the project
+# Set logging level
 target_compile_definitions(${NAME} PRIVATE
-    WIFI_SSID=\"${WIFI_SSID_SET}\"
-    WIFI_PASSWORD=\"${WIFI_PASSWORD_SET}\"
+    $<$<CONFIG:Debug>:
+        DEBUG=1
+    >
 )
-
 
 # Enable print functionality on usb & disable on uart
 pico_enable_stdio_usb(${NAME} 1)

@@ -118,7 +118,7 @@ void main_task(void *params) {
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down\n"));
 
-            if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
+            if (WifiHelper::join(wifi_ssid, wifi_password)) {
                 LogInfo(("Connect to Wifi\n"));
                 wifi_connected = true;
             } else {

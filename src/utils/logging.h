@@ -21,7 +21,11 @@
 
 /* Set the logging verbosity level. */
 #ifndef LIBRARY_LOG_LEVEL
+#ifdef DEBUG
 #define LIBRARY_LOG_LEVEL LOG_DEBUG
+#else
+#define LIBRARY_LOG_LEVEL LOG_INFO
+#endif
 #endif
 
 /* Define the metadata information to add in each log.
