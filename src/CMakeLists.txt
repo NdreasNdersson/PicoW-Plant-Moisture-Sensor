@@ -1,5 +1,7 @@
 add_executable(${NAME}
         utils/logger.cpp
+        utils/config_handler.cpp
+        utils/json_handler.cpp
         main.cpp
         network/wifi_helper.cpp
         network/rest_api.cpp
@@ -16,8 +18,8 @@ target_link_libraries(${NAME}
         FreeRTOS-Kernel-Heap4              # FreeRTOS kernel and dynamic heap
         FREERTOS_PORT                      # FreeRTOS config files
         LWIP_PORT                          # LWIP config files
-	# json_maker                         # Library for constructing json
-	# tiny_json                          # Library for parsing json
+        #json_maker                         # Library for constructing json
+        tiny_json                          # Library for parsing json
         pico-ads1115
         )
 

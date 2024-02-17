@@ -11,15 +11,8 @@
 #include "run_time_stats/run_time_stats.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
+#include "utils/json_handler.h"
 #include "utils/logging.h"
-
-// Check these definitions where added from the makefile
-#ifndef WIFI_SSID
-#error "WIFI_SSID not defined"
-#endif
-#ifndef WIFI_PASSWORD
-#error "WIFI_PASSWORD not defined"
-#endif
 
 #define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
@@ -59,9 +52,26 @@ void main_task(void *params) {
         return;
     }
 
-    LogDebug(("Connecting to WiFi... %s \n", WIFI_SSID));
+    char str[1024];
+    LogInfo(
+        ("It is now possible to send json formatted strings to set persistant "
+         "variables\n"));
+    LogError(
+        ("wifi_ssid and wifi_password are not set. These must be set to "
+         "continue\n"));
+    gets(str);
+    auto json_handler = JsonHandler();
+    json_handler.parse_json(str);
+    auto wifi_ssid = json_handler.get_value("wifi_ssid");
+    auto wifi_password = json_handler.get_value("wifi_password");
+    if (wifi_ssid == NULL || wifi_password == NULL) {
+        LogError(("wifi_ssid and wifi_password could not be parsed\n"));
+        return;
+    }
 
-    if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
+    LogDebug(("Connecting to WiFi... %s \n", wifi_ssid));
+
+    if (WifiHelper::join(wifi_ssid, wifi_password)) {
         LogInfo(("Connect to Wifi\n"));
         wifi_connected = true;
     } else {
