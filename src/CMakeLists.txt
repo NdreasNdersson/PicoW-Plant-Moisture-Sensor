@@ -23,9 +23,6 @@ target_link_libraries(${NAME}
         pico-ads1115
         )
 
-# Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
-include(../creds/device.cmake)
-
 # Set logging level
 target_compile_definitions(${NAME} PRIVATE
     $<$<CONFIG:Debug>:
