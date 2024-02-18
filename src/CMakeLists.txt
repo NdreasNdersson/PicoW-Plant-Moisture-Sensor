@@ -1,5 +1,7 @@
 add_executable(${NAME}
         utils/logger.cpp
+        utils/config_handler.cpp
+        utils/json_handler.cpp
         main.cpp
         network/wifi_helper.cpp
         network/rest_api.cpp
@@ -16,20 +18,17 @@ target_link_libraries(${NAME}
         FreeRTOS-Kernel-Heap4              # FreeRTOS kernel and dynamic heap
         FREERTOS_PORT                      # FreeRTOS config files
         LWIP_PORT                          # LWIP config files
-	# json_maker                         # Library for constructing json
-	# tiny_json                          # Library for parsing json
+        #json_maker                         # Library for constructing json
+        tiny_json                          # Library for parsing json
         pico-ads1115
         )
 
-# Setting up credentials. If it fails, check if you followed instructions in "example_device.cmake"
-include(../creds/device.cmake)
-
-# Compile definitions needed by the project
+# Set logging level
 target_compile_definitions(${NAME} PRIVATE
-    WIFI_SSID=\"${WIFI_SSID_SET}\"
-    WIFI_PASSWORD=\"${WIFI_PASSWORD_SET}\"
+    $<$<CONFIG:Debug>:
+        DEBUG=1
+    >
 )
-
 
 # Enable print functionality on usb & disable on uart
 pico_enable_stdio_usb(${NAME} 1)

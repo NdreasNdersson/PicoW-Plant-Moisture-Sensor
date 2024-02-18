@@ -11,15 +11,9 @@
 #include "run_time_stats/run_time_stats.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
+#include "utils/config_handler.h"
+#include "utils/json_handler.h"
 #include "utils/logging.h"
-
-// Check these definitions where added from the makefile
-#ifndef WIFI_SSID
-#error "WIFI_SSID not defined"
-#endif
-#ifndef WIFI_PASSWORD
-#error "WIFI_PASSWORD not defined"
-#endif
 
 #define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
@@ -29,7 +23,7 @@ std::atomic<bool> wifi_connected{false};
 std::atomic<bool> initialized{false};
 
 void status_task(void *params) {
-    LogDebug(("Started\n"));
+    LogDebug(("Started"));
 
     while (!initialized)
         ;
@@ -49,34 +43,72 @@ void status_task(void *params) {
 }
 
 void main_task(void *params) {
-    LogDebug(("Started\n"));
+    LogDebug(("Started"));
 
     if (WifiHelper::init()) {
         initialized = true;
-        LogDebug(("Wifi Controller Initialised\n"));
+        LogDebug(("Wifi Controller Initialised"));
     } else {
-        LogError(("Failed to initialise controller\n"));
+        LogError(("Failed to initialise controller"));
         return;
     }
 
-    LogDebug(("Connecting to WiFi... %s \n", WIFI_SSID));
+    char str[256]{};
+    LogInfo(
+        ("It is now possible to send json formatted strings to set persistant "
+         "variables"));
 
-    if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
-        LogInfo(("Connect to Wifi\n"));
+    auto json_handler = JsonHandler();
+    auto config_handler = ConfigHandler(json_handler);
+
+    ConfigHandler::return_value_t config_wifi_ssid{};
+    ConfigHandler::return_value_t config_wifi_password{};
+    char const *wifi_ssid;
+    char const *wifi_password;
+
+    if (config_handler.get_config_value("wifi_ssid", config_wifi_ssid) &&
+        config_handler.get_config_value("wifi_password",
+                                        config_wifi_password)) {
+        wifi_ssid = config_wifi_ssid;
+        wifi_password = config_wifi_password;
+    } else {
+        LogError(
+            ("wifi_ssid and wifi_password are not set. These must be set to "
+             "continue"));
+        gets(str);
+        char str_copy[256]{};
+        strcpy(str_copy, str);
+        LogDebug(("Read str: %s", str));
+        json_handler.parse_json(str);
+        LogDebug(("Read str_copy: %s", str_copy));
+        wifi_ssid = json_handler.get_value("wifi_ssid");
+        wifi_password = json_handler.get_value("wifi_password");
+        if (wifi_ssid == NULL || wifi_password == NULL) {
+            LogError(("wifi_ssid and wifi_password could not be parsed"));
+            return;
+        }
+
+        config_handler.write_json_structure(str_copy, sizeof(str_copy));
+    }
+
+    LogDebug(("Connecting to WiFi... %s ", wifi_ssid));
+
+    if (WifiHelper::join(wifi_ssid, wifi_password)) {
+        LogInfo(("Connect to Wifi"));
         wifi_connected = true;
     } else {
-        LogError(("Failed to connect to Wifi \n"));
+        LogError(("Failed to connect to Wifi "));
     }
 
     // Print MAC Address
     char macStr[20];
     WifiHelper::getMACAddressStr(macStr);
-    LogInfo(("MAC ADDRESS: %s\n", macStr));
+    LogInfo(("MAC ADDRESS: %s", macStr));
 
     // Print IP Address
     char ipStr[20];
     WifiHelper::getIPAddressStr(ipStr);
-    LogInfo(("IP ADDRESS: %s\n", ipStr));
+    LogInfo(("IP ADDRESS: %s", ipStr));
 
     auto rest_api{RestApi()};
     if (!rest_api.start()) {
@@ -106,13 +138,13 @@ void main_task(void *params) {
         vTaskDelay(3000);
 
         if (!WifiHelper::isJoined()) {
-            LogError(("AP Link is down\n"));
+            LogError(("AP Link is down"));
 
-            if (WifiHelper::join(WIFI_SSID, WIFI_PASSWORD)) {
-                LogInfo(("Connect to Wifi\n"));
+            if (WifiHelper::join(wifi_ssid, wifi_password)) {
+                LogInfo(("Connect to Wifi"));
                 wifi_connected = true;
             } else {
-                LogError(("Failed to connect to Wifi \n"));
+                LogError(("Failed to connect to Wifi "));
                 wifi_connected = false;
             }
         }
@@ -120,7 +152,7 @@ void main_task(void *params) {
         auto counter{0};
         for (auto sensor : sensors) {
             auto value = sensor();
-            printf("Pin %u: %f\n", counter, value);
+            LogDebug(("Pin %u: %f", counter, value));
             if (counter == 0) {
                 rest_api.set_data(device_names[counter], std::to_string(value));
             }
@@ -130,7 +162,7 @@ void main_task(void *params) {
 }
 
 void vLaunch(void) {
-    xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
+    xTaskCreate(main_task, "MainThread", 4096, NULL, MAIN_TASK_PRIORITY, NULL);
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
                 NULL);
 
@@ -145,7 +177,7 @@ int main(void) {
 
     const char *rtos_name;
     rtos_name = "FreeRTOS";
-    LogInfo(("Starting %s\n", rtos_name));
+    LogInfo(("Starting %s", rtos_name));
     vLaunch();
 
     return 0;
