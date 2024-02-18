@@ -162,10 +162,9 @@ void main_task(void *params) {
 }
 
 void vLaunch(void) {
-    xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
-    /* xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
-     */
-    /*             NULL); */
+    xTaskCreate(main_task, "MainThread", 4096, NULL, MAIN_TASK_PRIORITY, NULL);
+    xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
+                NULL);
 
     /* Start the tasks and timer running. */
     vTaskStartScheduler();
