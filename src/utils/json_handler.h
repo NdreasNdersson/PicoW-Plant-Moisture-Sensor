@@ -13,7 +13,7 @@ class JsonHandler {
     ~JsonHandler() = default;
 
     bool parse_json(char *str);
-    char const *get_value(const char *field_name);
+    char const *get_value(char const *field_name);
 
    private:
     json_t m_pool[MAX_FIELDS];

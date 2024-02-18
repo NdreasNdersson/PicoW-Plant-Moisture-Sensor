@@ -13,7 +13,7 @@ bool JsonHandler::parse_json(char *str) {
     return true;
 }
 
-char const *JsonHandler::get_value(const char *field_name) {
+char const *JsonHandler::get_value(char const *field_name) {
     json_t const *namefield = json_getProperty(m_parent, field_name);
     if (namefield == NULL) {
         LogError(("Could not fetch field %s\n", field_name));
