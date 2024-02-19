@@ -1,5 +1,7 @@
 #include "tcp_server.h"
 
+#include "utils/logging.h"
+
 err_t tcp_client_close(void *arg) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
     err_t err = ERR_OK;
@@ -11,7 +13,7 @@ err_t tcp_client_close(void *arg) {
         tcp_err(state->client_pcb, NULL);
         err = tcp_close(state->client_pcb);
         if (err != ERR_OK) {
-            DEBUG_printf("close failed %d, calling abort\n", err);
+            LogError(("close failed %d, calling abort", err));
             tcp_abort(state->client_pcb);
             err = ERR_ABRT;
         }
@@ -31,7 +33,7 @@ err_t tcp_server_close(void *arg) {
         tcp_err(state->client_pcb, NULL);
         err = tcp_close(state->client_pcb);
         if (err != ERR_OK) {
-            DEBUG_printf("close failed %d, calling abort\n", err);
+            LogError(("close failed %d, calling abort", err));
             tcp_abort(state->client_pcb);
             err = ERR_ABRT;
         }
@@ -47,24 +49,20 @@ err_t tcp_server_close(void *arg) {
 
 err_t tcp_server_result(void *arg, int status) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
-    if (status == 0) {
-        DEBUG_printf("test success\n");
-    } else {
-        DEBUG_printf("test failed %d\n", status);
-    }
+    LogInfo(("Close TCP server, status %d", status));
     state->complete = true;
     return tcp_server_close(arg);
 }
 
 err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
-    DEBUG_printf("tcp_server_sent %u\n", len);
+    LogDebug(("tcp_server_sent %u", len));
     state->sent_len += len;
 
     if (state->sent_len >= MAX_BUF_SIZE) {
         // We should get the data back from the client
         state->recv_len = 0;
-        DEBUG_printf("Waiting for buffer from client\n");
+        LogDebug(("Waiting for buffer from client"));
     }
 
     return ERR_OK;
@@ -72,14 +70,9 @@ err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
 
 err_t tcp_server_send_data(void *arg, struct tcp_pcb *tpcb) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
-    /* for(int i=0; i< MAX_BUF_SIZE; i++) { */
-    /*     state->buffer_sent[i] = rand(); */
-    /* } */
 
     state->sent_len = 0;
     for (int i = 0; i < state->packages_send_len; i++) {
-        DEBUG_printf("Writing %ld bytes to client\n",
-                     state->buffer_send_len[i]);
         // this method is callback from lwIP, so cyw43_arch_lwip_begin is not
         // required, however you can use this method to cause an assertion in
         // debug mode, if this method is called when cyw43_arch_lwip_begin IS
@@ -91,7 +84,7 @@ err_t tcp_server_send_data(void *arg, struct tcp_pcb *tpcb) {
                           state->buffer_send_len[i], TCP_WRITE_FLAG_COPY);
             xSemaphoreGive(state->buffer_mutex);
             if (err != ERR_OK) {
-                DEBUG_printf("Failed to write data %d\n", err);
+                LogError(("Failed to write data %d", err));
                 return tcp_server_result(arg, -1);
             }
         }
@@ -110,8 +103,8 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
     // mode, if this method is called when cyw43_arch_lwip_begin IS needed
     cyw43_arch_lwip_check();
     if (p->tot_len > 0) {
-        DEBUG_printf("tcp_server_recv %d/%d err %d\n", p->tot_len,
-                     state->recv_len, err);
+        LogDebug(
+            ("tcp_server_recv %d/%d err %d", p->tot_len, state->recv_len, err));
 
         // Receive the buffer
         const uint16_t buffer_left = MAX_BUF_SIZE - state->recv_len;
@@ -126,10 +119,10 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
     if (state->recv_len == MAX_BUF_SIZE) {
         // check it matches
         if (memcmp(state->buffer_sent, state->buffer_recv, MAX_BUF_SIZE) != 0) {
-            DEBUG_printf("buffer mismatch\n");
+            LogError(("buffer mismatch"));
             return tcp_server_result(arg, -1);
         }
-        DEBUG_printf("tcp_server_recv buffer ok\n");
+        LogDebug(("tcp_server_recv buffer ok"));
 
         // Test complete?
         state->run_count++;
@@ -146,7 +139,7 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
 
 void tcp_server_err(void *arg, err_t err) {
     if (err != ERR_ABRT) {
-        DEBUG_printf("tcp_client_err_fn %d\n", err);
+        LogError(("tcp_client_err_fn %d", err));
         tcp_server_result(arg, err);
     }
 }
@@ -154,11 +147,10 @@ void tcp_server_err(void *arg, err_t err) {
 err_t tcp_server_accept(void *arg, struct tcp_pcb *client_pcb, err_t err) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
     if (err != ERR_OK || client_pcb == NULL) {
-        DEBUG_printf("Failure in accept\n");
+        LogError(("Failure in accept"));
         tcp_server_result(arg, err);
         return ERR_VAL;
     }
-    DEBUG_printf("Client connected\n");
 
     state->client_pcb = client_pcb;
     tcp_arg(client_pcb, state);
