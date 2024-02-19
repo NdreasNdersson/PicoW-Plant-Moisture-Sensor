@@ -53,11 +53,6 @@ void main_task(void *params) {
         return;
     }
 
-    char str[256]{};
-    LogInfo(
-        ("It is now possible to send json formatted strings to set persistant "
-         "variables"));
-
     auto json_handler = JsonHandler();
     auto config_handler = ConfigHandler(json_handler);
 
@@ -75,12 +70,12 @@ void main_task(void *params) {
         LogError(
             ("wifi_ssid and wifi_password are not set. These must be set to "
              "continue"));
+        char str[256]{};
         gets(str);
         char str_copy[256]{};
         strcpy(str_copy, str);
-        LogDebug(("Read str: %s", str));
         json_handler.parse_json(str);
-        LogDebug(("Read str_copy: %s", str_copy));
+
         wifi_ssid = json_handler.get_value("wifi_ssid");
         wifi_password = json_handler.get_value("wifi_password");
         if (wifi_ssid == NULL || wifi_password == NULL) {
@@ -91,10 +86,8 @@ void main_task(void *params) {
         config_handler.write_json_structure(str_copy, sizeof(str_copy));
     }
 
-    LogDebug(("Connecting to WiFi... %s ", wifi_ssid));
-
     if (WifiHelper::join(wifi_ssid, wifi_password)) {
-        LogInfo(("Connect to Wifi"));
+        LogInfo(("Connect to: %s", wifi_ssid));
         wifi_connected = true;
     } else {
         LogError(("Failed to connect to Wifi "));
@@ -116,15 +109,13 @@ void main_task(void *params) {
         return;
     }
 
-    std::vector<std::string> device_names{"moisture 1", "moisture 6"};
-    if (!rest_api.register_device(device_names[0], "0")) {
-        LogError(("Failed to register %s device", device_names[0]));
-        return;
+    std::vector<std::string> device_names{"moisture_1", "moisture_6"};
+    for (auto &device : device_names) {
+        if (!rest_api.register_device(device, "0")) {
+            LogError(("Failed to register %s device", device));
+            return;
+        }
     }
-    /* if (!rest_api.register_device(device_names[1], "0")) { */
-    /*     LogError(("Failed to register %s device", device_names[1])); */
-    /*     return; */
-    /* } */
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory(2);
@@ -152,10 +143,7 @@ void main_task(void *params) {
         auto counter{0};
         for (auto sensor : sensors) {
             auto value = sensor();
-            LogDebug(("Pin %u: %f", counter, value));
-            if (counter == 0) {
-                rest_api.set_data(device_names[counter], std::to_string(value));
-            }
+            rest_api.set_data(device_names[counter], std::to_string(value));
             counter++;
         }
     }

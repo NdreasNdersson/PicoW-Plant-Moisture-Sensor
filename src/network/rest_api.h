@@ -11,7 +11,7 @@ extern "C" {
 
 #include "device_info.h"
 
-#define N_DEVICES 1
+#define N_DEVICES (4 * 4)
 
 class RestApi {
    public:

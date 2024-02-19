@@ -3,6 +3,9 @@
 #include <algorithm>
 
 #include "utils/logging.h"
+extern "C" {
+#include "json-maker/json-maker.h"
+}
 
 RestApi::RestApi()
     : m_ip_address{"0.0.0.0"},
@@ -88,23 +91,18 @@ bool RestApi::set_data(const std::string &device_name,
 }
 
 void RestApi::update() {
-    std::string body_str;
-    body_str += std::string{"{"};
-    auto is_first{true};
+    char *dest = reinterpret_cast<char *>(m_server_state->buffer_sent[1]);
+    size_t *rem_len;
+    *rem_len = sizeof(m_server_state->buffer_sent[1]);
+
+    char *p = json_objOpen(dest, NULL, rem_len);
     for (auto &device : m_devices) {
         if (device.is_registered()) {
-            if (!is_first) {
-                body_str += std::string{","};
-            }
-            body_str += std::string{"\"" + device.get_name() + "\":\"" +
-                                    device.get_value() + "\""};
-            is_first = false;
+            p = json_str(p, device.get_name().c_str(),
+                         device.get_value().c_str(), rem_len);
         }
     }
-    body_str += std::string{"}"};
-
-    for (int i = 0; i < body_str.size(); i++) {
-        m_server_state->buffer_sent[1][i] = body_str[i];
-    }
-    m_server_state->buffer_send_len[1] = body_str.size();
+    p = json_objClose(p, rem_len);
+    p = json_end(p, rem_len);
+    m_server_state->buffer_send_len[1] = p - dest;
 }
