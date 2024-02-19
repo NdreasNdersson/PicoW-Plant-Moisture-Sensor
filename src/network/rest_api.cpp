@@ -2,16 +2,18 @@
 
 #include <algorithm>
 
-#include "utils/logging.h"
-extern "C" {
+#include "FreeRTOS.h"
 #include "json-maker/json-maker.h"
-}
+#include "semphr.h"
+#include "utils/logging.h"
 
 RestApi::RestApi()
     : m_ip_address{"0.0.0.0"},
       m_port{80},
       m_server_state{std::make_unique<TCP_SERVER_T>()},
-      m_devices{} {}
+      m_devices{} {
+    m_server_state->buffer_mutex = xSemaphoreCreateMutex();
+}
 
 RestApi::~RestApi() {}
 
@@ -95,14 +97,18 @@ void RestApi::update() {
     size_t *rem_len;
     *rem_len = sizeof(m_server_state->buffer_sent[1]);
 
-    char *p = json_objOpen(dest, NULL, rem_len);
-    for (auto &device : m_devices) {
-        if (device.is_registered()) {
-            p = json_str(p, device.get_name().c_str(),
-                         device.get_value().c_str(), rem_len);
+    if (xSemaphoreTake(m_server_state->buffer_mutex,
+                       static_cast<TickType_t>(100)) == pdTRUE) {
+        char *p = json_objOpen(dest, NULL, rem_len);
+        for (auto &device : m_devices) {
+            if (device.is_registered()) {
+                p = json_str(p, device.get_name().c_str(),
+                             device.get_value().c_str(), rem_len);
+            }
         }
+        p = json_objClose(p, rem_len);
+        p = json_end(p, rem_len);
+        m_server_state->buffer_send_len[1] = p - dest;
+        xSemaphoreGive(m_server_state->buffer_mutex);
     }
-    p = json_objClose(p, rem_len);
-    p = json_end(p, rem_len);
-    m_server_state->buffer_send_len[1] = p - dest;
 }
