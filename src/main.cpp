@@ -17,6 +17,7 @@
 
 #define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
+#define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
 
 std::atomic<bool> wifi_connected{false};
@@ -164,6 +165,8 @@ void vLaunch(void) {
     xTaskCreate(main_task, "MainThread", 1024, NULL, MAIN_TASK_PRIORITY, NULL);
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
                 NULL);
+    xTaskCreate(print_task, "LoggerThread", 256, NULL, LOGGER_TASK_PRIORITY,
+                NULL);
 
     /* Start the tasks and timer running. */
     vTaskStartScheduler();
@@ -173,10 +176,8 @@ int main(void) {
     stdio_init_all();
 
     sleep_ms(1000);
+    init_queue();
 
-    const char *rtos_name;
-    rtos_name = "FreeRTOS";
-    LogInfo(("Starting %s", rtos_name));
     vLaunch();
 
     return 0;
