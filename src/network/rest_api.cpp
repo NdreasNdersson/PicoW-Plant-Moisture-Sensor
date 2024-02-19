@@ -50,7 +50,7 @@ bool RestApi::start() {
         return false;
     }
 
-    m_server_state->server_pcb = tcp_listen_with_backlog(pcb, 1);
+    m_server_state->server_pcb = tcp_listen_with_backlog(pcb, 2);
     if (!m_server_state->server_pcb) {
         LogError(("failed to listen\n"));
         if (pcb) {
