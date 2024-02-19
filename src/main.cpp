@@ -21,6 +21,7 @@
 
 std::atomic<bool> wifi_connected{false};
 std::atomic<bool> initialized{false};
+std::atomic<bool> main_failed{false};
 
 void status_task(void *params) {
     LogDebug(("Started"));
@@ -30,7 +31,12 @@ void status_task(void *params) {
     while (true) {
         /* runTimeStats(); */
 
-        if (wifi_connected) {
+        if (main_failed) {
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+            vTaskDelay(100);
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+            vTaskDelay(100);
+        } else if (wifi_connected) {
             cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
             vTaskDelay(1000);
         } else {
@@ -50,7 +56,8 @@ void main_task(void *params) {
         LogDebug(("Wifi Controller Initialised"));
     } else {
         LogError(("Failed to initialise controller"));
-        return;
+        main_failed = true;
+        vTaskDelete(NULL);
     }
 
     auto json_handler = JsonHandler();
@@ -80,7 +87,8 @@ void main_task(void *params) {
         wifi_password = json_handler.get_value("wifi_password");
         if (wifi_ssid == NULL || wifi_password == NULL) {
             LogError(("wifi_ssid and wifi_password could not be parsed"));
-            return;
+            main_failed = true;
+            vTaskDelete(NULL);
         }
 
         config_handler.write_json_structure(str_copy, sizeof(str_copy));
@@ -106,14 +114,16 @@ void main_task(void *params) {
     auto rest_api{RestApi()};
     if (!rest_api.start()) {
         LogError(("RestApi failed to launch"));
-        return;
+        main_failed = true;
+        vTaskDelete(NULL);
     }
 
     std::vector<std::string> device_names{"moisture_1", "moisture_6"};
     for (auto &device : device_names) {
         if (!rest_api.register_device(device, "0")) {
             LogError(("Failed to register %s device", device));
-            return;
+            main_failed = true;
+            vTaskDelete(NULL);
         }
     }
 
@@ -122,7 +132,8 @@ void main_task(void *params) {
     auto sensors = sensor_factory.create({1, 6});
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
-        return;
+        main_failed = true;
+        vTaskDelete(NULL);
     }
 
     while (true) {
@@ -150,7 +161,7 @@ void main_task(void *params) {
 }
 
 void vLaunch(void) {
-    xTaskCreate(main_task, "MainThread", 4096, NULL, MAIN_TASK_PRIORITY, NULL);
+    xTaskCreate(main_task, "MainThread", 1024, NULL, MAIN_TASK_PRIORITY, NULL);
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
                 NULL);
 
