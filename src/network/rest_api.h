@@ -1,15 +1,12 @@
 #ifndef __NETWORK__REST_API__
 #define __NETWORK__REST_API__
 
-extern "C" {
-#include "tcp_server.h"
-}
-
 #include <array>
 #include <memory>
 #include <string>
 
 #include "device_info.h"
+#include "tcp_server.h"
 
 #define N_DEVICES (4 * 4)
 

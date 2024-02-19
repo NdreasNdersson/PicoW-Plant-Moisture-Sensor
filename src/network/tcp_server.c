@@ -85,11 +85,15 @@ err_t tcp_server_send_data(void *arg, struct tcp_pcb *tpcb) {
         // debug mode, if this method is called when cyw43_arch_lwip_begin IS
         // needed
         cyw43_arch_lwip_check();
-        err_t err = tcp_write(tpcb, state->buffer_sent[i],
-                              state->buffer_send_len[i], TCP_WRITE_FLAG_COPY);
-        if (err != ERR_OK) {
-            DEBUG_printf("Failed to write data %d\n", err);
-            return tcp_server_result(arg, -1);
+        if (xSemaphoreTake(state->buffer_mutex, (TickType_t)100) == pdTRUE) {
+            err_t err =
+                tcp_write(tpcb, state->buffer_sent[i],
+                          state->buffer_send_len[i], TCP_WRITE_FLAG_COPY);
+            xSemaphoreGive(state->buffer_mutex);
+            if (err != ERR_OK) {
+                DEBUG_printf("Failed to write data %d\n", err);
+                return tcp_server_result(arg, -1);
+            }
         }
     }
     return ERR_OK;

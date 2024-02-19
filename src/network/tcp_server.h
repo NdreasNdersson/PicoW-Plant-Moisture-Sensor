@@ -1,13 +1,19 @@
 #ifndef __NETWORK__TCP_SERVER__
 #define __NETWORK__TCP_SERVER__
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 
+#include "FreeRTOS.h"
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
+#include "semphr.h"
 
 #define DEBUG_printf printf
 #define MAX_BUF_SIZE 128
@@ -26,6 +32,7 @@ typedef struct TCP_SERVER_T_ {
     int sent_len;
     int recv_len;
     int run_count;
+    SemaphoreHandle_t buffer_mutex;
 } TCP_SERVER_T;
 
 err_t tcp_server_close(void *arg);
@@ -42,5 +49,9 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
 void tcp_server_err(void *arg, err_t err);
 
 err_t tcp_server_accept(void *arg, struct tcp_pcb *client_pcb, err_t err);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
