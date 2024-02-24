@@ -1,4 +1,6 @@
 add_executable(${NAME}
+        utils/led/led_control.cpp
+        utils/led/led.cpp
         utils/logger.cpp
         utils/config_handler.cpp
         utils/json_handler.cpp
@@ -30,9 +32,8 @@ target_compile_definitions(${NAME} PRIVATE
     >
 )
 
-# Enable print functionality on usb & disable on uart
 pico_enable_stdio_usb(${NAME} 1)
-pico_enable_stdio_uart(${NAME} 0)
+pico_enable_stdio_uart(${NAME} 1)
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(${NAME})
