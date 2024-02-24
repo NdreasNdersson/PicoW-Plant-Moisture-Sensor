@@ -13,51 +13,49 @@
 #include "task.h"
 #include "utils/config_handler.h"
 #include "utils/json_handler.h"
+#include "utils/led/led_control.h"
 #include "utils/logging.h"
 
 #define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
 #define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
-
-std::atomic<bool> wifi_connected{false};
-std::atomic<bool> initialized{false};
-std::atomic<bool> main_failed{false};
+#define PRINT_TASK_INFO (0)
 
 void status_task(void *params) {
-    LogDebug(("Started"));
-
-    while (!initialized)
-        ;
     while (true) {
-        /* runTimeStats(); */
+        runTimeStats();
 
-        if (main_failed) {
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-            vTaskDelay(100);
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-            vTaskDelay(100);
-        } else if (wifi_connected) {
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-            vTaskDelay(1000);
-        } else {
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-            vTaskDelay(500);
-            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-            vTaskDelay(500);
-        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
+}
+
+void set_led_in_not_connected_mode(LedControl &led_control) {
+    led_control.set_blink_delay(LedPin::led_c, 500);
+    led_control.start_blink(LedPin::led_c);
+}
+
+void set_led_in_failed_mode(LedControl &led_control) {
+    led_control.set_blink_delay(LedPin::led_c, 100);
+    led_control.start_blink(LedPin::led_c);
+}
+
+void set_led_in_connected_mode(LedControl &led_control) {
+    led_control.set_on(LedPin::led_c);
 }
 
 void main_task(void *params) {
     LogDebug(("Started"));
 
+    vTaskDelay(3000);
+    auto led_control = LedControl();
+
     if (WifiHelper::init()) {
-        initialized = true;
+        set_led_in_not_connected_mode(led_control);
         LogDebug(("Wifi Controller Initialised"));
     } else {
         LogError(("Failed to initialise controller"));
-        main_failed = true;
+        set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
     }
 
@@ -88,7 +86,7 @@ void main_task(void *params) {
         wifi_password = json_handler.get_value("wifi_password");
         if (wifi_ssid == NULL || wifi_password == NULL) {
             LogError(("wifi_ssid and wifi_password could not be parsed"));
-            main_failed = true;
+            set_led_in_failed_mode(led_control);
             vTaskDelete(NULL);
         }
 
@@ -97,7 +95,7 @@ void main_task(void *params) {
 
     if (WifiHelper::join(wifi_ssid, wifi_password)) {
         LogInfo(("Connect to: %s", wifi_ssid));
-        wifi_connected = true;
+        set_led_in_connected_mode(led_control);
     } else {
         LogError(("Failed to connect to Wifi "));
     }
@@ -115,7 +113,7 @@ void main_task(void *params) {
     auto rest_api{RestApi()};
     if (!rest_api.start()) {
         LogError(("RestApi failed to launch"));
-        main_failed = true;
+        set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
     }
 
@@ -123,7 +121,7 @@ void main_task(void *params) {
     for (auto &device : device_names) {
         if (!rest_api.register_device(device, "0")) {
             LogError(("Failed to register %s device", device));
-            main_failed = true;
+            set_led_in_failed_mode(led_control);
             vTaskDelete(NULL);
         }
     }
@@ -133,22 +131,22 @@ void main_task(void *params) {
     auto sensors = sensor_factory.create({1, 6});
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
-        main_failed = true;
+        set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
     }
 
     while (true) {
-        vTaskDelay(3000);
+        vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));
 
             if (WifiHelper::join(wifi_ssid, wifi_password)) {
                 LogInfo(("Connect to Wifi"));
-                wifi_connected = true;
+                set_led_in_connected_mode(led_control);
             } else {
                 LogError(("Failed to connect to Wifi "));
-                wifi_connected = false;
+                set_led_in_not_connected_mode(led_control);
             }
         }
 
@@ -163,8 +161,10 @@ void main_task(void *params) {
 
 void vLaunch(void) {
     xTaskCreate(main_task, "MainThread", 1024, NULL, MAIN_TASK_PRIORITY, NULL);
+#if PRINT_TASK_INFO == 1
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
                 NULL);
+#endif
     xTaskCreate(print_task, "LoggerThread", 256, NULL, LOGGER_TASK_PRIORITY,
                 NULL);
 
