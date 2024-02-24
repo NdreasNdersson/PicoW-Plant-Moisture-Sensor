@@ -24,7 +24,8 @@ class SensorFactory {
     SensorFactory(uint8_t number_of_dacs);
     ~SensorFactory() = default;
 
-    std::vector<std::function<float()>> create(std::vector<int> pin_idx);
+    std::vector<std::function<float()>> create(std::vector<int> pin_idx,
+                                               bool calibrate);
 
    private:
     std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adc_states;

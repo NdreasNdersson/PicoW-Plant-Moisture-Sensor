@@ -11,7 +11,7 @@ SensorFactory::SensorFactory(uint8_t number_of_dacs)
 }
 
 std::vector<std::function<float()>> SensorFactory::create(
-    std::vector<int> pin_idx) {
+    std::vector<int> pin_idx, bool calibrate) {
     std::vector<std::function<float()>> return_callbacks;
     auto max_pin_idx_it = max_element(std::begin(pin_idx), std::end(pin_idx));
     if ((m_number_of_dacs > MAX_NUMBER_OF_DACS) ||
@@ -32,6 +32,9 @@ std::vector<std::function<float()>> SensorFactory::create(
     for (auto i{0}; i < m_number_of_dacs; i++) {
         status = status &&
                  m_adc_states[i].init(I2C_PORT, ADS1115_I2C_FIRST_ADDRESS + i);
+        if (calibrate) {
+            m_adc_states[i].start_calibration();
+        }
     }
     if (status) {
         for (auto pin : pin_idx) {

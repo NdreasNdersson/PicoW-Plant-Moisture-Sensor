@@ -21,6 +21,7 @@
 #define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
 #define PRINT_TASK_INFO (0)
+#define CALIBRATE_SENSORS (1)
 
 void status_task(void *params) {
     while (true) {
@@ -128,7 +129,11 @@ void main_task(void *params) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory(2);
-    auto sensors = sensor_factory.create({1, 6});
+#if CALIBRATE_SENSORS == 1
+    auto sensors = sensor_factory.create({1, 6}, true);
+#else
+    auto sensors = sensor_factory.create({1, 6}, false);
+#endif
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
         set_led_in_failed_mode(led_control);
@@ -136,7 +141,7 @@ void main_task(void *params) {
     }
 
     while (true) {
-        vTaskDelay(3000 / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));

@@ -15,10 +15,15 @@ class Ads1115Adc {
     void set_min_value(uint16_t value);
     void set_max_value(uint16_t value);
     float read(int pin_id);
+    void start_calibration();
 
    private:
+    static constexpr int SAMPLES_TO_COMPLETE_CALIBRATION{20};
     struct ads1115_adc m_adc_state;
     uint16_t m_min_value;
     uint16_t m_max_value;
+    bool m_calibration_run;
+    bool m_calibration_complete;
+    int m_calibration_samples;
 };
 #endif
