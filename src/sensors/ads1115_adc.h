@@ -14,6 +14,7 @@ class Ads1115Adc {
     bool init(i2c_inst_t *i2c, uint8_t address);
     void set_min_value(uint16_t value);
     void set_max_value(uint16_t value);
+    void set_inverse_measurement(bool inverse);
     float read(int pin_id);
     void start_calibration();
 
@@ -22,6 +23,7 @@ class Ads1115Adc {
     struct ads1115_adc m_adc_state;
     uint16_t m_min_value;
     uint16_t m_max_value;
+    bool m_inverse_measurement;
     bool m_calibration_run;
     bool m_calibration_complete;
     int m_calibration_samples;

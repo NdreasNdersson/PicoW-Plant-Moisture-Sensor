@@ -21,7 +21,7 @@
 #define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
 #define PRINT_TASK_INFO (0)
-#define CALIBRATE_SENSORS (1)
+#define CALIBRATE_SENSORS (0)
 
 void status_task(void *params) {
     while (true) {
@@ -129,11 +129,14 @@ void main_task(void *params) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory(2);
+    std::map<int, sensor_config_t> sensor_config{
+        {1, {"moisture_1", 7648, 17930, true, false}},
+        {6, {"moisture_6", 7757, 17888, true, false}}};
 #if CALIBRATE_SENSORS == 1
-    auto sensors = sensor_factory.create({1, 6}, true);
-#else
-    auto sensors = sensor_factory.create({1, 6}, false);
+    sensor_config[1].run_calibration = true;
+    sensor_config[6].run_calibration = true;
 #endif
+    auto sensors = sensor_factory.create(sensor_config);
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
         set_led_in_failed_mode(led_control);
@@ -141,7 +144,7 @@ void main_task(void *params) {
     }
 
     while (true) {
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(3000 / portTICK_PERIOD_MS);
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));
@@ -156,7 +159,7 @@ void main_task(void *params) {
         }
 
         auto counter{0};
-        for (auto sensor : sensors) {
+        for (auto &sensor : sensors) {
             auto value = sensor();
             rest_api.set_data(device_names[counter], std::to_string(value));
             counter++;

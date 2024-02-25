@@ -2,9 +2,10 @@
 #define __SENSORS__SENSOR_FACTORY__
 
 #include <array>
+#include <cstdint>
 #include <functional>
-#include <memory>
-#include <vector>
+#include <map>
+#include <string>
 
 #include "ads1115_adc.h"
 #include "pico/stdlib.h"
@@ -19,16 +20,24 @@
 const uint8_t SDA_PIN = 8;
 const uint8_t SCL_PIN = 9;
 
+typedef struct {
+    std::string name;
+    std::uint16_t min_value;
+    std::uint16_t max_value;
+    bool inverse_measurement;
+    bool run_calibration;
+} sensor_config_t;
+
 class SensorFactory {
    public:
     SensorFactory(uint8_t number_of_dacs);
     ~SensorFactory() = default;
 
-    std::vector<std::function<float()>> create(std::vector<int> pin_idx,
-                                               bool calibrate);
+    std::vector<std::function<float()>> create(
+        std::map<int, sensor_config_t> pin_configs);
 
    private:
-    std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adc_states;
+    std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adcs;
     uint8_t m_number_of_dacs;
 };
 
