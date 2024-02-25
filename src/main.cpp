@@ -20,6 +20,7 @@
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
 #define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
+
 #define PRINT_TASK_INFO (0)
 #define CALIBRATE_SENSORS (0)
 
@@ -37,7 +38,7 @@ void set_led_in_not_connected_mode(LedControl &led_control) {
 }
 
 void set_led_in_failed_mode(LedControl &led_control) {
-    led_control.set_blink_delay(LedPin::led_c, 100);
+    led_control.set_blink_delay(LedPin::led_c, 3000);
     led_control.start_blink(LedPin::led_c);
 }
 
@@ -48,12 +49,11 @@ void set_led_in_connected_mode(LedControl &led_control) {
 void main_task(void *params) {
     LogDebug(("Started"));
 
-    vTaskDelay(3000);
     auto led_control = LedControl();
 
     if (WifiHelper::init()) {
-        set_led_in_not_connected_mode(led_control);
         LogDebug(("Wifi Controller Initialised"));
+        set_led_in_not_connected_mode(led_control);
     } else {
         LogError(("Failed to initialise controller"));
         set_led_in_failed_mode(led_control);
@@ -169,14 +169,13 @@ void main_task(void *params) {
 
 void vLaunch(void) {
     xTaskCreate(main_task, "MainThread", 1024, NULL, MAIN_TASK_PRIORITY, NULL);
+    xTaskCreate(print_task, "LoggerThread", 256, NULL, LOGGER_TASK_PRIORITY,
+                NULL);
 #if PRINT_TASK_INFO == 1
     xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
                 NULL);
 #endif
-    xTaskCreate(print_task, "LoggerThread", 256, NULL, LOGGER_TASK_PRIORITY,
-                NULL);
 
-    /* Start the tasks and timer running. */
     vTaskStartScheduler();
 }
 
