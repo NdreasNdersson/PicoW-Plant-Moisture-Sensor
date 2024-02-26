@@ -35,8 +35,8 @@ bool Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     return true;
 }
 
-void Ads1115Adc::set_min_value(uint16_t value) { m_min_value = value; }
-void Ads1115Adc::set_max_value(uint16_t value) { m_max_value = value; }
+void Ads1115Adc::set_min_value(std::uint16_t value) { m_min_value = value; }
+void Ads1115Adc::set_max_value(std::uint16_t value) { m_max_value = value; }
 void Ads1115Adc::set_inverse_measurement(bool inverse_measurement) {
     m_inverse_measurement = inverse_measurement;
 }
@@ -63,7 +63,7 @@ void Ads1115Adc::read(int pin_id, float &return_value,
     }
 
     return_value = 0.0f;
-    uint16_t adc_value;
+    std::uint16_t adc_value;
 
     ads1115_read_adc(&adc_value, &m_adc_state);
 
