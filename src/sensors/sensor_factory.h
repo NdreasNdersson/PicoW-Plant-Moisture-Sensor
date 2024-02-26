@@ -33,7 +33,7 @@ class SensorFactory {
     SensorFactory(uint8_t number_of_dacs);
     ~SensorFactory() = default;
 
-    std::vector<std::function<float()>> create(
+    std::vector<std::function<void(float &, std::string &)>> create(
         std::map<int, sensor_config_t> pin_configs);
 
    private:

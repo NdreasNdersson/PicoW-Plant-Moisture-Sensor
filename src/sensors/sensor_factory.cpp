@@ -8,9 +8,9 @@ SensorFactory::SensorFactory(uint8_t number_of_dacs)
     LogDebug(("SensorFactory ctor"));
 }
 
-std::vector<std::function<float()>> SensorFactory::create(
+std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     std::map<int, sensor_config_t> pin_configs) {
-    std::vector<std::function<float()>> return_callbacks;
+    std::vector<std::function<void(float &, std::string &)>> return_callbacks;
 
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS) ||
         (pin_configs.end()->first >
@@ -50,10 +50,12 @@ std::vector<std::function<float()>> SensorFactory::create(
                 m_adcs[dac_idx].set_min_value(config.min_value);
                 m_adcs[dac_idx].set_max_value(config.max_value);
                 m_adcs[dac_idx].set_inverse_measurement(config.max_value);
+                m_adcs[dac_idx].set_name(config.name);
             }
 
             return_callbacks.emplace_back(
-                std::bind(&Ads1115Adc::read, m_adcs[dac_idx], analog_pin_idx));
+                std::bind(&Ads1115Adc::read, m_adcs[dac_idx], analog_pin_idx,
+                          std::placeholders::_1, std::placeholders::_2));
         }
     }
 

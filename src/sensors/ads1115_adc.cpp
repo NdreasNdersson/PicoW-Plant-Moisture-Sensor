@@ -12,7 +12,8 @@ Ads1115Adc::Ads1115Adc()
       m_inverse_measurement{false},
       m_calibration_complete{false},
       m_calibration_run{false},
-      m_calibration_samples{0} {}
+      m_calibration_samples{0},
+      m_name("") {}
 
 bool Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     LogDebug(("Initialise ads1115"));
@@ -39,9 +40,13 @@ void Ads1115Adc::set_max_value(uint16_t value) { m_max_value = value; }
 void Ads1115Adc::set_inverse_measurement(bool inverse_measurement) {
     m_inverse_measurement = inverse_measurement;
 }
+void Ads1115Adc::set_name(std::string name) { m_name = name; }
 
 // Add pin somehow
-float Ads1115Adc::read(int pin_id) {
+void Ads1115Adc::read(int pin_id, float &return_value,
+                      std::string &return_name) {
+    return_name = m_name;
+
     switch (pin_id) {
         case 1:
             ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &m_adc_state);
@@ -57,7 +62,7 @@ float Ads1115Adc::read(int pin_id) {
             break;
     }
 
-    float real_value{0.0f};
+    return_value = 0.0f;
     uint16_t adc_value;
 
     ads1115_read_adc(&adc_value, &m_adc_state);
@@ -74,14 +79,12 @@ float Ads1115Adc::read(int pin_id) {
                 ("New max value %u, min value %u", m_max_value, m_min_value));
         }
     } else {
-        real_value = static_cast<float>(adc_value - m_min_value) * 100 /
-                     (m_max_value - m_min_value);
+        return_value = static_cast<float>(adc_value - m_min_value) * 100 /
+                       (m_max_value - m_min_value);
         if (m_inverse_measurement) {
-            real_value = (real_value - 100.0f) * (-1.0f);
+            return_value = (return_value - 100.0f) * (-1.0f);
         }
     }
-
-    return real_value;
 }
 
 void Ads1115Adc::start_calibration() {

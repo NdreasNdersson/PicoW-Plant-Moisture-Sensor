@@ -1,6 +1,8 @@
 #ifndef __SENSORS__ADS1115_ADC__
 #define __SENSORS__ADS1115_ADC__
 
+#include <string>
+
 extern "C" {
 #include "ads1115.h"
 }
@@ -15,7 +17,8 @@ class Ads1115Adc {
     void set_min_value(uint16_t value);
     void set_max_value(uint16_t value);
     void set_inverse_measurement(bool inverse);
-    float read(int pin_id);
+    void set_name(std::string name);
+    void read(int pin_id, float &return_value, std::string &return_name);
     void start_calibration();
 
    private:
@@ -27,5 +30,6 @@ class Ads1115Adc {
     bool m_calibration_run;
     bool m_calibration_complete;
     int m_calibration_samples;
+    std::string m_name;
 };
 #endif

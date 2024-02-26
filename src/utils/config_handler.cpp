@@ -5,37 +5,27 @@ extern "C" {
 };
 
 #include <cstring>
+#include <string>
 
 #include "logging.h"
 
-ConfigHandler::ConfigHandler(JsonHandler &json_handler)
-    : m_json_handler{json_handler},
-      m_flash_target_contents{
+ConfigHandler::ConfigHandler()
+    : m_flash_target_contents{
           (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)} {}
 
-bool ConfigHandler::get_config_value(char const *config_name,
-                                     return_value_t return_value) {
-    bool return_status{false};
+json ConfigHandler::read_json_from_flash() {
     page_t data;
     std::memcpy(data, m_flash_target_contents, sizeof(data));
-
-    char const *value{NULL};
     LogDebug(("Read from flash: %s", reinterpret_cast<char *>(data)));
-    if (m_json_handler.parse_json(reinterpret_cast<char *>(data))) {
-        value = m_json_handler.get_value(config_name);
-        if (value != NULL) {
-            LogDebug(("Get %s value %s", config_name, value));
-            return_status = true;
-            std::memcpy(return_value, value, sizeof(return_value_t));
-        }
-    } else {
-        LogError(("Failed to fetch %s from flash", config_name));
+    auto json_data = json::parse(reinterpret_cast<char *>(data));
+    if (json_data.is_discarded()) {
+        LogError(("Failed to parse json from flash"));
     }
 
-    return return_status;
+    return json_data;
 }
 
-bool ConfigHandler::write_json_structure(char *json, size_t data_length) {
+bool ConfigHandler::write_json_to_flash(char *json, size_t data_length) {
     page_t data{};
     if (data_length > sizeof(data)) {
         LogError(("Can't write more than %u!", sizeof(data)));
