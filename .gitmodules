@@ -4,12 +4,6 @@
 [submodule "external/pico-sdk"]
 	path = external/pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
-[submodule "external/json-maker"]
-	path = external/json-maker
-	url = https://github.com/rafagafe/json-maker.git
-[submodule "external/tiny-json"]
-	path = external/tiny-json
-	url = https://github.com/rafagafe/tiny-json.git
 [submodule "external/pico-ads1115"]
 	path = external/pico-ads1115
 	url = https://github.com/antgon/pico-ads1115.git

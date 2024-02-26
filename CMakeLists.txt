@@ -22,8 +22,11 @@ pico_sdk_init()
 
 # Initialize all other external libs & dependencies
 include(FreeRTOS_Kernel_import.cmake) # Configure FreeRTOS Kernel
-include(json_maker.cmake) # Configure json-maker lib
-include(tiny_json.cmake) # Configure tiny-json lib
 include(pico_ads1115_import.cmake)
+
+include(FetchContent)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
 
 add_subdirectory(src) # Source code dir

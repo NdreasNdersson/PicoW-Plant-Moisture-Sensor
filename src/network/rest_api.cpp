@@ -3,9 +3,10 @@
 #include <algorithm>
 
 #include "FreeRTOS.h"
-#include "json-maker/json-maker.h"
+#include "nlohmann/json.hpp"
 #include "semphr.h"
 #include "utils/logging.h"
+using json = nlohmann::json;
 
 RestApi::RestApi()
     : m_ip_address{"0.0.0.0"},
@@ -93,22 +94,22 @@ bool RestApi::set_data(const std::string &device_name,
 }
 
 void RestApi::update() {
-    char *dest = reinterpret_cast<char *>(m_server_state->buffer_sent[1]);
-    size_t *rem_len;
-    *rem_len = sizeof(m_server_state->buffer_sent[1]);
+    /* char *dest = reinterpret_cast<char *>(m_server_state->buffer_sent[1]); */
+
+    json json_data;
+    for (auto &device : m_devices) {
+        if (device.is_registered()) {
+            json_data[device.get_name()] = device.get_value();
+        }
+    }
 
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
-        char *p = json_objOpen(dest, NULL, rem_len);
-        for (auto &device : m_devices) {
-            if (device.is_registered()) {
-                p = json_str(p, device.get_name().c_str(),
-                             device.get_value().c_str(), rem_len);
-            }
-        }
-        p = json_objClose(p, rem_len);
-        p = json_end(p, rem_len);
-        m_server_state->buffer_send_len[1] = p - dest;
+        const char *json_data_str{json_data.dump().c_str()};
+
+        memcpy(m_server_state->buffer_sent[1], json_data_str,
+               strlen(json_data_str));
+        m_server_state->buffer_send_len[1] = strlen(json_data_str);
         xSemaphoreGive(m_server_state->buffer_mutex);
     }
 }

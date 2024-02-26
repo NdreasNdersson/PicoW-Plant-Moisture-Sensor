@@ -15,11 +15,13 @@ void logger(const char *format, ...) {
     va_end(args);
 
     if (g_queue != NULL) {
-        xQueueSend(g_queue, buffer, 0U);
+        if (xQueueSend(g_queue, buffer, 0U) == errQUEUE_FULL) {
+            printf("LOGGING QUEUE IS FULL!");
+        }
     }
 }
 
-void init_queue() { g_queue = xQueueCreate(10, sizeof(buffer_t)); }
+void init_queue() { g_queue = xQueueCreate(50, sizeof(buffer_t)); }
 
 void print_task(void *params) {
     buffer_t buffer;
