@@ -1,5 +1,5 @@
 /*
- * FreeRTOS V202111.00
+ * FreeRTOS V202212.00
  * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -19,10 +19,9 @@
  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * http://www.FreeRTOS.org
- * http://aws.amazon.com/freertos
+ * https://www.FreeRTOS.org
+ * https://github.com/FreeRTOS
  *
- * 1 tab == 4 spaces!
  */
 
 #ifndef FREERTOS_CONFIG_H
@@ -61,7 +60,6 @@
 #define configUSE_QUEUE_SETS                    1
 #define configUSE_TIME_SLICING                  1
 #define configUSE_NEWLIB_REENTRANT              0
-// todo need this for lwip FreeRTOS sys_arch to compile
 #define configENABLE_BACKWARD_COMPATIBILITY     1
 #define configNUM_THREAD_LOCAL_STORAGE_POINTERS 5
 
@@ -102,13 +100,13 @@
 #define configMAX_API_CALL_INTERRUPT_PRIORITY   [dependent on processor and application]
 */
 
-#if FREE_RTOS_KERNEL_SMP // set by the RP2040 SMP port of FreeRTOS
 /* SMP port only */
-#define configNUM_CORES                         2
+#define configNUMBER_OF_CORES                   2
+#define configNUM_CORES                         configNUMBER_OF_CORES
 #define configTICK_CORE                         0
 #define configRUN_MULTIPLE_PRIORITIES           1
 #define configUSE_CORE_AFFINITY                 1
-#endif
+#define configUSE_PASSIVE_IDLE_HOOK             0
 
 /* RP2040 specific */
 #define configSUPPORT_PICO_SYNC_INTEROP         1
@@ -140,4 +138,3 @@ to exclude the API function. */
 /* A header file that defines trace macro can be included here. */
 
 #endif /* FREERTOS_CONFIG_H */
-

@@ -183,11 +183,11 @@ void main_task(void *params) {
 
 void vLaunch(void) {
     xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
-    xTaskCreate(print_task, "LoggerThread", 256, NULL, LOGGER_TASK_PRIORITY,
-                NULL);
+    xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE, NULL,
+                LOGGER_TASK_PRIORITY, NULL);
 #if PRINT_TASK_INFO == 1
-    xTaskCreate(status_task, "StatusThread", 256, NULL, STATUS_TASK_PRIORITY,
-                NULL);
+    xTaskCreate(status_task, "StatusThread", configMINIMAL_STACK_SIZE, NULL,
+                STATUS_TASK_PRIORITY, NULL);
 #endif
 
     vTaskStartScheduler();
