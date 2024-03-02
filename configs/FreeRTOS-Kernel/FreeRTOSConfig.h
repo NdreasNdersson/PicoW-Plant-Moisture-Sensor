@@ -74,7 +74,7 @@
 #define configAPPLICATION_ALLOCATED_HEAP        0
 
 /* Hook function related definitions. */
-#define configCHECK_FOR_STACK_OVERFLOW          1
+#define configCHECK_FOR_STACK_OVERFLOW          2
 #define configUSE_MALLOC_FAILED_HOOK            0
 #define configUSE_DAEMON_TASK_STARTUP_HOOK      0
 
@@ -101,11 +101,15 @@
 */
 
 /* SMP port only */
+/* Set configNUMBER_OF_CORES to one to write config */
+/* #define configNUMBER_OF_CORES                   1 */
 #define configNUMBER_OF_CORES                   2
 #define configNUM_CORES                         configNUMBER_OF_CORES
 #define configTICK_CORE                         0
 #define configRUN_MULTIPLE_PRIORITIES           1
+#if configNUMBER_OF_CORES > 1
 #define configUSE_CORE_AFFINITY                 1
+#endif
 #define configUSE_PASSIVE_IDLE_HOOK             0
 
 /* RP2040 specific */
