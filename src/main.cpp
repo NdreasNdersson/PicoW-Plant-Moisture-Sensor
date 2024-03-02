@@ -49,25 +49,20 @@ void main_task(void *params) {
     LogDebug(("Started"));
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 
-    auto led_control = LedControl();
-
-    if (WifiHelper::init()) {
-        LogDebug(("Wifi Controller Initialised"));
-        set_led_in_not_connected_mode(led_control);
-    } else {
-        LogError(("Failed to initialise controller"));
-        set_led_in_failed_mode(led_control);
-        vTaskDelete(NULL);
-    }
-
     auto config_handler = ConfigHandler();
+
+#if (configNUMBER_OF_CORES == 1)
+    LogDebug(("Running on one core, write config"));
+    std::string json_str{};
+    config_handler.write_json_to_flash(json_str);
+#endif
+
+    auto json_data = config_handler.read_json_from_flash();
 
     ConfigHandler::return_value_t config_wifi_ssid{};
     ConfigHandler::return_value_t config_wifi_password{};
     char const *wifi_ssid;
     char const *wifi_password;
-
-    auto json_data = config_handler.read_json_from_flash();
 
     if (json_data.contains("wifi") && (json_data["wifi"]).contains("ssid") &&
         (json_data["wifi"])["ssid"].is_string() &&
@@ -82,6 +77,21 @@ void main_task(void *params) {
         LogError(
             ("wifi_ssid and wifi_password are not set. These must be set to "
              "continue"));
+        vTaskDelete(NULL);
+    }
+
+#if (configNUMBER_OF_CORES == 1)
+    LogError(("LWIP FreeRTOS can't run on one core, stopping main thread"));
+    vTaskDelete(NULL);
+#endif
+
+    auto led_control = LedControl();
+    if (WifiHelper::init()) {
+        LogDebug(("Wifi Controller Initialised"));
+        set_led_in_not_connected_mode(led_control);
+    } else {
+        LogError(("Failed to initialise controller"));
+        set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
     }
 

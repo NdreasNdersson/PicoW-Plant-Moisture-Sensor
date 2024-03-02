@@ -5,9 +5,10 @@ extern "C" {
 };
 
 #include <cstring>
-#include <string>
 
+#include "FreeRTOS.h"
 #include "logging.h"
+#include "task.h"
 
 ConfigHandler::ConfigHandler()
     : m_flash_target_contents{
@@ -25,15 +26,16 @@ json ConfigHandler::read_json_from_flash() {
     return json_data;
 }
 
-bool ConfigHandler::write_json_to_flash(char *json, size_t data_length) {
+bool ConfigHandler::write_json_to_flash(std::string json) {
     page_t data{};
-    if (data_length > sizeof(data)) {
+
+    if (json.length() > sizeof(data)) {
         LogError(("Can't write more than %u!", sizeof(data)));
         return false;
     }
-    LogDebug(("Write %u of data", data_length));
+    LogDebug(("Write %u of data", json.length()));
 
-    std::memcpy(data, json, data_length);
+    std::memcpy(data, json.c_str(), json.length());
     return write(data);
 }
 
@@ -47,17 +49,17 @@ bool ConfigHandler::write(page_t data) {
             break;
         }
     }
+    mismatch = true;
 
     if (mismatch) {
-        LogDebug(("Erase region ... "));
-        uint32_t ints = save_and_disable_interrupts();
-        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-        restore_interrupts(ints);
+        LogDebug(("Erase region and program... "));
 
-        LogDebug(("Program region ... "));
-        ints = save_and_disable_interrupts();
+        vTaskSuspendAll();
+        taskENTER_CRITICAL();
+        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
         flash_range_program(FLASH_TARGET_OFFSET, data, FLASH_PAGE_SIZE);
-        restore_interrupts(ints);
+        taskEXIT_CRITICAL();
+        xTaskResumeAll();
 
         mismatch = false;
         for (int i = 0; i < FLASH_PAGE_SIZE; ++i) {

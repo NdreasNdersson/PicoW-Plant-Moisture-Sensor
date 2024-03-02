@@ -1,6 +1,8 @@
 #ifndef __UTILS__CONFIG_HANDLER__
 #define __UTILS__CONFIG_HANDLER__
 
+#include <string>
+
 extern "C" {
 #include <hardware/flash.h>
 };
@@ -20,7 +22,7 @@ class ConfigHandler {
     using return_value_t = char[MAX_VALUE_SIZE];
 
     json read_json_from_flash();
-    bool write_json_to_flash(char *json, size_t data_length);
+    bool write_json_to_flash(std::string json);
 
    private:
     void read(page_t data);
