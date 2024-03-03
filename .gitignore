@@ -107,3 +107,5 @@ creds/device.cmake
 .clangd/
 .cache/
 .vscode/
+KiCad/picow_plant_moisture_sensor/jlcpcb/
+*.kicad_sch_old
