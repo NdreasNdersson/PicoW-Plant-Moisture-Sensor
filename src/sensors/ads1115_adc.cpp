@@ -21,9 +21,6 @@ bool Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     ads1115_init(i2c, address, &m_adc_state);
 
     LogDebug(("Set ads1115 config"));
-    // Modify the default configuration as needed. In this example the
-    // signal will be differential, measured between pins A0 and A3,
-    // and the full-scale voltage range is set to +/- 4.096 V.
     ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &m_adc_state);
     ads1115_set_pga(ADS1115_PGA_4_096, &m_adc_state);
     ads1115_set_data_rate(ADS1115_RATE_475_SPS, &m_adc_state);

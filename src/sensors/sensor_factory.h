@@ -21,7 +21,8 @@ const uint8_t SDA_PIN = 8;
 const uint8_t SCL_PIN = 9;
 
 typedef struct {
-    std::string name;
+    int pin;
+    std::string type;
     std::uint16_t min_value;
     std::uint16_t max_value;
     bool inverse_measurement;
@@ -30,7 +31,7 @@ typedef struct {
 
 class SensorFactory {
    public:
-    SensorFactory(uint8_t number_of_dacs);
+    SensorFactory();
     ~SensorFactory() = default;
 
     std::vector<std::function<void(float &, std::string &)>> create(

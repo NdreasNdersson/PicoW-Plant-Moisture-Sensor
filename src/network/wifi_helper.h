@@ -2,11 +2,18 @@
 
 #include <stdlib.h>
 
+#include <string>
+
 #include "pico/stdlib.h"
 
 #ifndef WIFI_RETRIES
 #define WIFI_RETRIES 3
 #endif
+
+typedef struct {
+    std::string ssid;
+    std::string password;
+} wifi_config_t;
 
 class WifiHelper {
    public:
@@ -74,7 +81,7 @@ class WifiHelper {
      * @param retries - Number of times to retry, defalts to 3.
      * @return true if successful
      */
-    static bool join(const char *sid, const char *password,
+    static bool join(const wifi_config_t &config,
                      uint8_t retries = WIFI_RETRIES);
 
     /***

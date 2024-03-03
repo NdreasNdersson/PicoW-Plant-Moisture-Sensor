@@ -3,8 +3,8 @@
 #include "hardware/i2c.h"
 #include "utils/logging.h"
 
-SensorFactory::SensorFactory(uint8_t number_of_dacs)
-    : m_adcs{}, m_number_of_dacs{number_of_dacs} {
+SensorFactory::SensorFactory()
+    : m_adcs{}, m_number_of_dacs{MAX_NUMBER_OF_DACS} {
     LogDebug(("SensorFactory ctor"));
 }
 
@@ -43,15 +43,12 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
             auto &config = pin_config.second;
             if (config.run_calibration) {
                 m_adcs[dac_idx].start_calibration();
-            } else {
-                LogDebug(("Set max value %u, min value %u, for %s",
-                          config.max_value, config.min_value,
-                          config.name.c_str()));
-                m_adcs[dac_idx].set_min_value(config.min_value);
-                m_adcs[dac_idx].set_max_value(config.max_value);
-                m_adcs[dac_idx].set_inverse_measurement(config.max_value);
-                m_adcs[dac_idx].set_name(config.name);
             }
+            m_adcs[dac_idx].set_min_value(config.min_value);
+            m_adcs[dac_idx].set_max_value(config.max_value);
+            m_adcs[dac_idx].set_inverse_measurement(config.max_value);
+            std::string name{config.type + "_" + std::to_string(config.pin)};
+            m_adcs[dac_idx].set_name(name);
 
             return_callbacks.emplace_back(
                 std::bind(&Ads1115Adc::read, m_adcs[dac_idx], analog_pin_idx,
