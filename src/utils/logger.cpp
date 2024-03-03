@@ -21,7 +21,7 @@ void logger(const char *format, ...) {
     }
 }
 
-void init_queue() { g_queue = xQueueCreate(50, sizeof(buffer_t)); }
+void init_queue() { g_queue = xQueueCreate(64, sizeof(buffer_t)); }
 
 void print_task(void *params) {
     buffer_t buffer;

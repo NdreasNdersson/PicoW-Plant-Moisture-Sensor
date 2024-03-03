@@ -12,6 +12,7 @@
 #include "sensors/sensor_factory.h"
 #include "task.h"
 #include "utils/config_handler.h"
+#include "utils/json_converter.h"
 #include "utils/led/led_control.h"
 #include "utils/logging.h"
 
@@ -19,6 +20,11 @@
 #define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
 #define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
 #define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
+
+#define PICO_UART uart0
+#define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
+#define PICO_UART_TX_PIN 16
+#define PICO_UART_RX_PIN 17
 
 #define PRINT_TASK_INFO (0)
 #define CALIBRATE_SENSORS (0)
@@ -59,20 +65,11 @@ void main_task(void *params) {
 
     auto json_data = config_handler.read_json_from_flash();
 
-    ConfigHandler::return_value_t config_wifi_ssid{};
-    ConfigHandler::return_value_t config_wifi_password{};
-    char const *wifi_ssid;
-    char const *wifi_password;
-
-    if (json_data.contains("wifi") && (json_data["wifi"]).contains("ssid") &&
-        (json_data["wifi"])["ssid"].is_string() &&
-        (json_data["wifi"]).contains("password") &&
-        (json_data["wifi"])["password"].is_string()) {
-        LogDebug(("Get SSID and password"));
-        wifi_ssid = (json_data["wifi"])["ssid"].get<std::string>().c_str();
-        wifi_password =
-            (json_data["wifi"])["password"].get<std::string>().c_str();
-        LogDebug(("Get SSID %s and password %s", wifi_ssid, wifi_password));
+    wifi_config_t wifi_config{};
+    if (json_data.contains("wifi")) {
+        wifi_config = json_data["wifi"].get<wifi_config_t>();
+        LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
+                  wifi_config.password.c_str()));
     } else {
         LogError(
             ("wifi_ssid and wifi_password are not set. These must be set to "
@@ -95,8 +92,7 @@ void main_task(void *params) {
         vTaskDelete(NULL);
     }
 
-    if (WifiHelper::join(wifi_ssid, wifi_password)) {
-        LogInfo(("Connect to: %s", wifi_ssid));
+    if (WifiHelper::join(wifi_config)) {
         set_led_in_connected_mode(led_control);
     } else {
         LogError(("Failed to connect to Wifi "));
@@ -122,36 +118,21 @@ void main_task(void *params) {
     std::map<int, sensor_config_t> sensor_config{};
     if (json_data.contains("sensors") && json_data["sensors"].is_array()) {
         for (auto &sensor : json_data["sensors"]) {
-            sensor_config_t current_sensor_config{};
-            int pin{};
-            if (sensor.contains("pin")) {
-                pin = sensor["pin"].get<int>();
-            }
-            if (sensor.contains("max")) {
-                current_sensor_config.max_value =
-                    sensor["max"].get<std::uint16_t>();
-            }
-            if (sensor.contains("min")) {
-                current_sensor_config.min_value =
-                    sensor["min"].get<std::uint16_t>();
-            }
-            if (sensor.contains("type")) {
-                current_sensor_config.name = sensor["type"].get<std::string>() +
-                                             "_" + std::to_string(pin);
-            }
-            if (sensor.contains("inversed")) {
-                current_sensor_config.inverse_measurement =
-                    sensor["inversed"].get<bool>();
-            }
+            auto current_sensor_config{sensor.get<sensor_config_t>()};
 
 #if CALIBRATE_SENSORS == 1
             current_sensor_config.run_calibration = true;
 #endif
-            sensor_config[pin] = current_sensor_config;
+            if (current_sensor_config.pin < 1) {
+                LogError(("Sensor config pin must be >= 1"));
+                continue;
+            }
+            sensor_config[current_sensor_config.pin] = current_sensor_config;
 
-            if (!rest_api.register_device(current_sensor_config.name, "0")) {
-                LogError(("Failed to register %s device",
-                          current_sensor_config.name));
+            std::string name{current_sensor_config.type + "_" +
+                             std::to_string(current_sensor_config.pin)};
+            if (!rest_api.register_device(name, "0")) {
+                LogError(("Failed to register %s device", name));
                 set_led_in_failed_mode(led_control);
                 vTaskDelete(NULL);
             }
@@ -159,7 +140,7 @@ void main_task(void *params) {
     }
 
     LogInfo(("Initialise sensors"));
-    auto sensor_factory = SensorFactory(2);
+    auto sensor_factory = SensorFactory();
     auto sensors = sensor_factory.create(sensor_config);
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
@@ -173,7 +154,7 @@ void main_task(void *params) {
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));
 
-            if (WifiHelper::join(wifi_ssid, wifi_password)) {
+            if (WifiHelper::join(wifi_config)) {
                 LogInfo(("Connect to Wifi"));
                 set_led_in_connected_mode(led_control);
             } else {
@@ -204,7 +185,8 @@ void vLaunch(void) {
 }
 
 int main(void) {
-    stdio_init_all();
+    stdio_uart_init_full(PICO_UART, PICO_UART_BAUD_RATE, PICO_UART_TX_PIN,
+                         PICO_UART_RX_PIN);
 
     sleep_ms(1000);
     init_queue();

@@ -1,4 +1,3 @@
-
 #include "wifi_helper.h"
 
 #include "FreeRTOS.h"
@@ -26,26 +25,25 @@ bool WifiHelper::init() {
         return false;
     }
 
-    // cyw43_wifi_pm(&cyw43_state ,CYW43_AGGRESSIVE_PM);
     cyw43_wifi_pm(&cyw43_state, CYW43_PERFORMANCE_PM);
 
     return true;
 }
 
-bool WifiHelper::join(const char *sid, const char *password, uint8_t retries) {
+bool WifiHelper::join(const wifi_config_t &config, uint8_t retries) {
     cyw43_arch_enable_sta_mode();
-    LogInfo(("Connecting to WiFi... %s \n", sid));
+    LogInfo(("Connecting to WiFi... %s", config.ssid.c_str()));
 
     // Loop trying to connect to Wifi
     int r = -1;
     uint8_t attempts = 0;
     while (r < 0) {
         attempts++;
-        r = cyw43_arch_wifi_connect_timeout_ms(sid, password,
+        r = cyw43_arch_wifi_connect_timeout_ms(config.ssid.c_str(),
+                                               config.password.c_str(),
                                                CYW43_AUTH_WPA2_AES_PSK, 60000);
 
         if (r) {
-            LogError(("Failed to join AP.\n"));
             if (attempts >= retries) {
                 return false;
             }
