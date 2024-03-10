@@ -1,14 +1,10 @@
 #include "config_handler.h"
 
-extern "C" {
-#include "hardware/sync.h"
-};
 
 #include <cstring>
 
-#include "FreeRTOS.h"
 #include "logging.h"
-#include "task.h"
+#include "pico/flash.h"
 
 ConfigHandler::ConfigHandler()
     : m_flash_target_contents{
@@ -54,12 +50,7 @@ bool ConfigHandler::write(page_t data) {
     if (mismatch) {
         LogDebug(("Erase region and program... "));
 
-        vTaskSuspendAll();
-        taskENTER_CRITICAL();
-        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-        flash_range_program(FLASH_TARGET_OFFSET, data, FLASH_PAGE_SIZE);
-        taskEXIT_CRITICAL();
-        xTaskResumeAll();
+        flash_safe_execute(&erase_and_program, static_cast<void *>(data), 100U);
 
         mismatch = false;
         for (int i = 0; i < FLASH_PAGE_SIZE; ++i) {
@@ -77,6 +68,11 @@ bool ConfigHandler::write(page_t data) {
     }
 
     return !mismatch;
+}
+
+void ConfigHandler::erase_and_program(void *data){
+    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
+    flash_range_program(FLASH_TARGET_OFFSET, static_cast<uint8_t *>(data), FLASH_PAGE_SIZE);
 }
 
 void ConfigHandler::print_buf(const uint8_t *buf, size_t len) {
