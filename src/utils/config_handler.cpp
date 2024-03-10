@@ -1,6 +1,5 @@
 #include "config_handler.h"
 
-
 #include <cstring>
 
 #include "logging.h"
@@ -70,9 +69,10 @@ bool ConfigHandler::write(page_t data) {
     return !mismatch;
 }
 
-void ConfigHandler::erase_and_program(void *data){
+void ConfigHandler::erase_and_program(void *data) {
     flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-    flash_range_program(FLASH_TARGET_OFFSET, static_cast<uint8_t *>(data), FLASH_PAGE_SIZE);
+    flash_range_program(FLASH_TARGET_OFFSET, static_cast<uint8_t *>(data),
+                        FLASH_PAGE_SIZE);
 }
 
 void ConfigHandler::print_buf(const uint8_t *buf, size_t len) {
