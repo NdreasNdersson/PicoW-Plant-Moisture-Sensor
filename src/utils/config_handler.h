@@ -27,6 +27,7 @@ class ConfigHandler {
    private:
     void read(page_t data);
     bool write(page_t data);
+    static void erase_and_program(void *data);
     void print_buf(const uint8_t *buf, size_t len);
 
     const uint8_t *m_flash_target_contents;

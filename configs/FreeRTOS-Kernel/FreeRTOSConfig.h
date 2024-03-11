@@ -101,8 +101,6 @@
 */
 
 /* SMP port only */
-/* Set configNUMBER_OF_CORES to one to write config */
-/* #define configNUMBER_OF_CORES                   1 */
 #define configNUMBER_OF_CORES                   2
 #define configNUM_CORES                         configNUMBER_OF_CORES
 #define configTICK_CORE                         0

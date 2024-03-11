@@ -14,6 +14,7 @@ add_executable(${NAME}
 
 # pull in common dependencies
 target_link_libraries(${NAME}
+        pico_flash
         pico_stdlib                        # for core pico functionality
         pico_cyw43_arch_lwip_sys_freertos  # Wifi with FreeRTOS
         FreeRTOS-Kernel-Heap4              # FreeRTOS kernel and dynamic heap

@@ -57,11 +57,9 @@ void main_task(void *params) {
 
     auto config_handler = ConfigHandler();
 
-#if (configNUMBER_OF_CORES == 1)
-    LogDebug(("Running on one core, write config"));
-    std::string json_str{};
-    config_handler.write_json_to_flash(json_str);
-#endif
+    /* Uncomment to write config to flash */
+    /* std::string json_str{}; */
+    /* config_handler.write_json_to_flash(json_str); */
 
     auto json_data = config_handler.read_json_from_flash();
 
@@ -72,7 +70,7 @@ void main_task(void *params) {
                   wifi_config.password.c_str()));
     } else {
         LogError(
-            ("wifi_ssid and wifi_password are not set. These must be set to "
+            ("wifi.ssid and wifi.password are not set. These must be set to "
              "continue"));
         vTaskDelete(NULL);
     }
