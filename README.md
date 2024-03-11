@@ -21,9 +21,9 @@ press BOOTSEL button when starting and copy build/debug/src/PICO_REST_SENSOR.uf2
 # Config
 Set json data and uncomment write command:
 ```
-····/*·Uncomment·to·write·config·to·flash·*/
-····std::string·json_str{"{\"wifi\":{\"ssid\":\"xxxx\",\"password\":\"xxxx\"},\"sensors\":[{\"type\":\"moisture\",\"pin\":1,\"min\":7648,\"max\":17930,\"inversed\":true},{\"type\":\"moisture\",\"pin\":6,\"min\":7757,\"max\":17888,\"inversed\":true}]}"};
-····config_handler.write_json_to_flash(json_str);
+    /*·Uncomment to write config to flash */
+    std::string json_str{"{\"wifi\":{\"ssid\":\"xxxx\",\"password\":\"xxxx\"},\"sensors\":[{\"type\":\"moisture\",\"pin\":1,\"min\":7648,\"max\":17930,\"inversed\":true},{\"type\":\"moisture\",\"pin\":6,\"min\":7757,\"max\":17888,\"inversed\":true}]}"};
+    config_handler.write_json_to_flash(json_str);
 ```
 in main.cpp. Wifi ssid and password are mandatory. Each sensor requires type and pin to be set.
 
