@@ -49,7 +49,11 @@ bool ConfigHandler::write(page_t data) {
     if (mismatch) {
         LogDebug(("Erase region and program... "));
 
-        flash_safe_execute(&erase_and_program, static_cast<void *>(data), 100U);
+        auto status{flash_safe_execute(&erase_and_program,
+                                       static_cast<void *>(data), 100U)};
+        if (PICO_OK != status) {
+            LogError(("Flash safe execute failed with code: %u!", status));
+        }
 
         mismatch = false;
         for (int i = 0; i < FLASH_PAGE_SIZE; ++i) {
