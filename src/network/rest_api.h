@@ -32,14 +32,11 @@ class RestApi {
     typedef struct TCP_SERVER_T_ {
         struct tcp_pcb *server_pcb;
         struct tcp_pcb *client_pcb;
-        bool complete;
-        uint8_t buffer_sent[MAX_PACKAGES][MAX_BUF_SIZE];
-        uint8_t buffer_recv[MAX_PACKAGES][MAX_BUF_SIZE];
-        int buffer_send_len[MAX_PACKAGES];
-        int packages_send_len;
-        int sent_len;
-        int recv_len;
-        int run_count;
+        uint8_t device_data[MAX_BUF_SIZE];
+        uint8_t buffer_recv[MAX_BUF_SIZE];
+        bool data_received;
+        int device_data_len;
+        int buffer_recv_len;
         SemaphoreHandle_t buffer_mutex;
     } TCP_SERVER_T;
 
@@ -51,7 +48,6 @@ class RestApi {
     void update();
     static err_t tcp_client_close(void *arg);
     static err_t tcp_server_close(void *arg);
-    static err_t tcp_server_result(void *arg, int status);
     static err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
     static err_t tcp_server_send(void *arg, struct tcp_pcb *tpcb,
                                  std::string data);
