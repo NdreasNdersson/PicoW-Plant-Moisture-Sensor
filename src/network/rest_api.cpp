@@ -278,6 +278,5 @@ err_t RestApi::tcp_server_accept(void *arg, struct tcp_pcb *client_pcb,
     tcp_recv(client_pcb, tcp_server_recv);
     tcp_err(client_pcb, tcp_server_err);
 
-    /* return tcp_server_send_data(arg, state->client_pcb); */
     return ERR_OK;
 }
