@@ -27,6 +27,7 @@ class RestApi {
     bool register_device(const std::string &device_name,
                          const std::string &init_value);
     bool set_data(const std::string &device_name, const std::string &new_value);
+    bool get_data(std::string &data);
 
    private:
     typedef struct TCP_SERVER_T_ {

@@ -146,6 +146,7 @@ void main_task(void *params) {
         vTaskDelete(NULL);
     }
 
+    std::string received_data;
     while (true) {
         vTaskDelay(3000 / portTICK_PERIOD_MS);
 
@@ -166,6 +167,10 @@ void main_task(void *params) {
             std::string name{};
             sensor(value, name);
             rest_api.set_data(name, std::to_string(value));
+        }
+
+        if (rest_api.get_data(received_data)) {
+            config_handler.write_json_to_flash(received_data);
         }
     }
 }

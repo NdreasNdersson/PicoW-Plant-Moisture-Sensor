@@ -88,6 +88,23 @@ bool RestApi::set_data(const std::string &device_name,
     return true;
 }
 
+bool RestApi::get_data(std::string &data) {
+    auto status{false};
+    if (xSemaphoreTake(m_server_state->buffer_mutex,
+                       static_cast<TickType_t>(100)) == pdTRUE) {
+        if (m_server_state->data_received) {
+            data = std::string(
+                reinterpret_cast<char const *>(m_server_state->buffer_recv),
+                m_server_state->buffer_recv_len);
+            status = true;
+            m_server_state->data_received = false;
+        }
+        xSemaphoreGive(m_server_state->buffer_mutex);
+    }
+
+    return status;
+}
+
 void RestApi::update() {
     json json_data;
     for (auto &device : m_devices) {
