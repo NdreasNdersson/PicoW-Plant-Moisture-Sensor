@@ -1,10 +1,16 @@
-/* #ifndef __SENSORS__ADS1115_ADC__ */
-/* #define __SENSORS__ADS1115_ADC__ */
+#ifndef __SENSORS__SENSOR_CONFIG__
+#define __SENSORS__SENSOR_CONFIG__
 
-/* class SensorConfig { */
-/*     public: */
-/*         SensorConfig(); */
-/*         ~SensorConfig() = default; */
+#include <cstdint>
+#include <string>
 
-/* }; */
-/* #endif */
+typedef struct {
+    int pin;
+    std::string type;
+    std::uint16_t min_value;
+    std::uint16_t max_value;
+    bool inverse_measurement;
+    bool run_calibration;
+} sensor_config_t;
+
+#endif

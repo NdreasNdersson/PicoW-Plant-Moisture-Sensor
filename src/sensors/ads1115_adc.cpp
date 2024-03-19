@@ -7,8 +7,8 @@
 
 Ads1115Adc::Ads1115Adc()
     : m_adc_state{},
-      m_min_value{18000},
-      m_max_value{18500},
+      m_min_value{std::numeric_limits<std::uint16_t>::min()},
+      m_max_value{std::numeric_limits<std::uint16_t>::max()},
       m_inverse_measurement{false},
       m_calibration_complete{false},
       m_calibration_run{false},
