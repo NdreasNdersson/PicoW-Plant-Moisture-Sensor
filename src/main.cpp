@@ -5,6 +5,7 @@
 
 #include "FreeRTOS.h"
 #include "network/rest_api.h"
+#include "network/wifi_config.h"
 #include "network/wifi_helper.h"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"

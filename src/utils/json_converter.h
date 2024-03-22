@@ -1,9 +1,9 @@
 #ifndef __UTILS__JSON_CONVERTER__
 #define __UTILS__JSON_CONVERTER__
 
-#include "network/wifi_helper.h"
+#include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
-#include "sensors/sensor_factory.h"
+#include "sensors/sensor_config.h"
 
 using json = nlohmann::json;
 

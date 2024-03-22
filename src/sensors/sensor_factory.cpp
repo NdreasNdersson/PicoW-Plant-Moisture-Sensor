@@ -44,8 +44,10 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
             if (config.run_calibration) {
                 m_adcs[dac_idx].start_calibration();
             }
-            m_adcs[dac_idx].set_min_value(config.min_value);
-            m_adcs[dac_idx].set_max_value(config.max_value);
+            if ((config.max_value - config.min_value) != 0) {
+                m_adcs[dac_idx].set_min_value(config.min_value);
+                m_adcs[dac_idx].set_max_value(config.max_value);
+            }
             m_adcs[dac_idx].set_inverse_measurement(config.max_value);
             std::string name{config.type + "_" + std::to_string(config.pin)};
             m_adcs[dac_idx].set_name(name);

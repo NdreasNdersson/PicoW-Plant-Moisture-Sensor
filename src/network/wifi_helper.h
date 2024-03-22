@@ -1,19 +1,16 @@
-#pragma once
+#ifndef __NETWORK__WIFI_HELPER__
+#define __NETWORK__WIFI_HELPER__
 
 #include <stdlib.h>
 
 #include <string>
 
 #include "pico/stdlib.h"
+#include "wifi_config.h"
 
 #ifndef WIFI_RETRIES
 #define WIFI_RETRIES 3
 #endif
-
-typedef struct {
-    std::string ssid;
-    std::string password;
-} wifi_config_t;
 
 class WifiHelper {
    public:
@@ -92,3 +89,5 @@ class WifiHelper {
 
    private:
 };
+
+#endif
