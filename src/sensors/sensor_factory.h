@@ -3,11 +3,12 @@
 
 #include <array>
 #include <functional>
-#include <memory>
-#include <vector>
+#include <map>
+#include <string>
 
 #include "ads1115_adc.h"
 #include "pico/stdlib.h"
+#include "sensor_config.h"
 
 #define MAX_NUMBER_OF_DACS 4
 #define MAX_NUMBER_OF_ANALOG_PINS 4
@@ -21,13 +22,14 @@ const uint8_t SCL_PIN = 9;
 
 class SensorFactory {
    public:
-    SensorFactory(uint8_t number_of_dacs);
+    SensorFactory();
     ~SensorFactory() = default;
 
-    std::vector<std::function<float()>> create(std::vector<int> pin_idx);
+    std::vector<std::function<void(float &, std::string &)>> create(
+        std::map<int, sensor_config_t> pin_configs);
 
    private:
-    std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adc_states;
+    std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adcs;
     uint8_t m_number_of_dacs;
 };
 

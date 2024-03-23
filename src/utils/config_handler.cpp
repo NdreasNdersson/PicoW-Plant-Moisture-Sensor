@@ -1,76 +1,71 @@
 #include "config_handler.h"
 
-extern "C" {
-#include "hardware/sync.h"
-};
-
 #include <cstring>
 
 #include "logging.h"
+#include "pico/flash.h"
 
-ConfigHandler::ConfigHandler(JsonHandler &json_handler)
-    : m_json_handler{json_handler},
-      m_flash_target_contents{
+ConfigHandler::ConfigHandler()
+    : m_flash_target_contents{
           (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)} {}
 
-bool ConfigHandler::get_config_value(char const *config_name,
-                                     return_value_t return_value) {
-    bool return_status{false};
-    page_t data;
+json ConfigHandler::read_json_from_flash() {
+    uint8_t data[MAX_FLASH_SIZE];
     std::memcpy(data, m_flash_target_contents, sizeof(data));
+    LogDebug(("Read from flash: %s", reinterpret_cast<char *>(data)));
+    auto json_data =
+        json::parse(reinterpret_cast<char *>(data), nullptr, false);
 
-    char const *value{NULL};
-    if (m_json_handler.parse_json(reinterpret_cast<char *>(data))) {
-        value = m_json_handler.get_value(config_name);
-        if (value != NULL) {
-            LogDebug(("Get %s value %s", config_name, value));
-            return_status = true;
-            std::memcpy(return_value, value, sizeof(return_value_t));
-        }
-    } else {
-        LogError(("Failed to fetch %s from flash", config_name));
+    if (json_data.is_discarded()) {
+        LogError(("Failed to parse json from flash"));
     }
 
-    return return_status;
+    return json_data;
 }
 
-bool ConfigHandler::write_json_structure(char *json, size_t data_length) {
-    page_t data{};
-    if (data_length > sizeof(data)) {
-        LogError(("Can't write more than %u!", sizeof(data)));
+bool ConfigHandler::write_json_to_flash(std::string json) {
+    flash_data_t data{};
+
+    if (json.length() > MAX_FLASH_SIZE) {
+        LogError(("Can't write more than %u!", MAX_FLASH_SIZE));
         return false;
     }
-    LogDebug(("Write %u of data", data_length));
-    print_buf(reinterpret_cast<uint8_t *>(json), data_length);
+    LogDebug(("Write %u of data", json.length()));
 
-    std::memcpy(data, json, data_length);
+    std::memcpy(data.data, json.c_str(), json.length());
+    data.number_of_pages = json.length() / FLASH_PAGE_SIZE + 1U;
     return write(data);
 }
 
-void ConfigHandler::read(page_t data) {}
-
-bool ConfigHandler::write(page_t data) {
+bool ConfigHandler::write(flash_data_t &data) {
     bool mismatch = false;
-    for (int i = 0; i < FLASH_PAGE_SIZE; ++i) {
-        if (data[i] != m_flash_target_contents[i]) {
+
+    if (data.number_of_pages > (MAX_NUMBER_OF_PAGES)) {
+        LogError(("Can't write more than %u number of pages, %u bytes!",
+                  MAX_NUMBER_OF_PAGES, MAX_FLASH_SIZE));
+        return false;
+    }
+    LogDebug(("Flash number of pages: %u", data.number_of_pages));
+    for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+        if (data.data[i] != m_flash_target_contents[i]) {
             mismatch = true;
+            break;
         }
     }
+    mismatch = true;
 
     if (mismatch) {
-        LogDebug(("Erase region ... "));
-        uint32_t ints = save_and_disable_interrupts();
-        flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-        restore_interrupts(ints);
+        LogDebug(("Erase region and program... "));
 
-        LogDebug(("Program region ... "));
-        ints = save_and_disable_interrupts();
-        flash_range_program(FLASH_TARGET_OFFSET, data, FLASH_PAGE_SIZE);
-        restore_interrupts(ints);
+        auto status{flash_safe_execute(&erase_and_program,
+                                       static_cast<void *>(&data), 100U)};
+        if (PICO_OK != status) {
+            LogError(("Flash safe execute failed with code: %u!", status));
+        }
 
         mismatch = false;
-        for (int i = 0; i < FLASH_PAGE_SIZE; ++i) {
-            if (data[i] != m_flash_target_contents[i]) {
+        for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+            if (data.data[i] != m_flash_target_contents[i]) {
                 mismatch = true;
             }
         }
@@ -84,6 +79,14 @@ bool ConfigHandler::write(page_t data) {
     }
 
     return !mismatch;
+}
+
+void ConfigHandler::erase_and_program(void *data) {
+    auto flash_data{static_cast<flash_data_t *>(data)};
+    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
+    flash_range_program(FLASH_TARGET_OFFSET,
+                        static_cast<uint8_t *>(flash_data->data),
+                        FLASH_PAGE_SIZE * flash_data->number_of_pages);
 }
 
 void ConfigHandler::print_buf(const uint8_t *buf, size_t len) {
