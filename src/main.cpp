@@ -1,9 +1,6 @@
-#include <stdio.h>
-
 #include <atomic>
 #include <string>
 
-#include "FreeRTOS.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
 #include "network/wifi_helper.h"
