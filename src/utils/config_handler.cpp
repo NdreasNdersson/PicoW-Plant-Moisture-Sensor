@@ -102,7 +102,6 @@ bool ConfigHandler::write(flash_data_t &data) {
             break;
         }
     }
-    mismatch = true;
 
     if (mismatch) {
         LogDebug(("Erase region and program... "));
