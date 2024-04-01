@@ -9,12 +9,13 @@ SensorFactory::SensorFactory()
 }
 
 std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
-    std::map<int, sensor_config_t> pin_configs) {
+    std::vector<sensor_config_t> pin_configs) {
     std::vector<std::function<void(float &, std::string &)>> return_callbacks;
 
-    if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS) ||
-        (pin_configs.end()->first >
-         MAX_NUMBER_OF_ANALOG_PINS * m_number_of_dacs)) {
+    if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
+        /* || */
+        /* (pin_configs.end()->first > */
+        /*  MAX_NUMBER_OF_ANALOG_PINS * m_number_of_dacs)) { */
         LogError(("Can't initialise %u dacs", m_number_of_dacs));
         return return_callbacks;
     }
@@ -33,14 +34,13 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
             status && m_adcs[i].init(I2C_PORT, ADS1115_I2C_FIRST_ADDRESS + i);
     }
     if (status) {
-        for (auto &pin_config : pin_configs) {
-            auto dac_idx{pin_config.first / MAX_NUMBER_OF_ANALOG_PINS};
-            auto analog_pin_idx{pin_config.first % MAX_NUMBER_OF_ANALOG_PINS};
+        for (auto &config : pin_configs) {
+            auto dac_idx{config.pin / MAX_NUMBER_OF_ANALOG_PINS};
+            auto analog_pin_idx{config.pin % MAX_NUMBER_OF_ANALOG_PINS};
 
             LogDebug(("Create callback for ADS1115: %u analog pin: %u",
                       dac_idx + 1, analog_pin_idx));
 
-            auto &config = pin_config.second;
             if (config.run_calibration) {
                 m_adcs[dac_idx].start_calibration();
             }

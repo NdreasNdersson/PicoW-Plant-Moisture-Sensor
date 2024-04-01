@@ -4,37 +4,87 @@
 
 #include "logging.h"
 #include "pico/flash.h"
+#include "utils/json_converter.h"
 
 ConfigHandler::ConfigHandler()
     : m_flash_target_contents{
           (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)} {}
 
-json ConfigHandler::read_json_from_flash() {
-    uint8_t data[MAX_FLASH_SIZE];
-    std::memcpy(data, m_flash_target_contents, sizeof(data));
-    LogDebug(("Read from flash: %s", reinterpret_cast<char *>(data)));
-    auto json_data =
-        json::parse(reinterpret_cast<char *>(data), nullptr, false);
-
-    if (json_data.is_discarded()) {
-        LogError(("Failed to parse json from flash"));
+bool ConfigHandler::write_config(const std::vector<sensor_config_t> &config) {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        json["sensors"] = config;
+        status = write_json_to_flash(json);
     }
 
-    return json_data;
+    return status;
 }
 
-bool ConfigHandler::write_json_to_flash(std::string json) {
-    flash_data_t data{};
+bool ConfigHandler::write_config(const wifi_config_t &config) {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        json["wifi"] = nlohmann::json(config);
+        status = write_json_to_flash(json);
+    }
 
-    if (json.length() > MAX_FLASH_SIZE) {
+    return status;
+}
+
+bool ConfigHandler::read_config(std::vector<sensor_config_t> &config) {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        for (auto sensor : json["sensors"]) {
+            config.emplace_back(sensor.get<sensor_config_t>());
+        }
+        status = true;
+    }
+
+    return status;
+}
+
+bool ConfigHandler::read_config(wifi_config_t &config) {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        config = json["wifi"].get<wifi_config_t>();
+        status = true;
+    }
+
+    return status;
+}
+
+bool ConfigHandler::write_json_to_flash(const nlohmann::json &json_data) {
+    flash_data_t data{};
+    auto json_string{json_data.dump()};
+
+    if (json_string.length() > MAX_FLASH_SIZE) {
         LogError(("Can't write more than %u!", MAX_FLASH_SIZE));
         return false;
     }
-    LogDebug(("Write %u of data", json.length()));
+    LogDebug(("Write %u of data", json_string.length()));
 
-    std::memcpy(data.data, json.c_str(), json.length());
-    data.number_of_pages = json.length() / FLASH_PAGE_SIZE + 1U;
+    std::memcpy(data.data, json_string.c_str(), json_string.length());
+    data.number_of_pages = json_string.length() / FLASH_PAGE_SIZE + 1U;
     return write(data);
+}
+
+bool ConfigHandler::read_json_from_flash(nlohmann::json &json_data) {
+    uint8_t data[MAX_FLASH_SIZE];
+    auto status{true};
+    std::memcpy(data, m_flash_target_contents, sizeof(data));
+    LogDebug(("Read from flash: %s", reinterpret_cast<char *>(data)));
+    json_data =
+        nlohmann::json::parse(reinterpret_cast<char *>(data), nullptr, false);
+
+    if (json_data.is_discarded()) {
+        LogError(("Failed to parse json from flash"));
+        status = false;
+    }
+
+    return status;
 }
 
 bool ConfigHandler::write(flash_data_t &data) {

@@ -3,8 +3,8 @@
 
 #include <array>
 #include <functional>
-#include <map>
 #include <string>
+#include <vector>
 
 #include "ads1115_adc.h"
 #include "pico/stdlib.h"
@@ -26,7 +26,7 @@ class SensorFactory {
     ~SensorFactory() = default;
 
     std::vector<std::function<void(float &, std::string &)>> create(
-        std::map<int, sensor_config_t> pin_configs);
+        std::vector<sensor_config_t> pin_configs);
 
    private:
     std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adcs;

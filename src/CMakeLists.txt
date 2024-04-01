@@ -3,6 +3,7 @@ add_executable(${NAME}
         utils/led/led.cpp
         utils/logger.cpp
         utils/config_handler.cpp
+        utils/json_converter.cpp
         main.cpp
         network/wifi_helper.cpp
         network/rest_api.cpp
