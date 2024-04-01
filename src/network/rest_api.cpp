@@ -143,6 +143,7 @@ err_t RestApi::tcp_client_close(void *arg) {
         state->client_pcb = NULL;
     }
 
+    LogDebug(("Client close"));
     state->led_control(false);
     return err;
 }
@@ -170,15 +171,9 @@ err_t RestApi::tcp_server_close(void *arg) {
         state->server_pcb = NULL;
     }
 
+    LogDebug(("Server close"));
     state->led_control(false);
     return err;
-}
-
-err_t RestApi::tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
-    LogDebug(("tcp_server_sent %u", len));
-
-    return ERR_OK;
 }
 
 err_t RestApi::tcp_server_send(void *arg, struct tcp_pcb *tpcb,
@@ -189,6 +184,8 @@ err_t RestApi::tcp_server_send(void *arg, struct tcp_pcb *tpcb,
     if (err != ERR_OK) {
         LogError(("Failed to write data %d", err));
         return tcp_client_close(arg);
+    } else {
+        LogDebug(("Sent %u bytes", strlen(data.c_str())));
     }
     return ERR_OK;
 }
@@ -280,7 +277,6 @@ err_t RestApi::tcp_server_accept(void *arg, struct tcp_pcb *client_pcb,
 
     state->client_pcb = client_pcb;
     tcp_arg(client_pcb, state);
-    tcp_sent(client_pcb, tcp_server_sent);
     tcp_recv(client_pcb, tcp_server_recv);
     tcp_err(client_pcb, tcp_server_err);
 
