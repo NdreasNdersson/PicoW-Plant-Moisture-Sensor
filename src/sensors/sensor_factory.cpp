@@ -13,9 +13,6 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     std::vector<std::function<void(float &, std::string &)>> return_callbacks;
 
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
-        /* || */
-        /* (pin_configs.end()->first > */
-        /*  MAX_NUMBER_OF_ANALOG_PINS * m_number_of_dacs)) { */
         LogError(("Can't initialise %u dacs", m_number_of_dacs));
         return return_callbacks;
     }
@@ -36,10 +33,16 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     if (status) {
         for (auto &config : pin_configs) {
             auto dac_idx{config.pin / MAX_NUMBER_OF_ANALOG_PINS};
+            auto dac_id{dac_idx};
             auto analog_pin_idx{config.pin % MAX_NUMBER_OF_ANALOG_PINS};
 
-            LogDebug(("Create callback for ADS1115: %u analog pin: %u",
-                      dac_idx + 1, analog_pin_idx));
+            if (dac_id > m_number_of_dacs) {
+                LogError(("Use dac %u", dac_id));
+                continue;
+            }
+
+            LogDebug(("Create callback for ADS1115: %u analog pin: %u", dac_id,
+                      analog_pin_idx));
 
             if (config.run_calibration) {
                 m_adcs[dac_idx].start_calibration();
