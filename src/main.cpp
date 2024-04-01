@@ -1,3 +1,4 @@
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -48,7 +49,7 @@ void set_led_in_failed_mode(LedControl &led_control) {
 }
 
 void set_led_in_connected_mode(LedControl &led_control) {
-    led_control.set_on(LedPin::led_c);
+    led_control.set(LedPin::led_c, true);
 }
 
 void main_task(void *params) {
@@ -94,7 +95,8 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
-    auto rest_api{RestApi()};
+    auto rest_api{RestApi(std::bind(&LedControl::set, &led_control,
+                                    LedPin::led_b, std::placeholders::_1))};
     if (!rest_api.start()) {
         LogError(("RestApi failed to launch"));
         set_led_in_failed_mode(led_control);

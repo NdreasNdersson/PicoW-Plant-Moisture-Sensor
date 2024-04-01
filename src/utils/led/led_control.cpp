@@ -2,30 +2,28 @@
 
 LedControl::LedControl() : m_led_a(28), m_led_b(27), m_led_c(26) {}
 
-void LedControl::set_on(LedPin pin) {
+void LedControl::set(LedPin pin, bool enable) {
     switch (pin) {
         case LedPin::led_a:
-            m_led_a.set_on();
+            if (enable) {
+                m_led_a.set_on();
+            } else {
+                m_led_a.set_off();
+            }
             break;
         case LedPin::led_b:
-            m_led_b.set_on();
+            if (enable) {
+                m_led_b.set_on();
+            } else {
+                m_led_b.set_off();
+            }
             break;
         case LedPin::led_c:
-            m_led_c.set_on();
-            break;
-    }
-}
-
-void LedControl::set_off(LedPin pin) {
-    switch (pin) {
-        case LedPin::led_a:
-            m_led_a.set_off();
-            break;
-        case LedPin::led_b:
-            m_led_b.set_off();
-            break;
-        case LedPin::led_c:
-            m_led_c.set_off();
+            if (enable) {
+                m_led_c.set_on();
+            } else {
+                m_led_c.set_off();
+            }
             break;
     }
 }

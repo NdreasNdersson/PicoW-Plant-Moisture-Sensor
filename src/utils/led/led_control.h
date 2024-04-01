@@ -10,8 +10,7 @@ class LedControl {
     LedControl();
     ~LedControl() = default;
 
-    void set_on(LedPin pin);
-    void set_off(LedPin pin);
+    void set(LedPin pin, bool enable);
     void set_blink_delay(LedPin pin, std::uint16_t delay);
     void start_blink(LedPin pin);
     void stop_blink(LedPin pin);

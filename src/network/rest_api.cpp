@@ -16,12 +16,13 @@ static const std::string HTTP_BAD_RESPONSE{"HTTP/1.0 400 NOK\r\n"};
 static const std::string HTTP_CONTENT_TYPE{
     "Content-type: application/json\r\n\r\n"};
 
-RestApi::RestApi()
+RestApi::RestApi(std::function<void(bool)> led_control)
     : m_ip_address{"0.0.0.0"},
       m_port{80},
       m_server_state{std::make_unique<TCP_SERVER_T>()},
       m_devices{} {
     m_server_state->buffer_mutex = xSemaphoreCreateMutex();
+    m_server_state->led_control = led_control;
 }
 
 RestApi::~RestApi() {}
@@ -141,6 +142,8 @@ err_t RestApi::tcp_client_close(void *arg) {
         }
         state->client_pcb = NULL;
     }
+
+    state->led_control(false);
     return err;
 }
 
@@ -166,6 +169,8 @@ err_t RestApi::tcp_server_close(void *arg) {
         tcp_close(state->server_pcb);
         state->server_pcb = NULL;
     }
+
+    state->led_control(false);
     return err;
 }
 
@@ -271,6 +276,7 @@ err_t RestApi::tcp_server_accept(void *arg, struct tcp_pcb *client_pcb,
     }
 
     LogDebug(("Client connected"));
+    state->led_control(true);
 
     state->client_pcb = client_pcb;
     tcp_arg(client_pcb, state);
