@@ -10,6 +10,7 @@ include(pico_sdk_import.cmake)
 project(${NAME} C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(PICO_BOARD pico_w) # Set the board used
 
 # Set config files paths to be used

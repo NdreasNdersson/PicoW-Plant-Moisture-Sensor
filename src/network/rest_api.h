@@ -2,6 +2,7 @@
 #define __NETWORK__REST_API__
 
 #include <array>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -20,7 +21,7 @@
 
 class RestApi {
    public:
-    RestApi();
+    RestApi(std::function<void(bool)> led_control);
     ~RestApi();
 
     bool start();
@@ -39,6 +40,7 @@ class RestApi {
         int device_data_len;
         int buffer_recv_len;
         SemaphoreHandle_t buffer_mutex;
+        std::function<void(bool)> led_control;
     } TCP_SERVER_T;
 
     std::string m_ip_address;
@@ -49,7 +51,6 @@ class RestApi {
     void update();
     static err_t tcp_client_close(void *arg);
     static err_t tcp_server_close(void *arg);
-    static err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
     static err_t tcp_server_send(void *arg, struct tcp_pcb *tpcb,
                                  std::string data);
     static err_t tcp_server_send_measured_data(void *arg, struct tcp_pcb *tpcb);

@@ -1,15 +1,16 @@
-#include <stdio.h>
-
-#include <atomic>
+#include <functional>
 #include <string>
+#include <vector>
 
 #include "FreeRTOS.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
 #include "network/wifi_helper.h"
+#include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
+#include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
 #include "utils/config_handler.h"
@@ -28,7 +29,6 @@
 #define PICO_UART_RX_PIN 17
 
 #define PRINT_TASK_INFO (0)
-#define CALIBRATE_SENSORS (0)
 
 void status_task(void *params) {
     while (true) {
@@ -49,7 +49,7 @@ void set_led_in_failed_mode(LedControl &led_control) {
 }
 
 void set_led_in_connected_mode(LedControl &led_control) {
-    led_control.set_on(LedPin::led_c);
+    led_control.set(LedPin::led_c, true);
 }
 
 void main_task(void *params) {
@@ -58,15 +58,8 @@ void main_task(void *params) {
 
     auto config_handler = ConfigHandler();
 
-    /* Uncomment to write config to flash */
-    /* std::string json_str{}; */
-    /* config_handler.write_json_to_flash(json_str); */
-
-    auto json_data = config_handler.read_json_from_flash();
-
     wifi_config_t wifi_config{};
-    if (json_data.contains("wifi")) {
-        wifi_config = json_data["wifi"].get<wifi_config_t>();
+    if (config_handler.read_config(wifi_config)) {
         LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                   wifi_config.password.c_str()));
     } else {
@@ -75,11 +68,6 @@ void main_task(void *params) {
              "continue"));
         vTaskDelete(NULL);
     }
-
-#if (configNUMBER_OF_CORES == 1)
-    LogError(("LWIP FreeRTOS can't run on one core, stopping main thread"));
-    vTaskDelete(NULL);
-#endif
 
     auto led_control = LedControl();
     if (WifiHelper::init()) {
@@ -107,35 +95,31 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
-    auto rest_api{RestApi()};
+    auto rest_api{RestApi(std::bind(&LedControl::set, &led_control,
+                                    LedPin::led_b, std::placeholders::_1))};
     if (!rest_api.start()) {
         LogError(("RestApi failed to launch"));
         set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
     }
 
-    std::map<int, sensor_config_t> sensor_config{};
-    if (json_data.contains("sensors") && json_data["sensors"].is_array()) {
-        for (auto &sensor : json_data["sensors"]) {
-            auto current_sensor_config{sensor.get<sensor_config_t>()};
-
-#if CALIBRATE_SENSORS == 1
-            current_sensor_config.run_calibration = true;
-#endif
-            if (current_sensor_config.pin < 1) {
+    std::vector<sensor_config_t> sensor_config;
+    if (config_handler.read_config(sensor_config)) {
+        for (auto sensor : sensor_config) {
+            if (sensor.pin < 1) {
                 LogError(("Sensor config pin must be >= 1"));
                 continue;
             }
-            sensor_config[current_sensor_config.pin] = current_sensor_config;
 
-            std::string name{current_sensor_config.type + "_" +
-                             std::to_string(current_sensor_config.pin)};
+            std::string name{sensor.type + "_" + std::to_string(sensor.pin)};
             if (!rest_api.register_device(name, "0")) {
                 LogError(("Failed to register %s device", name));
                 set_led_in_failed_mode(led_control);
                 vTaskDelete(NULL);
             }
         }
+    } else {
+        LogInfo(("No sensors configured"));
     }
 
     LogInfo(("Initialise sensors"));
@@ -171,7 +155,20 @@ void main_task(void *params) {
         }
 
         if (rest_api.get_data(received_data)) {
-            config_handler.write_json_to_flash(received_data);
+            auto json_data =
+                nlohmann::json::parse(received_data, nullptr, false);
+
+            if (json_data.is_discarded()) {
+                LogError(("Failed to parse json from received data"));
+                continue;
+            }
+
+            if (json_data.contains("sensors") &&
+                json_data["sensors"].is_array()) {
+                std::vector<sensor_config_t> config =
+                    json_data["sensors"].get<std::vector<sensor_config_t>>();
+                config_handler.write_config(config);
+            }
         }
     }
 }
