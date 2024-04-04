@@ -7,3 +7,6 @@
 [submodule "external/pico-ads1115"]
 	path = external/pico-ads1115
 	url = https://github.com/antgon/pico-ads1115.git
+[submodule "libs/pico-ads1115"]
+	path = libs/pico-ads1115
+	url = git@github.com:NdreasNdersson/pico-ads1115.git

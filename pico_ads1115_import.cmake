@@ -1,1 +1,1 @@
-add_subdirectory(external/pico-ads1115/lib)
+add_subdirectory(libs/pico-ads1115/lib)

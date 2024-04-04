@@ -23,8 +23,6 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     i2c_init(I2C_PORT, I2C_FREQ);
     gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
-    gpio_pull_up(SDA_PIN);
-    gpio_pull_up(SCL_PIN);
 
     for (auto i{0}; i < m_number_of_dacs; i++) {
         status =
@@ -32,12 +30,17 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     }
     if (status) {
         for (auto &config : pin_configs) {
-            auto dac_idx{config.pin / MAX_NUMBER_OF_ANALOG_PINS};
-            auto dac_id{dac_idx};
-            auto analog_pin_idx{config.pin % MAX_NUMBER_OF_ANALOG_PINS};
+            if (config.pin < 1) {
+                LogError(("Pin number can't be less than 1"));
+                continue;
+            }
+            auto dac_idx{(config.pin - 1) / MAX_NUMBER_OF_ANALOG_PINS};
+            auto dac_id{dac_idx + 1};
+            auto analog_pin_idx{(config.pin - 1) % MAX_NUMBER_OF_ANALOG_PINS +
+                                1};
 
             if (dac_id > m_number_of_dacs) {
-                LogError(("Use dac %u", dac_id));
+                LogError(("DAC %u is not initialized", dac_id));
                 continue;
             }
 
