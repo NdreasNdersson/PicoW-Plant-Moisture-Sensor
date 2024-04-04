@@ -75,7 +75,6 @@ bool ConfigHandler::read_json_from_flash(nlohmann::json &json_data) {
     uint8_t data[MAX_FLASH_SIZE];
     auto status{true};
     std::memcpy(data, m_flash_target_contents, sizeof(data));
-    LogDebug(("Read from flash: %s", reinterpret_cast<char *>(data)));
     json_data =
         nlohmann::json::parse(reinterpret_cast<char *>(data), nullptr, false);
 
