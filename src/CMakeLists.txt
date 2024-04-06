@@ -1,4 +1,6 @@
 add_executable(${NAME}
+        utils/button/button.cpp
+        utils/button/button_control.cpp
         utils/led/led_control.cpp
         utils/led/led.cpp
         utils/logger.cpp

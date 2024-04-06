@@ -1,6 +1,6 @@
 #include "logger.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "FreeRTOS.h"
 #include "queue.h"
