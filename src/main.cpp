@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "hal/task_priorities.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
 #include "network/wifi_helper.h"
@@ -13,15 +14,11 @@
 #include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
+#include "utils/button/button_control.h"
 #include "utils/config_handler.h"
 #include "utils/json_converter.h"
 #include "utils/led/led_control.h"
 #include "utils/logging.h"
-
-#define MAIN_TASK_PRIORITY (tskIDLE_PRIORITY + 10UL)
-#define STATUS_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
-#define LOGGER_TASK_PRIORITY (tskIDLE_PRIORITY + 2UL)
-#define REST_API_TASK_PRIORITY (tskIDLE_PRIORITY + 5UL)
 
 #define PICO_UART uart0
 #define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
@@ -69,6 +66,7 @@ void main_task(void *params) {
         vTaskDelete(NULL);
     }
 
+    auto button_control = ButtonControl();
     auto led_control = LedControl();
     if (WifiHelper::init()) {
         LogDebug(("Wifi Controller Initialised"));
