@@ -2,7 +2,6 @@
 #define __UTILS__BUTTON__BUTTON_CONTROL__
 
 #include <map>
-#include <vector>
 
 #include "button.h"
 

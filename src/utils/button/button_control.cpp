@@ -1,7 +1,6 @@
 #include "button_control.h"
 
-#include <functional>
-#include <vector>
+#include <map>
 
 #include "FreeRTOS.h"
 #include "hal/task_priorities.h"
