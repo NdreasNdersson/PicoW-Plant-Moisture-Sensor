@@ -1,5 +1,6 @@
 #include "sensor_factory.h"
 
+#include <functional>
 #include <limits>
 
 #include "hardware/gpio.h"
@@ -11,7 +12,8 @@ SensorFactory::SensorFactory() : m_number_of_dacs{MAX_NUMBER_OF_DACS} {}
 
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<Ads1115Adc> &sensors,
-                           ButtonControl &button_control) {
+                           ButtonControl &button_control,
+                           std::function<void(bool)> led_callback) {
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
         LogError(("Can't initialise %u dacs", m_number_of_dacs));
         return;
@@ -44,16 +46,20 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
 
         switch (analog_pin_id) {
             case 1:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_0, config);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_0, config,
+                                     led_callback);
                 break;
             case 2:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_1, config);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_1, config,
+                                     led_callback);
                 break;
             case 3:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_2, config);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_2, config,
+                                     led_callback);
                 break;
             case 4:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_3, config);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_3, config,
+                                     led_callback);
                 break;
         }
 

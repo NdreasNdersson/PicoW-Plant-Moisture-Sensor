@@ -2,6 +2,7 @@
 #define __SENSORS__ADS1115_ADC__
 
 #include <cstdint>
+#include <functional>
 #include <string>
 
 #include "patterns/subscriber.h"
@@ -17,7 +18,8 @@ enum class SensorReadStatus { Calibrating, CalibrationComplete, Ok };
 
 class Ads1115Adc : public Subscriber {
    public:
-    Ads1115Adc(const ads1115_mux_t mux_setting, sensor_config_t &config);
+    Ads1115Adc(const ads1115_mux_t mux_setting, sensor_config_t &config,
+               std::function<void(bool)> led_callback);
     ~Ads1115Adc() = default;
 
     void init(i2c_inst_t *i2c, uint8_t address);
@@ -34,5 +36,6 @@ class Ads1115Adc : public Subscriber {
     int calibration_samples_;
     const std::string name_;
     const ads1115_mux_t mux_setting_;
+    std::function<void(bool)> led_callback_;
 };
 #endif

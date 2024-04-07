@@ -8,13 +8,15 @@
 #include "utils/logging.h"
 
 Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
-                       sensor_config_t &config)
+                       sensor_config_t &config,
+                       std::function<void(bool)> led_callback)
     : adc_state_{},
       config_{config},
       calibration_run_{false},
       calibration_samples_{0},
       name_(config_.type + "_" + std::to_string(config_.pin)),
-      mux_setting_(mux_setting_) {}
+      mux_setting_(mux_setting_),
+      led_callback_{led_callback} {}
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     ads1115_init(i2c, address, &adc_state_);
@@ -31,6 +33,7 @@ void Ads1115Adc::get_name(std::string &name) { name = name_; }
 void Ads1115Adc::get_config(sensor_config_t &config) { config = config_; }
 
 SensorReadStatus Ads1115Adc::read(float &return_value) {
+    led_callback_(true);
     auto return_status{SensorReadStatus::Ok};
     return_value = 0.0f;
     std::uint16_t adc_value;
@@ -56,6 +59,7 @@ SensorReadStatus Ads1115Adc::read(float &return_value) {
         if (config_.inverse_measurement) {
             return_value = (return_value - 100.0f) * (-1.0f);
         }
+        led_callback_(false);
     }
 
     return return_status;

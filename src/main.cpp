@@ -120,7 +120,9 @@ void main_task(void *params) {
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     std::vector<Ads1115Adc> sensors;
-    sensor_factory.create(sensor_config, sensors, button_control);
+    sensor_factory.create(sensor_config, sensors, button_control,
+                          std::bind(&LedControl::set, &led_control,
+                                    LedPin::led_a, std::placeholders::_1));
 
     if (sensor_config.size() != sensors.size()) {
         LogError(("Not all sensors was configured"));
