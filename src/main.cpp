@@ -122,7 +122,7 @@ void main_task(void *params) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
-    auto sensors = sensor_factory.create(sensor_config);
+    auto sensors = sensor_factory.create(sensor_config, button_control);
     if (sensors.empty()) {
         LogError(("Failed to initialise sensors"));
         set_led_in_failed_mode(led_control);

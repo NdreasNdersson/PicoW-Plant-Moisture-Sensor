@@ -17,16 +17,12 @@ Ads1115Adc::Ads1115Adc()
 
 bool Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     LogDebug(("Initialise ads1115"));
-    // Initialise ADC
     ads1115_init(i2c, address, &m_adc_state);
 
-    LogDebug(("Set ads1115 config"));
     ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &m_adc_state);
     ads1115_set_pga(ADS1115_PGA_4_096, &m_adc_state);
     ads1115_set_data_rate(ADS1115_RATE_475_SPS, &m_adc_state);
 
-    LogDebug(("Write ads1115 config"));
-    // Write the configuration for this to have an effect.
     ads1115_write_config(&m_adc_state);
 
     return true;
@@ -39,7 +35,6 @@ void Ads1115Adc::set_inverse_measurement(bool inverse_measurement) {
 }
 void Ads1115Adc::set_name(std::string name) { m_name = name; }
 
-// Add pin somehow
 void Ads1115Adc::read(int pin_id, float &return_value,
                       std::string &return_name) {
     return_name = m_name;
@@ -68,7 +63,8 @@ void Ads1115Adc::read(int pin_id, float &return_value,
         m_min_value = std::min(m_min_value, adc_value);
         m_max_value = std::max(m_max_value, adc_value);
         m_calibration_samples++;
-        LogDebug(("Sample %u, Value %u", m_calibration_samples, adc_value));
+        LogDebug(("Calibrate: sample %u, Value %u", m_calibration_samples,
+                  adc_value));
         if (m_calibration_samples >= SAMPLES_TO_COMPLETE_CALIBRATION) {
             m_calibration_complete = true;
             m_calibration_run = false;
@@ -84,11 +80,12 @@ void Ads1115Adc::read(int pin_id, float &return_value,
     }
 }
 
-void Ads1115Adc::start_calibration() {
-    LogDebug(("Run sensor calibration"));
-    m_calibration_run = true;
-    m_calibration_complete = false;
-    m_calibration_samples = 0;
-    m_max_value = std::numeric_limits<std::uint16_t>::min();
-    m_min_value = std::numeric_limits<std::uint16_t>::max();
+void Ads1115Adc::update() {
+    if (!m_calibration_run) {
+        m_calibration_run = true;
+        m_calibration_complete = false;
+        m_calibration_samples = 0;
+        m_max_value = std::numeric_limits<std::uint16_t>::min();
+        m_min_value = std::numeric_limits<std::uint16_t>::max();
+    }
 }

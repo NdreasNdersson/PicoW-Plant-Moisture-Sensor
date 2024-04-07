@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "ads1115_adc.h"
-#include "pico/stdlib.h"
 #include "sensor_config.h"
+#include "utils/button/button_control.h"
 
 #define MAX_NUMBER_OF_DACS 4
 #define MAX_NUMBER_OF_ANALOG_PINS 4
@@ -26,7 +26,8 @@ class SensorFactory {
     ~SensorFactory() = default;
 
     std::vector<std::function<void(float &, std::string &)>> create(
-        std::vector<sensor_config_t> pin_configs);
+        const std::vector<sensor_config_t> &pin_configs,
+        ButtonControl &button_control);
 
    private:
     std::array<Ads1115Adc, MAX_NUMBER_OF_DACS> m_adcs;

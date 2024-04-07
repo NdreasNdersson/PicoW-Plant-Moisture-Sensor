@@ -13,10 +13,11 @@ class ButtonControl {
    public:
     ButtonControl();
 
+    void attach(ButtonNames button, Subscriber *subscriber);
+    void detach(ButtonNames button, Subscriber *subscriber);
+
    private:
     static void button_press_callback(uint gpio, uint32_t event_mask);
     static void queue_task(void *params);
-    void attach(ButtonNames button, Subscriber *subscriber);
-    void detach(ButtonNames button, Subscriber *subscriber);
 };
 #endif

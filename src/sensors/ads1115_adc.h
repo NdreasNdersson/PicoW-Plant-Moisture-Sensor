@@ -4,12 +4,14 @@
 #include <cstdint>
 #include <string>
 
+#include "patterns/subscriber.h"
+
 extern "C" {
 #include "ads1115.h"
 }
 #include "hardware/i2c.h"
 
-class Ads1115Adc {
+class Ads1115Adc : public Subscriber {
    public:
     Ads1115Adc();
     ~Ads1115Adc() = default;
@@ -20,7 +22,7 @@ class Ads1115Adc {
     void set_inverse_measurement(bool inverse);
     void set_name(std::string name);
     void read(int pin_id, float &return_value, std::string &return_name);
-    void start_calibration();
+    void update() override;
 
    private:
     static constexpr int SAMPLES_TO_COMPLETE_CALIBRATION{20};

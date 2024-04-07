@@ -1,6 +1,8 @@
 #include "sensor_factory.h"
 
+#include "hardware/gpio.h"
 #include "hardware/i2c.h"
+#include "utils/button/button_control.h"
 #include "utils/logging.h"
 
 SensorFactory::SensorFactory()
@@ -9,7 +11,8 @@ SensorFactory::SensorFactory()
 }
 
 std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
-    std::vector<sensor_config_t> pin_configs) {
+    const std::vector<sensor_config_t> &pin_configs,
+    ButtonControl &button_control) {
     std::vector<std::function<void(float &, std::string &)>> return_callbacks;
 
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
@@ -18,8 +21,6 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
     }
 
     bool status{true};
-    LogDebug(("Initialise I2C"));
-    // Initialise I2C
     i2c_init(I2C_PORT, I2C_FREQ);
     gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
@@ -44,12 +45,10 @@ std::vector<std::function<void(float &, std::string &)>> SensorFactory::create(
                 continue;
             }
 
+            button_control.attach(ButtonNames::A, &m_adcs[dac_idx]);
             LogDebug(("Create callback for ADS1115: %u analog pin: %u", dac_id,
                       analog_pin_idx));
 
-            if (config.run_calibration) {
-                m_adcs[dac_idx].start_calibration();
-            }
             if ((config.max_value - config.min_value) != 0) {
                 m_adcs[dac_idx].set_min_value(config.min_value);
                 m_adcs[dac_idx].set_max_value(config.max_value);
