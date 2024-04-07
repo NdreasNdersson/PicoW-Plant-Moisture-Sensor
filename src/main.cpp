@@ -11,6 +11,7 @@
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
+#include "sensors/ads1115_adc.h"
 #include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
@@ -109,12 +110,8 @@ void main_task(void *params) {
                 continue;
             }
 
-            std::string name{sensor.type + "_" + std::to_string(sensor.pin)};
-            if (!rest_api.register_device(name, "0")) {
-                LogError(("Failed to register %s device", name));
-                set_led_in_failed_mode(led_control);
-                vTaskDelete(NULL);
-            }
+            float value{};
+            std::string name{};
         }
     } else {
         LogInfo(("No sensors configured"));
@@ -122,11 +119,27 @@ void main_task(void *params) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
-    auto sensors = sensor_factory.create(sensor_config);
-    if (sensors.empty()) {
-        LogError(("Failed to initialise sensors"));
+    std::vector<Ads1115Adc> sensors;
+    sensor_factory.create(sensor_config, sensors, button_control,
+                          std::bind(&LedControl::set, &led_control,
+                                    LedPin::led_a, std::placeholders::_1));
+
+    if (sensor_config.size() != sensors.size()) {
+        LogError(("Not all sensors was configured"));
         set_led_in_failed_mode(led_control);
         vTaskDelete(NULL);
+    }
+
+    for (auto &sensor : sensors) {
+        float value{};
+        std::string name{};
+        sensor.get_name(name);
+        sensor.read(value);
+        if (!rest_api.register_device(name, std::to_string(value))) {
+            LogError(("Failed to register %s device", name.c_str()));
+            set_led_in_failed_mode(led_control);
+            vTaskDelete(NULL);
+        }
     }
 
     std::string received_data;
@@ -145,11 +158,22 @@ void main_task(void *params) {
             }
         }
 
-        for (auto &sensor : sensors) {
+        auto save_config{false};
+        for (auto i{0}; i < sensors.size(); i++) {
             float value{};
             std::string name{};
-            sensor(value, name);
-            rest_api.set_data(name, std::to_string(value));
+            sensors[i].get_name(name);
+            auto status{sensors[i].read(value)};
+            if (status == SensorReadStatus::Ok) {
+                rest_api.set_data(name, std::to_string(value));
+            } else if (status == SensorReadStatus::CalibrationComplete) {
+                save_config = true;
+                sensors[i].get_config(sensor_config[i]);
+            }
+        }
+
+        if (save_config) {
+            config_handler.write_config(sensor_config);
         }
 
         if (rest_api.get_data(received_data)) {
