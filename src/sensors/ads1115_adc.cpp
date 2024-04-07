@@ -5,87 +5,74 @@
 
 #include "utils/logging.h"
 
-Ads1115Adc::Ads1115Adc()
-    : m_adc_state{},
-      m_min_value{std::numeric_limits<std::uint16_t>::min()},
-      m_max_value{std::numeric_limits<std::uint16_t>::max()},
-      m_inverse_measurement{false},
-      m_calibration_complete{false},
-      m_calibration_run{false},
-      m_calibration_samples{0},
-      m_name("") {}
+Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
+                       const std::string &name)
+    : adc_state_{},
+      min_value_{std::numeric_limits<std::uint16_t>::min()},
+      max_value_{std::numeric_limits<std::uint16_t>::max()},
+      inverse_measurement_{false},
+      calibration_complete_{false},
+      calibration_run_{false},
+      calibration_samples_{0},
+      name_(name),
+      mux_setting_(mux_setting_) {}
 
-bool Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
+void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     LogDebug(("Initialise ads1115"));
-    ads1115_init(i2c, address, &m_adc_state);
+    ads1115_init(i2c, address, &adc_state_);
 
-    ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &m_adc_state);
-    ads1115_set_pga(ADS1115_PGA_4_096, &m_adc_state);
-    ads1115_set_data_rate(ADS1115_RATE_475_SPS, &m_adc_state);
+    ads1115_set_input_mux(mux_setting_, &adc_state_);
+    ads1115_set_pga(ADS1115_PGA_4_096, &adc_state_);
+    ads1115_set_data_rate(ADS1115_RATE_128_SPS, &adc_state_);
 
-    ads1115_write_config(&m_adc_state);
-
-    return true;
+    ads1115_write_config(&adc_state_);
 }
 
-void Ads1115Adc::set_min_value(std::uint16_t value) { m_min_value = value; }
-void Ads1115Adc::set_max_value(std::uint16_t value) { m_max_value = value; }
-void Ads1115Adc::set_inverse_measurement(bool inverse_measurement) {
-    m_inverse_measurement = inverse_measurement;
+void Ads1115Adc::set_min_value(const std::uint16_t value) {
+    min_value_ = value;
 }
-void Ads1115Adc::set_name(std::string name) { m_name = name; }
+void Ads1115Adc::set_max_value(const std::uint16_t value) {
+    max_value_ = value;
+}
+void Ads1115Adc::set_inverse_measurement(const bool inverse_measurement) {
+    inverse_measurement_ = inverse_measurement;
+}
 
-void Ads1115Adc::read(int pin_id, float &return_value,
-                      std::string &return_name) {
-    return_name = m_name;
+void Ads1115Adc::get_name(std::string &name) { name = name_; }
 
-    switch (pin_id) {
-        case 1:
-            ads1115_set_input_mux(ADS1115_MUX_SINGLE_0, &m_adc_state);
-            break;
-        case 2:
-            ads1115_set_input_mux(ADS1115_MUX_SINGLE_1, &m_adc_state);
-            break;
-        case 3:
-            ads1115_set_input_mux(ADS1115_MUX_SINGLE_2, &m_adc_state);
-            break;
-        case 4:
-            ads1115_set_input_mux(ADS1115_MUX_SINGLE_3, &m_adc_state);
-            break;
-    }
-
+void Ads1115Adc::read(float &return_value) {
     return_value = 0.0f;
     std::uint16_t adc_value;
 
-    ads1115_read_adc(&adc_value, &m_adc_state);
+    ads1115_read_adc(&adc_value, &adc_state_);
 
-    if (m_calibration_run && !m_calibration_complete) {
-        m_min_value = std::min(m_min_value, adc_value);
-        m_max_value = std::max(m_max_value, adc_value);
-        m_calibration_samples++;
-        LogDebug(("Calibrate: sample %u, Value %u", m_calibration_samples,
+    if (calibration_run_ && !calibration_complete_) {
+        min_value_ = std::min(min_value_, adc_value);
+        max_value_ = std::max(max_value_, adc_value);
+        calibration_samples_++;
+        LogDebug(("Calibrate: sample %u, Value %u", calibration_samples_,
                   adc_value));
-        if (m_calibration_samples >= SAMPLES_TO_COMPLETE_CALIBRATION) {
-            m_calibration_complete = true;
-            m_calibration_run = false;
+        if (calibration_samples_ >= SAMPLES_TO_COMPLETE_CALIBRATION) {
+            calibration_complete_ = true;
+            calibration_run_ = false;
             LogDebug(
-                ("New max value %u, min value %u", m_max_value, m_min_value));
+                ("New max value %u, min value %u", max_value_, min_value_));
         }
     } else {
-        return_value = static_cast<float>(adc_value - m_min_value) * 100 /
-                       (m_max_value - m_min_value);
-        if (m_inverse_measurement) {
+        return_value = static_cast<float>(adc_value - min_value_) * 100 /
+                       (max_value_ - min_value_);
+        if (inverse_measurement_) {
             return_value = (return_value - 100.0f) * (-1.0f);
         }
     }
 }
 
 void Ads1115Adc::update() {
-    if (!m_calibration_run) {
-        m_calibration_run = true;
-        m_calibration_complete = false;
-        m_calibration_samples = 0;
-        m_max_value = std::numeric_limits<std::uint16_t>::min();
-        m_min_value = std::numeric_limits<std::uint16_t>::max();
+    if (!calibration_run_) {
+        calibration_run_ = true;
+        calibration_complete_ = false;
+        calibration_samples_ = 0;
+        max_value_ = std::numeric_limits<std::uint16_t>::min();
+        min_value_ = std::numeric_limits<std::uint16_t>::max();
     }
 }

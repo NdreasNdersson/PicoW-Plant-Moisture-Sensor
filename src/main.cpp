@@ -109,12 +109,8 @@ void main_task(void *params) {
                 continue;
             }
 
-            std::string name{sensor.type + "_" + std::to_string(sensor.pin)};
-            if (!rest_api.register_device(name, "0")) {
-                LogError(("Failed to register %s device", name));
-                set_led_in_failed_mode(led_control);
-                vTaskDelete(NULL);
-            }
+            float value{};
+            std::string name{};
         }
     } else {
         LogInfo(("No sensors configured"));
@@ -122,11 +118,18 @@ void main_task(void *params) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
-    auto sensors = sensor_factory.create(sensor_config, button_control);
-    if (sensors.empty()) {
-        LogError(("Failed to initialise sensors"));
-        set_led_in_failed_mode(led_control);
-        vTaskDelete(NULL);
+    std::vector<Ads1115Adc> sensors;
+    sensor_factory.create(sensor_config, sensors, button_control);
+    for (auto &sensor : sensors) {
+        float value{};
+        std::string name{};
+        sensor.get_name(name);
+        sensor.read(value);
+        if (!rest_api.register_device(name, "0")) {
+            LogError(("Failed to register %s device", name.c_str()));
+            set_led_in_failed_mode(led_control);
+            vTaskDelete(NULL);
+        }
     }
 
     std::string received_data;
@@ -148,7 +151,8 @@ void main_task(void *params) {
         for (auto &sensor : sensors) {
             float value{};
             std::string name{};
-            sensor(value, name);
+            sensor.get_name(name);
+            sensor.read(value);
             rest_api.set_data(name, std::to_string(value));
         }
 
