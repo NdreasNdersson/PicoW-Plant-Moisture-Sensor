@@ -1,5 +1,7 @@
 #include "sensor_factory.h"
 
+#include <limits>
+
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
 #include "utils/button/button_control.h"
@@ -7,7 +9,7 @@
 
 SensorFactory::SensorFactory() : m_number_of_dacs{MAX_NUMBER_OF_DACS} {}
 
-void SensorFactory::create(const std::vector<sensor_config_t> &pin_configs,
+void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<Ads1115Adc> &sensors,
                            ButtonControl &button_control) {
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
@@ -35,30 +37,28 @@ void SensorFactory::create(const std::vector<sensor_config_t> &pin_configs,
             continue;
         }
 
-        std::string name{config.type + "_" + std::to_string(config.pin)};
+        if ((config.max_value - config.min_value) == 0) {
+            config.min_value = std::numeric_limits<std::uint16_t>::min();
+            config.max_value = std::numeric_limits<std::uint16_t>::max();
+        }
+
         switch (analog_pin_id) {
             case 1:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_0, name);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_0, config);
                 break;
             case 2:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_1, name);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_1, config);
                 break;
             case 3:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_2, name);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_2, config);
                 break;
             case 4:
-                sensors.emplace_back(ADS1115_MUX_SINGLE_3, name);
+                sensors.emplace_back(ADS1115_MUX_SINGLE_3, config);
                 break;
         }
 
         LogDebug(("Init ADS1115: %u analog pin: %u", dac_id, analog_pin_id));
         sensors.back().init(I2C_PORT, ADS1115_I2C_FIRST_ADDRESS + dac_idx);
-
-        if ((config.max_value - config.min_value) != 0) {
-            sensors.back().set_min_value(config.min_value);
-            sensors.back().set_max_value(config.max_value);
-        }
-        sensors.back().set_inverse_measurement(config.max_value);
 
         button_control.attach(ButtonNames::A, &sensors.back());
     }

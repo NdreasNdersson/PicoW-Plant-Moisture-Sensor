@@ -21,7 +21,7 @@ class SensorFactory {
     SensorFactory();
     ~SensorFactory() = default;
 
-    void create(const std::vector<sensor_config_t> &pin_configs,
+    void create(std::vector<sensor_config_t> &pin_configs,
                 std::vector<Ads1115Adc> &sensors,
                 ButtonControl &button_control);
 
