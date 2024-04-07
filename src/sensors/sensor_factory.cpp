@@ -51,16 +51,15 @@ void SensorFactory::create(const std::vector<sensor_config_t> &pin_configs,
                 break;
         }
 
+        LogDebug(("Init ADS1115: %u analog pin: %u", dac_id, analog_pin_id));
         sensors.back().init(I2C_PORT, ADS1115_I2C_FIRST_ADDRESS + dac_idx);
-
-        button_control.attach(ButtonNames::A, &sensors.back());
-        LogDebug(("Create callback for ADS1115: %u analog pin: %u", dac_id,
-                  analog_pin_id));
 
         if ((config.max_value - config.min_value) != 0) {
             sensors.back().set_min_value(config.min_value);
             sensors.back().set_max_value(config.max_value);
         }
         sensors.back().set_inverse_measurement(config.max_value);
+
+        button_control.attach(ButtonNames::A, &sensors.back());
     }
 }

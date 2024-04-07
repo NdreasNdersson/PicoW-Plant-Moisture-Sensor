@@ -18,7 +18,6 @@ Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
       mux_setting_(mux_setting_) {}
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
-    LogDebug(("Initialise ads1115"));
     ads1115_init(i2c, address, &adc_state_);
 
     ads1115_set_input_mux(mux_setting_, &adc_state_);
