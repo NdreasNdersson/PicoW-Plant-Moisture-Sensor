@@ -1,13 +1,11 @@
 #include "rest_api.h"
 
-#include <algorithm>
 #include <cstring>
 
 #include "FreeRTOS.h"
 #include "nlohmann/json.hpp"
 #include "semphr.h"
 #include "utils/logging.h"
-using json = nlohmann::json;
 
 static const std::string HTTP_OK_RESPONSE{"HTTP/1.0 200 OK\r\n"};
 
@@ -19,8 +17,7 @@ static const std::string HTTP_CONTENT_TYPE{
 RestApi::RestApi(std::function<void(bool)> led_control)
     : m_ip_address{"0.0.0.0"},
       m_port{80},
-      m_server_state{std::make_unique<TCP_SERVER_T>()},
-      m_devices{} {
+      m_server_state{std::make_unique<TCP_SERVER_T>()} {
     m_server_state->buffer_mutex = xSemaphoreCreateMutex();
     m_server_state->led_control = led_control;
 }
@@ -62,31 +59,20 @@ bool RestApi::start() {
     return true;
 }
 
-bool RestApi::register_device(const std::string &device_name,
-                              const std::string &init_value) {
-    for (auto &device : m_devices) {
-        if (device.register_device(device_name, init_value)) {
-            return true;
-        }
+bool RestApi::set_data(const nlohmann::json &data) {
+    bool status{false};
+    if (xSemaphoreTake(m_server_state->buffer_mutex,
+                       static_cast<TickType_t>(100)) == pdTRUE) {
+        const auto data_string{data["sensors"].dump()};
+        const auto json_data_str{data_string.c_str()};
+
+        std::memcpy(m_server_state->device_data, json_data_str,
+                    strlen(json_data_str));
+        m_server_state->device_data_len = strlen(json_data_str);
+        xSemaphoreGive(m_server_state->buffer_mutex);
+        status = true;
     }
-    return false;
-}
-
-bool RestApi::set_data(const std::string &device_name,
-                       const std::string &new_value) {
-    auto predicate{[device_name](DeviceInfo &device) {
-        return device.get_name() == device_name;
-    }};
-    auto device_it =
-        std::find_if(std::begin(m_devices), std::end(m_devices), predicate);
-    if (device_it == m_devices.end()) {
-        return false;
-    }
-    device_it->set_value(new_value);
-
-    update();
-
-    return true;
+    return status;
 }
 
 bool RestApi::get_data(std::string &data) {
@@ -104,25 +90,6 @@ bool RestApi::get_data(std::string &data) {
     }
 
     return status;
-}
-
-void RestApi::update() {
-    json json_data;
-    for (auto &device : m_devices) {
-        if (device.is_registered()) {
-            json_data[device.get_name()] = device.get_value();
-        }
-    }
-
-    if (xSemaphoreTake(m_server_state->buffer_mutex,
-                       static_cast<TickType_t>(100)) == pdTRUE) {
-        const char *json_data_str{json_data.dump().c_str()};
-
-        std::memcpy(m_server_state->device_data, json_data_str,
-                    strlen(json_data_str));
-        m_server_state->device_data_len = strlen(json_data_str);
-        xSemaphoreGive(m_server_state->buffer_mutex);
-    }
 }
 
 err_t RestApi::tcp_client_close(void *arg) {

@@ -1,17 +1,15 @@
 #ifndef __NETWORK__REST_API__
 #define __NETWORK__REST_API__
 
-#include <array>
 #include <functional>
 #include <memory>
 #include <string>
 
 #include "FreeRTOS.h"
-#include "device_info.h"
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
+#include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
-#include "pico/stdlib.h"
 #include "semphr.h"
 
 #define N_DEVICES (4 * 4)
@@ -25,9 +23,7 @@ class RestApi {
     ~RestApi();
 
     bool start();
-    bool register_device(const std::string &device_name,
-                         const std::string &init_value);
-    bool set_data(const std::string &device_name, const std::string &new_value);
+    bool set_data(const nlohmann::json &data);
     bool get_data(std::string &data);
 
    private:
@@ -45,7 +41,6 @@ class RestApi {
 
     std::string m_ip_address;
     int m_port;
-    std::array<DeviceInfo, N_DEVICES> m_devices;
     std::unique_ptr<TCP_SERVER_T> m_server_state;
 
     void update();
