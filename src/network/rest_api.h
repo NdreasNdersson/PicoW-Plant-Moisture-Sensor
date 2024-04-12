@@ -23,7 +23,8 @@ class RestApi {
     ~RestApi();
 
     bool start();
-    bool set_data(const nlohmann::json &data);
+    bool set_device_data(const nlohmann::json &data);
+    bool set_device_config(const nlohmann::json &data);
     bool get_data(std::string &data);
 
    private:
@@ -31,9 +32,11 @@ class RestApi {
         struct tcp_pcb *server_pcb;
         struct tcp_pcb *client_pcb;
         uint8_t device_data[MAX_BUF_SIZE];
+        uint8_t device_config[MAX_BUF_SIZE];
         uint8_t buffer_recv[MAX_BUF_SIZE];
         bool data_received;
         int device_data_len;
+        int device_config_len;
         int buffer_recv_len;
         SemaphoreHandle_t buffer_mutex;
         std::function<void(bool)> led_control;
@@ -49,6 +52,7 @@ class RestApi {
     static err_t tcp_server_send(void *arg, struct tcp_pcb *tpcb,
                                  std::string data);
     static err_t tcp_server_send_measured_data(void *arg, struct tcp_pcb *tpcb);
+    static err_t tcp_server_send_config_data(void *arg, struct tcp_pcb *tpcb);
     static err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb,
                                  struct pbuf *p, err_t err);
     static void tcp_server_err(void *arg, err_t err);

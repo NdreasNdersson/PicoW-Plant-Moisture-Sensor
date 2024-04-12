@@ -1,6 +1,7 @@
 #include "rest_api.h"
 
 #include <cstring>
+#include <sstream>
 
 #include "FreeRTOS.h"
 #include "nlohmann/json.hpp"
@@ -59,16 +60,32 @@ bool RestApi::start() {
     return true;
 }
 
-bool RestApi::set_data(const nlohmann::json &data) {
+bool RestApi::set_device_data(const nlohmann::json &data) {
     bool status{false};
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
-        const auto data_string{data["sensors"].dump()};
+        const auto data_string{data.dump()};
         const auto json_data_str{data_string.c_str()};
 
         std::memcpy(m_server_state->device_data, json_data_str,
                     strlen(json_data_str));
         m_server_state->device_data_len = strlen(json_data_str);
+        xSemaphoreGive(m_server_state->buffer_mutex);
+        status = true;
+    }
+    return status;
+}
+
+bool RestApi::set_device_config(const nlohmann::json &data) {
+    bool status{false};
+    if (xSemaphoreTake(m_server_state->buffer_mutex,
+                       static_cast<TickType_t>(100)) == pdTRUE) {
+        const auto data_string{data.dump()};
+        const auto json_data_str{data_string.c_str()};
+
+        std::memcpy(m_server_state->device_config, json_data_str,
+                    strlen(json_data_str));
+        m_server_state->device_config_len = strlen(json_data_str);
         xSemaphoreGive(m_server_state->buffer_mutex);
         status = true;
     }
@@ -173,6 +190,22 @@ err_t RestApi::tcp_server_send_measured_data(void *arg, struct tcp_pcb *tpcb) {
     return ERR_OK;
 }
 
+err_t RestApi::tcp_server_send_config_data(void *arg, struct tcp_pcb *tpcb) {
+    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+
+    cyw43_arch_lwip_check();
+    if (xSemaphoreTake(state->buffer_mutex, (TickType_t)100) == pdTRUE) {
+        err_t err = tcp_write(tpcb, state->device_config,
+                              state->device_config_len, TCP_WRITE_FLAG_COPY);
+        xSemaphoreGive(state->buffer_mutex);
+        if (err != ERR_OK) {
+            LogError(("Failed to write data %d", err));
+            return tcp_client_close(arg);
+        }
+    }
+    return ERR_OK;
+}
+
 err_t RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
                                err_t err) {
     TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
@@ -184,15 +217,39 @@ err_t RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
     if (p->tot_len > 0) {
         std::string payload(reinterpret_cast<char const *>(p->payload), p->len);
 
-        if (payload.rfind("GET", 0) == 0) {
-            LogDebug(("Received GET"));
+        std::stringstream string_stream{payload};
 
-            if (tcp_server_send(arg, tpcb,
-                                HTTP_OK_RESPONSE + HTTP_CONTENT_TYPE) ==
-                ERR_OK) {
-                tcp_server_send_measured_data(arg, state->client_pcb);
+        std::string command;
+        std::string resource;
+        getline(string_stream, command, ' ');
+        getline(string_stream, resource, ' ');
+
+        size_t pos = resource.find_first_not_of('/');
+        resource = pos == std::string::npos ? resource : resource.substr(pos);
+
+        pos = resource.find_last_not_of('/');
+        resource =
+            pos == std::string::npos ? resource : resource.substr(0, pos + 1);
+
+        if (command == "GET") {
+            LogDebug(("Received GET %s", resource.c_str()));
+
+            if ("sensors" == resource) {
+                if (tcp_server_send(arg, tpcb,
+                                    HTTP_OK_RESPONSE + HTTP_CONTENT_TYPE) ==
+                    ERR_OK) {
+                    tcp_server_send_measured_data(arg, state->client_pcb);
+                }
+            } else if ("config" == resource) {
+                if (tcp_server_send(arg, tpcb,
+                                    HTTP_OK_RESPONSE + HTTP_CONTENT_TYPE) ==
+                    ERR_OK) {
+                    tcp_server_send_config_data(arg, state->client_pcb);
+                }
+            } else {
+                tcp_server_send(arg, tpcb, HTTP_BAD_RESPONSE);
             }
-        } else if (payload.rfind("POST", 0) == 0) {
+        } else if (command == "POST") {
             LogDebug(("Received POST"));
 
             std::size_t start_idx = payload.find("{");

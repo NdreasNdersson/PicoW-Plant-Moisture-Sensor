@@ -115,6 +115,7 @@ void main_task(void *params) {
             float value{};
             std::string name{};
         }
+        rest_api.set_device_config(nlohmann::json{sensor_config});
     } else {
         LogInfo(("No sensors configured"));
     }
@@ -161,16 +162,16 @@ void main_task(void *params) {
             }
             sensors[i].get_config(sensor_config[i]);
 
-            rest_api_data["sensors"][name]["value"] = sensors[i].get_value();
-            rest_api_data["sensors"][name]["raw_value"] =
-                sensors[i].get_raw_value();
+            rest_api_data[name]["value"] = sensors[i].get_value();
+            rest_api_data[name]["raw_value"] = sensors[i].get_raw_value();
         }
         if (update_rest_api) {
-            rest_api.set_data(rest_api_data);
+            rest_api.set_device_data(rest_api_data);
         }
 
         if (save_config) {
             config_handler.write_config(sensor_config);
+            rest_api.set_device_config(nlohmann::json{sensor_config});
         }
 
         if (rest_api.get_data(received_data)) {
