@@ -25,7 +25,9 @@ class Ads1115Adc : public Subscriber {
     void init(i2c_inst_t *i2c, uint8_t address);
     void get_name(std::string &name);
     void get_config(sensor_config_t &config);
-    SensorReadStatus read(float &return_value);
+    SensorReadStatus read();
+    std::uint16_t get_raw_value();
+    float get_value();
     void update() override;
 
    private:
@@ -37,5 +39,7 @@ class Ads1115Adc : public Subscriber {
     const std::string name_;
     const ads1115_mux_t mux_setting_;
     std::function<void(bool)> led_callback_;
+    std::uint16_t adc_value_;
+    float value_;
 };
 #endif

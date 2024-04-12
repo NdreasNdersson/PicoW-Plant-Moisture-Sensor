@@ -130,21 +130,10 @@ void main_task(void *params) {
         vTaskDelete(NULL);
     }
 
-    for (auto &sensor : sensors) {
-        float value{};
-        std::string name{};
-        sensor.get_name(name);
-        sensor.read(value);
-        if (!rest_api.register_device(name, std::to_string(value))) {
-            LogError(("Failed to register %s device", name.c_str()));
-            set_led_in_failed_mode(led_control);
-            vTaskDelete(NULL);
-        }
-    }
-
     std::string received_data;
+    nlohmann::json rest_api_data;
     while (true) {
-        vTaskDelay(3000 / portTICK_PERIOD_MS);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));
@@ -159,17 +148,22 @@ void main_task(void *params) {
         }
 
         auto save_config{false};
+        auto update_rest_api{true};
         for (auto i{0}; i < sensors.size(); i++) {
             float value{};
             std::string name{};
             sensors[i].get_name(name);
-            auto status{sensors[i].read(value)};
-            if (status == SensorReadStatus::Ok) {
-                rest_api.set_data(name, std::to_string(value));
-            } else if (status == SensorReadStatus::CalibrationComplete) {
+            if (sensors[i].read() == SensorReadStatus::Calibrating) {
                 save_config = true;
-                sensors[i].get_config(sensor_config[i]);
             }
+            sensors[i].get_config(sensor_config[i]);
+
+            rest_api_data["sensors"][name]["value"] = sensors[i].get_value();
+            rest_api_data["sensors"][name]["raw_value"] =
+                sensors[i].get_raw_value();
+        }
+        if (update_rest_api) {
+            rest_api.set_data(rest_api_data);
         }
 
         if (save_config) {
