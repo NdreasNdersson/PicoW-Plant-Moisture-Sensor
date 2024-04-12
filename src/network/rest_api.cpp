@@ -63,7 +63,7 @@ bool RestApi::set_data(const nlohmann::json &data) {
     bool status{false};
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
-        const auto data_string{data.dump()};
+        const auto data_string{data["sensors"].dump()};
         const auto json_data_str{data_string.c_str()};
 
         std::memcpy(m_server_state->device_data, json_data_str,

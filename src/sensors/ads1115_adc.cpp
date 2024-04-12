@@ -10,7 +10,7 @@
 
 Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
                        sensor_config_t &config,
-                       std::function<void(bool)> led_callback)
+                       std::function<void(bool)> led_callback, float delta_time)
     : adc_state_{},
       config_{config},
       calibration_run_{false},
@@ -19,7 +19,8 @@ Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
       mux_setting_(mux_setting_),
       led_callback_{led_callback},
       adc_value_{0U},
-      value_{0.0F} {}
+      value_{0.0F},
+      low_pass_filter_(0.01f, delta_time) {}
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
     ads1115_init(i2c, address, &adc_state_);
@@ -40,6 +41,7 @@ SensorReadStatus Ads1115Adc::read() {
     auto return_status{SensorReadStatus::Ok};
 
     ads1115_read_adc(&adc_value_, &adc_state_);
+    adc_value_ = low_pass_filter_.update(adc_value_);
 
     if (calibration_run_) {
         return_status = SensorReadStatus::Calibrating;
