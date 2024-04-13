@@ -42,6 +42,6 @@ class Ads1115Adc : public Subscriber {
     std::function<void(bool)> led_callback_;
     std::uint16_t adc_value_;
     float value_;
-    LowPassFilter<std::uint16_t> low_pass_filter_;
+    LowPassFilter<float> low_pass_filter_;
 };
 #endif

@@ -41,7 +41,6 @@ SensorReadStatus Ads1115Adc::read() {
     auto return_status{SensorReadStatus::Ok};
 
     ads1115_read_adc(&adc_value_, &adc_state_);
-    adc_value_ = low_pass_filter_.update(adc_value_);
 
     if (calibration_run_) {
         return_status = SensorReadStatus::Calibrating;
@@ -62,6 +61,7 @@ SensorReadStatus Ads1115Adc::read() {
         if (config_.inverse_measurement) {
             value_ = (value_ - 100.0f) * (-1.0f);
         }
+        value_ = low_pass_filter_.update(value_);
         led_callback_(false);
     }
 
