@@ -18,7 +18,7 @@ WifiHelper::~WifiHelper() {
  * Initialise the controller
  * @return true if successful
  */
-bool WifiHelper::init() {
+auto WifiHelper::init() -> bool {
     // Init Wifi Adapter
     int res = cyw43_arch_init();
     if (res) {
@@ -30,7 +30,7 @@ bool WifiHelper::init() {
     return true;
 }
 
-bool WifiHelper::join(const wifi_config_t &config, uint8_t retries) {
+auto WifiHelper::join(const wifi_config_t &config, uint8_t retries) -> bool {
     cyw43_arch_enable_sta_mode();
     LogInfo(("Connecting to WiFi... %s", config.ssid.c_str()));
 
@@ -57,7 +57,7 @@ bool WifiHelper::join(const wifi_config_t &config, uint8_t retries) {
  * Get IP address of unit
  * @param ip - output uint8_t[4]
  */
-bool WifiHelper::getIPAddress(uint8_t *ip) {
+auto WifiHelper::getIPAddress(uint8_t *ip) -> bool {
     memcpy(ip, netif_ip4_addr(&cyw43_state.netif[0]), 4);
     return true;
 }
@@ -67,7 +67,7 @@ bool WifiHelper::getIPAddress(uint8_t *ip) {
  * @param ips - output char * up to 16 chars
  * @return - true if IP addres assigned
  */
-bool WifiHelper::getIPAddressStr(char *ips) {
+auto WifiHelper::getIPAddressStr(char *ips) -> bool {
     char *s = ipaddr_ntoa(netif_ip4_addr(&cyw43_state.netif[0]));
     strcpy(ips, s);
     return true;
@@ -77,7 +77,7 @@ bool WifiHelper::getIPAddressStr(char *ips) {
  * Get Gateway address
  * @param ip - output uint8_t[4]
  */
-bool WifiHelper::getGWAddress(uint8_t *ip) {
+auto WifiHelper::getGWAddress(uint8_t *ip) -> bool {
     memcpy(ip, netif_ip4_gw(&cyw43_state.netif[0]), 4);
     return true;
 }
@@ -87,7 +87,7 @@ bool WifiHelper::getGWAddress(uint8_t *ip) {
  * @param ips - output char * up to 16 chars
  * @return - true if IP addres assigned
  */
-bool WifiHelper::getGWAddressStr(char *ips) {
+auto WifiHelper::getGWAddressStr(char *ips) -> bool {
     char *s = ipaddr_ntoa(netif_ip4_gw(&cyw43_state.netif[0]));
     strcpy(ips, s);
     return true;
@@ -97,7 +97,7 @@ bool WifiHelper::getGWAddressStr(char *ips) {
  * Get Net Mask address
  * @param ip - output uint8_t[4]
  */
-bool WifiHelper::getNetMask(uint8_t *ip) {
+auto WifiHelper::getNetMask(uint8_t *ip) -> bool {
     memcpy(ip, netif_ip4_netmask(&cyw43_state.netif[0]), 4);
     return true;
 }
@@ -107,7 +107,7 @@ bool WifiHelper::getNetMask(uint8_t *ip) {
  * @param ips - output char * up to 16 chars
  * @return - true if IP addres assigned
  */
-bool WifiHelper::getNetMaskStr(char *ips) {
+auto WifiHelper::getNetMaskStr(char *ips) -> bool {
     char *s = ipaddr_ntoa(netif_ip4_netmask(&cyw43_state.netif[0]));
     strcpy(ips, s);
     return true;
@@ -118,7 +118,7 @@ bool WifiHelper::getNetMaskStr(char *ips) {
  * @param macStr: pointer to string of at least 14 characters
  * @return true if successful
  */
-bool WifiHelper::getMACAddressStr(char *macStr) {
+auto WifiHelper::getMACAddressStr(char *macStr) -> bool {
     uint8_t mac[6];
     int r = cyw43_wifi_get_mac(&cyw43_state, CYW43_ITF_STA, mac);
 
@@ -140,7 +140,7 @@ bool WifiHelper::getMACAddressStr(char *macStr) {
  * Returns if joined to the network and we have a link
  * @return true if joined.
  */
-bool WifiHelper::isJoined() {
+auto WifiHelper::isJoined() -> bool {
     int res = cyw43_wifi_link_status(&cyw43_state, CYW43_ITF_STA);
     return (res >= 0);
 }

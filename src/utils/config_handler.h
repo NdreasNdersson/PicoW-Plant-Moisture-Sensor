@@ -17,8 +17,7 @@ extern "C" {
 
 class ConfigHandler {
    public:
-    ConfigHandler();
-    ~ConfigHandler() = default;
+    ConfigHandler() = default;
 
     using return_value_t = char[MAX_VALUE_SIZE];
 
@@ -41,7 +40,8 @@ class ConfigHandler {
     static void erase_and_program(void *data);
     void print_buf(const uint8_t *buf, size_t len);
 
-    const uint8_t *m_flash_target_contents;
+    const uint8_t *m_flash_target_contents{
+        (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)};
 };
 
 #endif

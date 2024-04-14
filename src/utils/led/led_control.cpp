@@ -1,10 +1,5 @@
 #include "led_control.h"
 
-#include "hal/pin_map.h"
-
-LedControl::LedControl()
-    : m_led_a(LED_PIN_A), m_led_b(LED_PIN_B), m_led_c(LED_PIN_C) {}
-
 void LedControl::set(LedPin pin, bool enable) {
     switch (pin) {
         case LedPin::led_a:

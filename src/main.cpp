@@ -23,8 +23,7 @@
 
 #define PICO_UART uart0
 #define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
-#define PICO_UART_TX_PIN 16
-#define PICO_UART_RX_PIN 17
+enum { PICO_UART_TX_PIN = 16, PICO_UART_RX_PIN = 17 };
 
 #define PRINT_TASK_INFO (0)
 
@@ -193,7 +192,7 @@ void main_task(void *params) {
     }
 }
 
-void vLaunch(void) {
+void vLaunch() {
     xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
     xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE, NULL,
                 LOGGER_TASK_PRIORITY, NULL);
@@ -205,7 +204,7 @@ void vLaunch(void) {
     vTaskStartScheduler();
 }
 
-int main(void) {
+auto main() -> int {
     stdio_uart_init_full(PICO_UART, PICO_UART_BAUD_RATE, PICO_UART_TX_PIN,
                          PICO_UART_RX_PIN);
 
