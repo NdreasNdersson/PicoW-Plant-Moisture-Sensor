@@ -11,7 +11,7 @@ using pin_t = uint;
 
 class Button : public Publisher {
    public:
-    Button();
+    Button() = default;
     Button(pin_t pin);
     void attach(Subscriber *subscriber) override;
     void detach(Subscriber *subscriber) override;

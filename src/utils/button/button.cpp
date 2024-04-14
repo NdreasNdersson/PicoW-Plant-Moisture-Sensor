@@ -2,8 +2,7 @@
 
 #include "patterns/subscriber.h"
 
-Button::Button() : pin_{} {}
-Button::Button(pin_t pin) : pin_{pin} {}
+Button::Button(pin_t pin) : pin_{pin}, list_subscribers_{} {}
 
 void Button::attach(Subscriber *subscriber) {
     list_subscribers_.push_back(subscriber);
