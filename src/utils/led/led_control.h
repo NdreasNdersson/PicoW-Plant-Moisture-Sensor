@@ -8,7 +8,6 @@ enum class LedPin { led_a, led_b, led_c };
 class LedControl {
    public:
     LedControl();
-    ~LedControl() = default;
 
     void set(LedPin pin, bool enable);
     void set_blink_delay(LedPin pin, std::uint16_t delay);

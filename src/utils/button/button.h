@@ -17,7 +17,7 @@ class Button : public Publisher {
     void detach(Subscriber *subscriber) override;
     void notify() override;
 
-    pin_t get_pin();
+    auto get_pin();
 
    private:
     pin_t pin_;

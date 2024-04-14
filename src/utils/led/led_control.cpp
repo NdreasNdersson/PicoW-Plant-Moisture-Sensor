@@ -1,6 +1,9 @@
 #include "led_control.h"
 
-LedControl::LedControl() : m_led_a(28), m_led_b(27), m_led_c(26) {}
+#include "hal/pin_map.h"
+
+LedControl::LedControl()
+    : m_led_a(LED_PIN_A), m_led_b(LED_PIN_B), m_led_c(LED_PIN_C) {}
 
 void LedControl::set(LedPin pin, bool enable) {
     switch (pin) {

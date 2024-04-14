@@ -19,4 +19,4 @@ void Button::notify() {
     }
 }
 
-pin_t Button::get_pin() { return pin_; }
+auto Button::get_pin() { return pin_; }
