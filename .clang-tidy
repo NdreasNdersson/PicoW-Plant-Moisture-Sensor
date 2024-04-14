@@ -1,2 +1,2 @@
 # Checks: '-*,clang-analyzer-*,-clang-analyzer-cplusplus*,cppcoreguidelines-*,modernize-*'
-Checks: '-*,modernize-*'
+Checks: '-*,clang-analyzer-*,-clang-analyzer-cplusplus*,modernize-*'
