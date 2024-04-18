@@ -35,12 +35,6 @@
 /* Include header for logging level macros. */
 #include "logging_levels.h"
 
-#include "logging.h"
-
-/* Standard Include. */
-#include <stdio.h>
-#include <stdint.h>
-
 /**
  * @brief The name of the library or demo to add as metadata in log messages
  * from the library or demo.

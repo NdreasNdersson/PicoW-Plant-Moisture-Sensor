@@ -23,9 +23,9 @@ RestApi::RestApi(std::function<void(bool)> led_control)
     m_server_state->led_control = led_control;
 }
 
-RestApi::~RestApi() {}
+RestApi::~RestApi() = default;
 
-bool RestApi::start() {
+auto RestApi::start() -> bool {
     if (m_server_state == NULL) {
         return false;
     }
@@ -60,7 +60,7 @@ bool RestApi::start() {
     return true;
 }
 
-bool RestApi::set_device_data(const nlohmann::json &data) {
+auto RestApi::set_device_data(const nlohmann::json &data) -> bool {
     bool status{false};
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
@@ -76,7 +76,7 @@ bool RestApi::set_device_data(const nlohmann::json &data) {
     return status;
 }
 
-bool RestApi::set_device_config(const nlohmann::json &data) {
+auto RestApi::set_device_config(const nlohmann::json &data) -> bool {
     bool status{false};
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
@@ -92,7 +92,7 @@ bool RestApi::set_device_config(const nlohmann::json &data) {
     return status;
 }
 
-bool RestApi::get_data(std::string &data) {
+auto RestApi::get_data(std::string &data) -> bool {
     auto status{false};
     if (xSemaphoreTake(m_server_state->buffer_mutex,
                        static_cast<TickType_t>(100)) == pdTRUE) {
@@ -110,9 +110,9 @@ bool RestApi::get_data(std::string &data) {
 }
 
 err_t RestApi::tcp_client_close(void *arg) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
     err_t err = ERR_OK;
-    if (state->client_pcb != NULL) {
+    if (state->client_pcb != nullptr) {
         tcp_arg(state->client_pcb, NULL);
         tcp_poll(state->client_pcb, NULL, 0);
         tcp_sent(state->client_pcb, NULL);
@@ -124,7 +124,7 @@ err_t RestApi::tcp_client_close(void *arg) {
             tcp_abort(state->client_pcb);
             err = ERR_ABRT;
         }
-        state->client_pcb = NULL;
+        state->client_pcb = nullptr;
     }
 
     LogDebug(("Client close"));
@@ -133,9 +133,9 @@ err_t RestApi::tcp_client_close(void *arg) {
 }
 
 err_t RestApi::tcp_server_close(void *arg) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
     err_t err = ERR_OK;
-    if (state->client_pcb != NULL) {
+    if (state->client_pcb != nullptr) {
         tcp_arg(state->client_pcb, NULL);
         tcp_poll(state->client_pcb, NULL, 0);
         tcp_sent(state->client_pcb, NULL);
@@ -147,12 +147,12 @@ err_t RestApi::tcp_server_close(void *arg) {
             tcp_abort(state->client_pcb);
             err = ERR_ABRT;
         }
-        state->client_pcb = NULL;
+        state->client_pcb = nullptr;
     }
     if (state->server_pcb) {
         tcp_arg(state->server_pcb, NULL);
         tcp_close(state->server_pcb);
-        state->server_pcb = NULL;
+        state->server_pcb = nullptr;
     }
 
     LogDebug(("Server close"));
@@ -175,7 +175,7 @@ err_t RestApi::tcp_server_send(void *arg, struct tcp_pcb *tpcb,
 }
 
 err_t RestApi::tcp_server_send_measured_data(void *arg, struct tcp_pcb *tpcb) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
 
     cyw43_arch_lwip_check();
     if (xSemaphoreTake(state->buffer_mutex, (TickType_t)100) == pdTRUE) {
@@ -191,7 +191,7 @@ err_t RestApi::tcp_server_send_measured_data(void *arg, struct tcp_pcb *tpcb) {
 }
 
 err_t RestApi::tcp_server_send_config_data(void *arg, struct tcp_pcb *tpcb) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
 
     cyw43_arch_lwip_check();
     if (xSemaphoreTake(state->buffer_mutex, (TickType_t)100) == pdTRUE) {
@@ -208,7 +208,7 @@ err_t RestApi::tcp_server_send_config_data(void *arg, struct tcp_pcb *tpcb) {
 
 err_t RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
                                err_t err) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
     if (!p) {
         LogDebug(("tcp_server_recv pointer empty"));
         return tcp_client_close(arg);
@@ -289,7 +289,7 @@ void RestApi::tcp_server_err(void *arg, err_t err) {
 
 err_t RestApi::tcp_server_accept(void *arg, struct tcp_pcb *client_pcb,
                                  err_t err) {
-    TCP_SERVER_T *state = (TCP_SERVER_T *)arg;
+    auto *state = (TCP_SERVER_T *)arg;
     if (err != ERR_OK || client_pcb == NULL) {
         LogError(("Failure in accept"));
         tcp_client_close(arg);

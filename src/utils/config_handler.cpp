@@ -6,11 +6,8 @@
 #include "pico/flash.h"
 #include "utils/json_converter.h"
 
-ConfigHandler::ConfigHandler()
-    : m_flash_target_contents{
-          (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)} {}
-
-bool ConfigHandler::write_config(const std::vector<sensor_config_t> &config) {
+auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
+    -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -21,7 +18,7 @@ bool ConfigHandler::write_config(const std::vector<sensor_config_t> &config) {
     return status;
 }
 
-bool ConfigHandler::write_config(const wifi_config_t &config) {
+auto ConfigHandler::write_config(const wifi_config_t &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -32,7 +29,7 @@ bool ConfigHandler::write_config(const wifi_config_t &config) {
     return status;
 }
 
-bool ConfigHandler::read_config(std::vector<sensor_config_t> &config) {
+auto ConfigHandler::read_config(std::vector<sensor_config_t> &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -45,7 +42,7 @@ bool ConfigHandler::read_config(std::vector<sensor_config_t> &config) {
     return status;
 }
 
-bool ConfigHandler::read_config(wifi_config_t &config) {
+auto ConfigHandler::read_config(wifi_config_t &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -56,7 +53,8 @@ bool ConfigHandler::read_config(wifi_config_t &config) {
     return status;
 }
 
-bool ConfigHandler::write_json_to_flash(const nlohmann::json &json_data) {
+auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
+    -> bool {
     flash_data_t data{};
     auto json_string{json_data.dump()};
 
@@ -71,7 +69,7 @@ bool ConfigHandler::write_json_to_flash(const nlohmann::json &json_data) {
     return write(data);
 }
 
-bool ConfigHandler::read_json_from_flash(nlohmann::json &json_data) {
+auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
     uint8_t data[MAX_FLASH_SIZE];
     auto status{true};
     std::memcpy(data, m_flash_target_contents, sizeof(data));
@@ -86,7 +84,7 @@ bool ConfigHandler::read_json_from_flash(nlohmann::json &json_data) {
     return status;
 }
 
-bool ConfigHandler::write(flash_data_t &data) {
+auto ConfigHandler::write(flash_data_t &data) -> bool {
     bool mismatch = false;
 
     if (data.number_of_pages > (MAX_NUMBER_OF_PAGES)) {

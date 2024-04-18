@@ -1,7 +1,5 @@
 #include "led_control.h"
 
-LedControl::LedControl() : m_led_a(28), m_led_b(27), m_led_c(26) {}
-
 void LedControl::set(LedPin pin, bool enable) {
     switch (pin) {
         case LedPin::led_a:

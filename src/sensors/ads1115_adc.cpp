@@ -36,7 +36,7 @@ void Ads1115Adc::get_name(std::string &name) { name = name_; }
 
 void Ads1115Adc::get_config(sensor_config_t &config) { config = config_; }
 
-SensorReadStatus Ads1115Adc::read() {
+auto Ads1115Adc::read() -> SensorReadStatus {
     led_callback_(true);
     auto return_status{SensorReadStatus::Ok};
 
@@ -68,8 +68,8 @@ SensorReadStatus Ads1115Adc::read() {
     return return_status;
 }
 
-std::uint16_t Ads1115Adc::get_raw_value() { return adc_value_; }
-float Ads1115Adc::get_value() { return value_; }
+auto Ads1115Adc::get_raw_value() -> std::uint16_t { return adc_value_; }
+auto Ads1115Adc::get_value() -> float { return value_; }
 
 void Ads1115Adc::update() {
     if (!calibration_run_) {

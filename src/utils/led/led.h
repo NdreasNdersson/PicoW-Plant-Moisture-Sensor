@@ -5,11 +5,13 @@
 #include <cstdint>
 #include <memory>
 
+#include "pico/types.h"
+
 #define LED_TASK_PRIORITY (tskIDLE_PRIORITY + 1UL)
 
 class Led {
    public:
-    Led(int pin_number);
+    Led(uint pin_number);
     ~Led();
 
     void set_on();

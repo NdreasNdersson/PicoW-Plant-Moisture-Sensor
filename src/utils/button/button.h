@@ -11,13 +11,13 @@ using pin_t = uint;
 
 class Button : public Publisher {
    public:
-    Button();
+    Button() = default;
     Button(pin_t pin);
     void attach(Subscriber *subscriber) override;
     void detach(Subscriber *subscriber) override;
     void notify() override;
 
-    pin_t get_pin();
+    auto get_pin();
 
    private:
     pin_t pin_;
