@@ -25,7 +25,7 @@
 #define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
 enum { PICO_UART_TX_PIN = 16, PICO_UART_RX_PIN = 17 };
 
-#define PRINT_TASK_INFO (1)
+#define PRINT_TASK_INFO (0)
 
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{500U};
 

@@ -11,9 +11,9 @@ extern "C" {
 #include "sensors/sensor_config.h"
 
 #define FLASH_TARGET_OFFSET (PICO_FLASH_SIZE_BYTES - FLASH_SECTOR_SIZE)
-#define MAX_NUMBER_OF_PAGES 4
+enum { MAX_NUMBER_OF_PAGES = 4 };
 #define MAX_FLASH_SIZE FLASH_PAGE_SIZE *MAX_NUMBER_OF_PAGES
-#define MAX_VALUE_SIZE 32
+enum { MAX_VALUE_SIZE = 32 };
 
 class ConfigHandler {
    public:
@@ -21,22 +21,22 @@ class ConfigHandler {
 
     using return_value_t = char[MAX_VALUE_SIZE];
 
-    bool write_config(const std::vector<sensor_config_t> &config);
-    bool write_config(const wifi_config_t &config);
+    auto write_config(const std::vector<sensor_config_t> &config) -> bool;
+    auto write_config(const wifi_config_t &config) -> bool;
 
-    bool read_config(std::vector<sensor_config_t> &config);
-    bool read_config(wifi_config_t &config);
+    auto read_config(std::vector<sensor_config_t> &config) -> bool;
+    auto read_config(wifi_config_t &config) -> bool;
 
    private:
     using pages_t = uint8_t[MAX_FLASH_SIZE];
-    typedef struct {
+    using flash_data_t = struct flash_data {
         pages_t data;
         uint8_t number_of_pages;
-    } flash_data_t;
+    };
 
-    bool write_json_to_flash(const nlohmann::json &json_data);
-    bool read_json_from_flash(nlohmann::json &json_data);
-    bool write(flash_data_t &data);
+    auto write_json_to_flash(const nlohmann::json &json_data) -> bool;
+    auto read_json_from_flash(nlohmann::json &json_data) -> bool;
+    auto write(flash_data_t &data) -> bool;
     static void erase_and_program(void *data);
     void print_buf(const uint8_t *buf, size_t len);
 

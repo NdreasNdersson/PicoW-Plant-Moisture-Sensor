@@ -17,7 +17,7 @@ static const std::string HTTP_CONTENT_TYPE{
 
 RestApi::RestApi(std::function<void(bool)> led_control)
     : m_ip_address{"0.0.0.0"},
-      m_port{80},
+
       m_server_state{std::make_unique<TCP_SERVER_T>()} {
     m_server_state->buffer_mutex = xSemaphoreCreateMutex();
     m_server_state->led_control = led_control;

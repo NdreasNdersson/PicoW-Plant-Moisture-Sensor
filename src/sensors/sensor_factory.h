@@ -8,11 +8,9 @@
 #include "sensors/ads1115_adc.h"
 #include "utils/button/button_control.h"
 
-#define MAX_NUMBER_OF_DACS 4
-#define MAX_NUMBER_OF_ANALOG_PINS 4
+enum { MAX_NUMBER_OF_DACS = 4, MAX_NUMBER_OF_ANALOG_PINS = 4 };
 #define I2C_PORT i2c0
-#define I2C_FREQ 400000
-#define ADS1115_I2C_FIRST_ADDRESS 0x48
+enum { I2C_FREQ = 400000, ADS1115_I2C_FIRST_ADDRESS = 0x48 };
 
 const uint8_t SDA_PIN = 8;
 const uint8_t SCL_PIN = 9;
@@ -27,7 +25,7 @@ class SensorFactory {
                 std::function<void(bool)> led_callback, float delta_time);
 
    private:
-    uint8_t m_number_of_dacs;
+    uint8_t m_number_of_dacs{MAX_NUMBER_OF_DACS};
 };
 
 #endif

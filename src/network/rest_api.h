@@ -12,23 +12,25 @@
 #include "pico/cyw43_arch.h"
 #include "semphr.h"
 
-#define N_DEVICES (4 * 4)
-#define MAX_BUF_SIZE 1024
-#define MAX_PACKAGES 2
-#define POLL_TIME_S 5
+enum {
+    N_DEVICES = (4 * 4),
+    MAX_BUF_SIZE = 1024,
+    MAX_PACKAGES = 2,
+    POLL_TIME_S = 5
+};
 
 class RestApi {
    public:
     RestApi(std::function<void(bool)> led_control);
     ~RestApi();
 
-    bool start();
-    bool set_device_data(const nlohmann::json &data);
-    bool set_device_config(const nlohmann::json &data);
-    bool get_data(std::string &data);
+    auto start() -> bool;
+    auto set_device_data(const nlohmann::json &data) -> bool;
+    auto set_device_config(const nlohmann::json &data) -> bool;
+    auto get_data(std::string &data) -> bool;
 
    private:
-    typedef struct TCP_SERVER_T_ {
+    using TCP_SERVER_T = struct TCP_SERVER_T_ {
         struct tcp_pcb *server_pcb;
         struct tcp_pcb *client_pcb;
         uint8_t device_data[MAX_BUF_SIZE];
@@ -40,10 +42,10 @@ class RestApi {
         int buffer_recv_len;
         SemaphoreHandle_t buffer_mutex;
         std::function<void(bool)> led_control;
-    } TCP_SERVER_T;
+    };
 
     std::string m_ip_address;
-    int m_port;
+    int m_port{80};
     std::unique_ptr<TCP_SERVER_T> m_server_state;
 
     void update();
