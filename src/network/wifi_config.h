@@ -3,9 +3,9 @@
 
 #include <string>
 
-typedef struct {
+using wifi_config_t = struct wifi_config_t_ {
     std::string ssid;
     std::string password;
-} wifi_config_t;
+};
 
 #endif

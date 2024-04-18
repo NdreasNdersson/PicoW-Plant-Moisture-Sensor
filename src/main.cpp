@@ -65,7 +65,7 @@ void main_task(void *params) {
         LogError(
             ("wifi.ssid and wifi.password are not set. These must be set to "
              "continue"));
-        vTaskDelete(NULL);
+        vTaskDelete(nullptr);
     }
 
     auto button_control = ButtonControl();
@@ -76,7 +76,7 @@ void main_task(void *params) {
     } else {
         LogError(("Failed to initialise controller"));
         set_led_in_failed_mode(led_control);
-        vTaskDelete(NULL);
+        vTaskDelete(nullptr);
     }
 
     if (WifiHelper::join(wifi_config)) {
@@ -95,12 +95,12 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
-    auto rest_api{RestApi(std::bind(&LedControl::set, &led_control,
-                                    LedPin::led_b, std::placeholders::_1))};
+    auto rest_api{RestApi(
+        [&led_control](bool value) { led_control.set(LedPin::led_b, value); })};
     if (!rest_api.start()) {
         LogError(("RestApi failed to launch"));
         set_led_in_failed_mode(led_control);
-        vTaskDelete(NULL);
+        vTaskDelete(nullptr);
     }
 
     std::vector<sensor_config_t> sensor_config;
@@ -122,15 +122,15 @@ void main_task(void *params) {
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     std::vector<Ads1115Adc> sensors;
-    sensor_factory.create(sensor_config, sensors, button_control,
-                          std::bind(&LedControl::set, &led_control,
-                                    LedPin::led_a, std::placeholders::_1),
-                          static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
+    sensor_factory.create(
+        sensor_config, sensors, button_control,
+        [&led_control](bool value) { led_control.set(LedPin::led_a, value); },
+        static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
     if (sensor_config.size() != sensors.size()) {
         LogError(("Not all sensors was configured"));
         set_led_in_failed_mode(led_control);
-        vTaskDelete(NULL);
+        vTaskDelete(nullptr);
     }
 
     std::string received_data;
@@ -193,12 +193,13 @@ void main_task(void *params) {
 }
 
 void vLaunch() {
-    xTaskCreate(main_task, "MainThread", 2048, NULL, MAIN_TASK_PRIORITY, NULL);
-    xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE, NULL,
-                LOGGER_TASK_PRIORITY, NULL);
+    xTaskCreate(main_task, "MainThread", 2048, nullptr, MAIN_TASK_PRIORITY,
+                nullptr);
+    xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE, nullptr,
+                LOGGER_TASK_PRIORITY, nullptr);
 #if PRINT_TASK_INFO == 1
-    xTaskCreate(status_task, "StatusThread", configMINIMAL_STACK_SIZE, NULL,
-                STATUS_TASK_PRIORITY, NULL);
+    xTaskCreate(status_task, "StatusThread", configMINIMAL_STACK_SIZE, nullptr,
+                STATUS_TASK_PRIORITY, nullptr);
 #endif
 
     vTaskStartScheduler();

@@ -3,7 +3,6 @@
 
 class Subscriber {
    public:
-    virtual ~Subscriber(){};
     virtual void update() = 0;
 };
 #endif

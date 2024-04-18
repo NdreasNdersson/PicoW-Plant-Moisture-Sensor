@@ -5,7 +5,6 @@
 
 class Publisher {
    public:
-    virtual ~Publisher(){};
     virtual void attach(Subscriber *subscriber) = 0;
     virtual void detach(Subscriber *subscriber) = 0;
     virtual void notify() = 0;
