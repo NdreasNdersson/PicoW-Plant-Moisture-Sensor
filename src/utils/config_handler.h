@@ -29,7 +29,7 @@ class ConfigHandler {
 
    private:
     using pages_t = uint8_t[MAX_FLASH_SIZE];
-    using flash_data_t = struct flash_data {
+    using flash_data_t = struct flash_data_t_ {
         pages_t data;
         uint8_t number_of_pages;
     };
