@@ -129,8 +129,9 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
 void ConfigHandler::erase_and_program(void *data) {
     auto flash_data{static_cast<flash_data_t *>(data)};
-    flash_range_erase(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);
-    flash_range_program(FLASH_TARGET_OFFSET,
+    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
+                      FLASH_SECTOR_SIZE);
+    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
                         static_cast<uint8_t *>(flash_data->data),
                         FLASH_PAGE_SIZE * flash_data->number_of_pages);
 }

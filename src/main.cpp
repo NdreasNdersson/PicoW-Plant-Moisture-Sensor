@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "common_definitions.h"
 #include "hal/task_priorities.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
@@ -20,10 +21,6 @@
 #include "utils/json_converter.h"
 #include "utils/led/led_control.h"
 #include "utils/logging.h"
-
-#define PICO_UART uart0
-#define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
-enum { PICO_UART_TX_PIN = 16, PICO_UART_RX_PIN = 17 };
 
 #define PRINT_TASK_INFO (0)
 

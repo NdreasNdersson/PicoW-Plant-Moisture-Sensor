@@ -24,7 +24,6 @@ pico_sdk_init()
 # Initialize all other external libs & dependencies
 include(FreeRTOS_Kernel_import.cmake) # Configure FreeRTOS Kernel
 include(pico_ads1115_import.cmake)
-add_subdirectory(${CMAKE_SOURCE_DIR}/external/PicoW-Bootloader)
 
 include(FetchContent)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
@@ -46,7 +45,14 @@ add_executable(${NAME}
     src/sensors/ads1115_adc.cpp
 )
 
-include_directories(src)
+target_include_directories(${NAME} PRIVATE src)
+
+# Add bootloader
+add_subdirectory(${CMAKE_SOURCE_DIR}/external/PicoW-Bootloader)
+target_link_options(${NAME} PRIVATE
+    -L${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common
+)
+pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common/app.ld)
 
 # pull in common dependencies
 target_link_libraries(${NAME}
@@ -58,6 +64,7 @@ target_link_libraries(${NAME}
     LWIP_PORT                          # LWIP config files
     pico-ads1115
     nlohmann_json::nlohmann_json
+    PICO_BOOTLOADER_LIB
 )
 
 # Set logging level
@@ -74,8 +81,3 @@ pico_enable_stdio_uart(${NAME} 1)
 pico_add_extra_outputs(${NAME})
 
 target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
-
-target_link_options(${NAME} PRIVATE
-    -L${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common
-)
-pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common/app.ld)
