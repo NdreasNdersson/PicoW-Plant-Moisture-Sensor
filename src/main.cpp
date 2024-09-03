@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <functional>
 #include <string>
 #include <vector>
@@ -59,10 +60,16 @@ void main_task(void *params) {
         LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                   wifi_config.password.c_str()));
     } else {
-        LogError(
+        LogInfo(
             ("wifi.ssid and wifi.password are not set. These must be set to "
-             "continue"));
-        vTaskDelete(nullptr);
+             "continue.\n Enter SSID <enter> then password <enter>:"));
+        char ssid[128];
+        char password[128];
+        scanf("%s", ssid);
+        scanf("%s", password);
+        wifi_config.ssid = ssid;
+        wifi_config.password = password;
+        config_handler.write_config(wifi_config);
     }
 
     auto button_control = ButtonControl();

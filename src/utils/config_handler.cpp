@@ -24,6 +24,11 @@ auto ConfigHandler::write_config(const wifi_config_t &config) -> bool {
     if (read_json_from_flash(json)) {
         json["wifi"] = nlohmann::json(config);
         status = write_json_to_flash(json);
+    } else {
+        nlohmann::json json_empty;
+        LogInfo(("No previously saved data, write wifi config"));
+        json_empty["wifi"] = nlohmann::json(config);
+        status = write_json_to_flash(json_empty);
     }
 
     return status;

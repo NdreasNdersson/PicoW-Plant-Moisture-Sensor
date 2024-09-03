@@ -41,7 +41,7 @@ class ConfigHandler {
     void print_buf(const uint8_t *buf, size_t len);
 
     const uint8_t *m_flash_target_contents{
-        (const uint8_t *)(ADDR_AS_U32(__APP_STORAGE_ADDRESS))};
+        reinterpret_cast<const uint8_t *>(ADDR_AS_U32(__APP_STORAGE_ADDRESS))};
 };
 
 #endif
