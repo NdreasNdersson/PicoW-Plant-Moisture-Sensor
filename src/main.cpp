@@ -187,6 +187,10 @@ void main_task(void *params) {
                 std::vector<sensor_config_t> config =
                     json_data["sensors"].get<std::vector<sensor_config_t>>();
                 config_handler.write_config(config);
+            } else {
+                LogError(
+                    ("Json data does not contain sensors and/or is not an "
+                     "array"));
             }
         }
     }
