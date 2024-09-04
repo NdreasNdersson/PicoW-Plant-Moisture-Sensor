@@ -254,7 +254,7 @@ err_t RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
 
             std::size_t start_idx = payload.find("{");
             if (start_idx != std::string::npos) {
-                auto json_data{payload.substr(start_idx)};
+                auto json_data{payload.substr(start_idx - 1)};
                 LogDebug(("Received Json: %s", json_data.c_str()));
                 if (xSemaphoreTake(state->buffer_mutex, (TickType_t)100) ==
                     pdTRUE) {

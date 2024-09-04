@@ -6,11 +6,11 @@
 extern "C" {
 #include <hardware/flash.h>
 };
+#include "linker_definitions.h"
 #include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
 
-#define FLASH_TARGET_OFFSET (PICO_FLASH_SIZE_BYTES - FLASH_SECTOR_SIZE)
 enum { MAX_NUMBER_OF_PAGES = 4 };
 #define MAX_FLASH_SIZE FLASH_PAGE_SIZE *MAX_NUMBER_OF_PAGES
 enum { MAX_VALUE_SIZE = 32 };
@@ -41,7 +41,7 @@ class ConfigHandler {
     void print_buf(const uint8_t *buf, size_t len);
 
     const uint8_t *m_flash_target_contents{
-        (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET)};
+        reinterpret_cast<const uint8_t *>(ADDR_AS_U32(__APP_STORAGE_ADDRESS))};
 };
 
 #endif

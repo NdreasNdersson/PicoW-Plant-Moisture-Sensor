@@ -1,8 +1,13 @@
+#include <charconv>
+#include <cstdint>
+#include <cstdio>
 #include <functional>
 #include <string>
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "bootloader_lib.h"
+#include "common_definitions.h"
 #include "hal/task_priorities.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
@@ -20,10 +25,6 @@
 #include "utils/json_converter.h"
 #include "utils/led/led_control.h"
 #include "utils/logging.h"
-
-#define PICO_UART uart0
-#define PICO_UART_BAUD_RATE PICO_DEFAULT_UART_BAUD_RATE
-enum { PICO_UART_TX_PIN = 16, PICO_UART_RX_PIN = 17 };
 
 #define PRINT_TASK_INFO (0)
 
@@ -62,10 +63,16 @@ void main_task(void *params) {
         LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                   wifi_config.password.c_str()));
     } else {
-        LogError(
+        LogInfo(
             ("wifi.ssid and wifi.password are not set. These must be set to "
-             "continue"));
-        vTaskDelete(nullptr);
+             "continue.\n Enter SSID <enter> then password <enter>:"));
+        char ssid[128];
+        char password[128];
+        scanf("%s", ssid);
+        scanf("%s", password);
+        wifi_config.ssid = ssid;
+        wifi_config.password = password;
+        config_handler.write_config(wifi_config);
     }
 
     auto button_control = ButtonControl();
@@ -135,6 +142,9 @@ void main_task(void *params) {
 
     std::string received_data;
     nlohmann::json rest_api_data;
+    auto software_download = SoftwareDownload();
+    unsigned char temp_download[DOWNLOAD_BLOCK_SIZE]{};
+    uint16_t temp_download_iterator{};
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -187,6 +197,70 @@ void main_task(void *params) {
                 std::vector<sensor_config_t> config =
                     json_data["sensors"].get<std::vector<sensor_config_t>>();
                 config_handler.write_config(config);
+            } else if (json_data.contains("SWDL")) {
+                if (json_data["SWDL"].contains("size")) {
+                    uint32_t size{json_data["SWDL"]["size"]};
+                    LogDebug(("Store app size %u", size));
+                    software_download.init_download(size);
+                }
+                if (json_data["SWDL"].contains("hash")) {
+                    unsigned char temp[SHA256_DIGEST_SIZE]{};
+                    std::string hash{json_data["SWDL"]["hash"]};
+                    auto hash_c_str{hash.c_str()};
+                    LogDebug(("Store app hash %s", hash_c_str));
+                    if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
+                        for (uint8_t i{0}; i < hash.size(); i += 2) {
+                            std::from_chars(hash_c_str + i, hash_c_str + i + 2,
+                                            temp[i / 2], 16);
+                        }
+                        LogDebug(("Set app hash"));
+                        software_download.set_hash(temp);
+                    } else {
+                        LogError(("Received hash has wrong length"));
+                    }
+                }
+                if (json_data["SWDL"].contains("binary")) {
+                    LogDebug(("Copy binary"));
+                    std::string data{json_data["SWDL"]["binary"]};
+                    auto data_c_str{data.c_str()};
+                    if (((data.size() / 2) + temp_download_iterator) <=
+                        DOWNLOAD_BLOCK_SIZE) {
+                        uint16_t i{0};
+                        for (; i < data.size(); i += 2) {
+                            std::from_chars(
+                                data_c_str + i, data_c_str + i + 2,
+                                temp_download[temp_download_iterator + (i / 2)],
+                                16);
+                        }
+                        temp_download_iterator += i / 2;
+                        if ((temp_download_iterator) == DOWNLOAD_BLOCK_SIZE) {
+                            if (!software_download.write_app(temp_download)) {
+                                LogError(("SWDL write to swap failed"));
+                            }
+                            temp_download_iterator = 0;
+                            memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
+                        }
+                    } else {
+                        LogError(
+                            ("SWDL binary content must be evenly divided by %d",
+                             DOWNLOAD_BLOCK_SIZE));
+                    }
+                }
+                if (json_data["SWDL"].contains("complete")) {
+                    LogInfo(("SWDL complete"));
+                    if (temp_download_iterator != 0) {
+                        if (!software_download.write_app(temp_download)) {
+                            LogError(("SWDL write to swap failed"));
+                        }
+                        temp_download_iterator = 0;
+                        memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
+                    }
+                    software_download.download_complete();
+                }
+            } else {
+                LogError(
+                    ("Json data does not contain sensors and/or is not an "
+                     "array, or SWDL"));
             }
         }
     }
