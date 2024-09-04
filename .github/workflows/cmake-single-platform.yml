@@ -40,8 +40,9 @@ jobs:
       with:
         name: Release
         path: |
-          build/**/*.uf2
-          build/**/*.bin
+          build/*.uf2
+          build/*.bin
+          build/**/PICO_BOOTLOADER.bin
 
     - name: Test
       working-directory: ${{github.workspace}}/build
