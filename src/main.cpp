@@ -1,9 +1,12 @@
+#include <charconv>
+#include <cstdint>
 #include <cstdio>
 #include <functional>
 #include <string>
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "bootloader_lib.h"
 #include "common_definitions.h"
 #include "hal/task_priorities.h"
 #include "network/rest_api.h"
@@ -139,6 +142,7 @@ void main_task(void *params) {
 
     std::string received_data;
     nlohmann::json rest_api_data;
+    auto software_download = SoftwareDownload();
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -191,10 +195,52 @@ void main_task(void *params) {
                 std::vector<sensor_config_t> config =
                     json_data["sensors"].get<std::vector<sensor_config_t>>();
                 config_handler.write_config(config);
+            } else if (json_data.contains("SWDL")) {
+                bool status{true};
+                LogDebug(("Status %d", status));
+                status &= json_data["SWDL"].contains("hash");
+                /* json_data["SWDL"]["hash"].is_number(); */
+                LogDebug(("Correct hash %d", status));
+                status &= json_data["SWDL"].contains("size");
+                /* json_data["SWDL"]["size"].is_number(); */
+                LogDebug(("Correct size %d", status));
+                status &= json_data["SWDL"].contains("binary");
+                /* json_data["SWDL"]["binary"].is_string(); */
+                LogDebug(("Correct binary %d", status));
+                if (status) {
+                    LogInfo(("Download binary to swap area"));
+                    bool status{true};
+                    {
+                        unsigned char temp[SHA256_DIGEST_SIZE]{};
+                        std::string hash{json_data["SWDL"]["hash"]};
+                        auto hash_c_str{hash.c_str()};
+                        LogDebug(("Store app hash %s", hash_c_str));
+                        if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
+                            for (uint8_t i{0}; i < hash.size(); i += 2) {
+                                std::from_chars(hash_c_str + i,
+                                                hash_c_str + i + 2, temp[i / 2],
+                                                16);
+                            }
+                            software_download.set_hash(temp);
+                        } else {
+                            status = false;
+                            LogError(("Received hash has wrong length"));
+                        }
+                    }
+                    if (status) {
+                        uint32_t size{json_data["SWDL"]["size"]};
+                        LogDebug(("Store app size %u", size));
+                        software_download.set_size(size);
+                    }
+                    // Download and store binary
+                    if (status) {
+                        software_download.download_complete();
+                    }
+                }
             } else {
                 LogError(
                     ("Json data does not contain sensors and/or is not an "
-                     "array"));
+                     "array, or SWDL"));
             }
         }
     }
