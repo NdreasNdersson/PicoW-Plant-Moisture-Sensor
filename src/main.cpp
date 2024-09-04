@@ -143,6 +143,8 @@ void main_task(void *params) {
     std::string received_data;
     nlohmann::json rest_api_data;
     auto software_download = SoftwareDownload();
+    unsigned char temp_download[DOWNLOAD_BLOCK_SIZE]{};
+    uint16_t temp_download_iterator{};
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -196,46 +198,64 @@ void main_task(void *params) {
                     json_data["sensors"].get<std::vector<sensor_config_t>>();
                 config_handler.write_config(config);
             } else if (json_data.contains("SWDL")) {
-                bool status{true};
-                LogDebug(("Status %d", status));
-                status &= json_data["SWDL"].contains("hash");
-                /* json_data["SWDL"]["hash"].is_number(); */
-                LogDebug(("Correct hash %d", status));
-                status &= json_data["SWDL"].contains("size");
-                /* json_data["SWDL"]["size"].is_number(); */
-                LogDebug(("Correct size %d", status));
-                status &= json_data["SWDL"].contains("binary");
-                /* json_data["SWDL"]["binary"].is_string(); */
-                LogDebug(("Correct binary %d", status));
-                if (status) {
-                    LogInfo(("Download binary to swap area"));
-                    bool status{true};
-                    {
-                        unsigned char temp[SHA256_DIGEST_SIZE]{};
-                        std::string hash{json_data["SWDL"]["hash"]};
-                        auto hash_c_str{hash.c_str()};
-                        LogDebug(("Store app hash %s", hash_c_str));
-                        if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
-                            for (uint8_t i{0}; i < hash.size(); i += 2) {
-                                std::from_chars(hash_c_str + i,
-                                                hash_c_str + i + 2, temp[i / 2],
-                                                16);
-                            }
-                            software_download.set_hash(temp);
-                        } else {
-                            status = false;
-                            LogError(("Received hash has wrong length"));
+                if (json_data["SWDL"].contains("size")) {
+                    uint32_t size{json_data["SWDL"]["size"]};
+                    LogDebug(("Store app size %u", size));
+                    software_download.init_download(size);
+                }
+                if (json_data["SWDL"].contains("hash")) {
+                    unsigned char temp[SHA256_DIGEST_SIZE]{};
+                    std::string hash{json_data["SWDL"]["hash"]};
+                    auto hash_c_str{hash.c_str()};
+                    LogDebug(("Store app hash %s", hash_c_str));
+                    if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
+                        for (uint8_t i{0}; i < hash.size(); i += 2) {
+                            std::from_chars(hash_c_str + i, hash_c_str + i + 2,
+                                            temp[i / 2], 16);
                         }
+                        LogDebug(("Set app hash"));
+                        software_download.set_hash(temp);
+                    } else {
+                        LogError(("Received hash has wrong length"));
                     }
-                    if (status) {
-                        uint32_t size{json_data["SWDL"]["size"]};
-                        LogDebug(("Store app size %u", size));
-                        software_download.set_size(size);
+                }
+                if (json_data["SWDL"].contains("binary")) {
+                    LogDebug(("Copy binary"));
+                    std::string data{json_data["SWDL"]["binary"]};
+                    auto data_c_str{data.c_str()};
+                    if (((data.size() / 2) + temp_download_iterator) <=
+                        DOWNLOAD_BLOCK_SIZE) {
+                        uint16_t i{0};
+                        for (; i < data.size(); i += 2) {
+                            std::from_chars(
+                                data_c_str + i, data_c_str + i + 2,
+                                temp_download[temp_download_iterator + (i / 2)],
+                                16);
+                        }
+                        temp_download_iterator += i / 2;
+                        if ((temp_download_iterator) == DOWNLOAD_BLOCK_SIZE) {
+                            if (!software_download.write_app(temp_download)) {
+                                LogError(("SWDL write to swap failed"));
+                            }
+                            temp_download_iterator = 0;
+                            memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
+                        }
+                    } else {
+                        LogError(
+                            ("SWDL binary content must be evenly divided by %d",
+                             DOWNLOAD_BLOCK_SIZE));
                     }
-                    // Download and store binary
-                    if (status) {
-                        software_download.download_complete();
+                }
+                if (json_data["SWDL"].contains("complete")) {
+                    LogInfo(("SWDL complete"));
+                    if (temp_download_iterator != 0) {
+                        if (!software_download.write_app(temp_download)) {
+                            LogError(("SWDL write to swap failed"));
+                        }
+                        temp_download_iterator = 0;
+                        memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
                     }
+                    software_download.download_complete();
                 }
             } else {
                 LogError(
