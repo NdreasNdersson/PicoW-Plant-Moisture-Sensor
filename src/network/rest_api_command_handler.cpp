@@ -53,37 +53,24 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("binary")) {
             std::string data{json_data["binary"]};
             auto data_c_str{data.c_str()};
-            if (((data.size() / 2) + m_download_block_iterator) <=
-                DOWNLOAD_BLOCK_SIZE) {
-                uint16_t i{0};
-                for (; i < data.size(); i += 2) {
-                    std::from_chars(
-                        data_c_str + i, data_c_str + i + 2,
-                        m_download_block[m_download_block_iterator + (i / 2)],
-                        16);
+            if ((data.size() / 2) <= DOWNLOAD_BLOCK_SIZE) {
+                unsigned char download_block[DOWNLOAD_BLOCK_SIZE]{};
+                for (uint16_t i{0}; i < data.size(); i += 2) {
+                    std::from_chars(data_c_str + i, data_c_str + i + 2,
+                                    download_block[i / 2], 16);
                 }
-                m_download_block_iterator += i / 2;
-                if ((m_download_block_iterator) == DOWNLOAD_BLOCK_SIZE) {
-                    if (!m_software_download.write_app(m_download_block)) {
-                        LogError(("SWDL write to swap failed"));
-                    }
-                    m_download_block_iterator = 0;
-                    memset(m_download_block, 0, DOWNLOAD_BLOCK_SIZE);
+                if (!m_software_download.write_app(download_block)) {
+                    LogError(("SWDL write to swap failed"));
                 }
             } else {
-                LogError(("SWDL binary content must be evenly divided by %d",
-                          DOWNLOAD_BLOCK_SIZE));
+                LogError(
+                    ("SWDL binary content must be less then (last packages) or "
+                     "equal size %d",
+                     DOWNLOAD_BLOCK_SIZE));
             }
         }
         if (json_data.contains("complete")) {
             LogInfo(("SWDL complete"));
-            if (m_download_block_iterator != 0) {
-                if (!m_software_download.write_app(m_download_block)) {
-                    LogError(("SWDL write to swap failed"));
-                }
-                m_download_block_iterator = 0;
-                memset(m_download_block, 0, DOWNLOAD_BLOCK_SIZE);
-            }
             m_software_download.download_complete();
         }
     } else {

@@ -26,7 +26,7 @@
 
 #define PRINT_TASK_INFO (0)
 
-static constexpr TickType_t MAIN_LOOP_SLEEP_MS{500U};
+static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
 
 void status_task(void *params) {
     while (true) {
@@ -58,7 +58,6 @@ void main_task(void *params) {
     std::vector<sensor_config_t> sensor_config;
     {
         auto config_handler = ConfigHandler();
-
         if (config_handler.read_config(wifi_config)) {
             LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                       wifi_config.password.c_str()));

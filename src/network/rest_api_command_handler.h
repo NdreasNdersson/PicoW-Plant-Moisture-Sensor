@@ -16,8 +16,6 @@ class RestApiCommandHandler {
    private:
     ConfigHandler m_config_handler{};
     SoftwareDownload m_software_download{};
-    unsigned char m_download_block[DOWNLOAD_BLOCK_SIZE]{};
-    uint16_t m_download_block_iterator{};
 };
 
 #endif

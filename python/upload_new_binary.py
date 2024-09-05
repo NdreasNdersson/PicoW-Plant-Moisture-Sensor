@@ -8,7 +8,7 @@ import sys
 
 APP_FILE = "build/external/PicoW-Bootloader/example_app/PICO_BOOTLOADER_EXAMPLE_APP.bin"
 
-BINARY_CONTENT_SIZE = 256
+BINARY_CONTENT_SIZE = 256 * 2
 
 RETRIES = 5
 
