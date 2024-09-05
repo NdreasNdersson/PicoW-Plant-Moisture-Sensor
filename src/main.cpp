@@ -1,4 +1,3 @@
-#include <cstdint>
 #include <cstdio>
 #include <functional>
 #include <string>
@@ -20,7 +19,6 @@
 #include "task.h"
 #include "utils/button/button_control.h"
 #include "utils/config_handler.h"
-#include "utils/json_converter.h"
 #include "utils/led/led_control.h"
 #include "utils/logging.h"
 
@@ -58,7 +56,8 @@ void main_task(void *params) {
     std::vector<sensor_config_t> sensor_config;
     {
         auto config_handler = ConfigHandler();
-        if (config_handler.read_config(wifi_config)) {
+        config_handler.read_config(wifi_config);
+        if ((wifi_config.ssid != "") && (wifi_config.password != "")) {
             LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                       wifi_config.password.c_str()));
         } else {
@@ -75,6 +74,7 @@ void main_task(void *params) {
         }
 
         if (config_handler.read_config(sensor_config)) {
+            LogInfo(("%d sensors configured", sensor_config.size()));
             for (auto sensor : sensor_config) {
                 if (sensor.pin < 1) {
                     LogError(("Sensor config pin must be >= 1"));
@@ -116,14 +116,6 @@ void main_task(void *params) {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
-    auto rest_api{RestApi(
-        [&led_control](bool value) { led_control.set(LedPin::led_b, value); })};
-    if (!rest_api.start()) {
-        LogError(("RestApi failed to launch"));
-        set_led_in_failed_mode(led_control);
-        vTaskDelete(nullptr);
-    }
-
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     std::vector<Ads1115Adc> sensors;
@@ -134,6 +126,15 @@ void main_task(void *params) {
 
     if (sensor_config.size() != sensors.size()) {
         LogError(("Not all sensors was configured"));
+        set_led_in_failed_mode(led_control);
+        vTaskDelete(nullptr);
+    }
+
+    auto rest_api{RestApi(
+        [&led_control](bool value) { led_control.set(LedPin::led_b, value); },
+        sensors)};
+    if (!rest_api.start()) {
+        LogError(("RestApi failed to launch"));
         set_led_in_failed_mode(led_control);
         vTaskDelete(nullptr);
     }
@@ -154,29 +155,6 @@ void main_task(void *params) {
                 set_led_in_not_connected_mode(led_control);
             }
         }
-
-        auto save_config{false};
-        auto update_rest_api{true};
-        for (auto i{0}; i < sensors.size(); i++) {
-            float value{};
-            std::string name{};
-            sensors[i].get_name(name);
-            if (sensors[i].read() == SensorReadStatus::Calibrating) {
-                save_config = true;
-            }
-            sensors[i].get_config(sensor_config[i]);
-
-            rest_api_data[name]["value"] = sensors[i].get_value();
-            rest_api_data[name]["raw_value"] = sensors[i].get_raw_value();
-        }
-        if (update_rest_api) {
-            rest_api.set_device_data(rest_api_data);
-        }
-
-        /* if (save_config) { */
-        /*     config_handler.write_config(sensor_config); */
-        /*     rest_api.set_device_config(nlohmann::json{sensor_config}); */
-        /* } */
     }
 }
 

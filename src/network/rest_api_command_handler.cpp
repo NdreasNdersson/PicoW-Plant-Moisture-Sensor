@@ -1,5 +1,7 @@
 #include "network/rest_api_command_handler.h"
 
+#include <algorithm>
+#include <cctype>
 #include <charconv>
 #include <vector>
 
@@ -8,9 +10,47 @@
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
+RestApiCommandHandler::RestApiCommandHandler(std::vector<Ads1115Adc> &sensors)
+    : m_config_handler{},
+      m_software_download{},
+      m_sensors{std::move(sensors)} {}
+
 auto RestApiCommandHandler::get_callback(const std::string &resource,
-                                         const std::string &payload) -> bool {
-    return true;
+                                         std::string &payload) -> bool {
+    auto status{false};
+    if ("SENSORS" == resource) {
+        nlohmann::json rest_api_data;
+        auto save_config{false};
+        std::vector<sensor_config_t> sensor_config(m_sensors.size());
+        for (auto i{0}; i < m_sensors.size(); i++) {
+            float value{};
+            std::string name{};
+            m_sensors[i].get_name(name);
+            if (m_sensors[i].read() == SensorReadStatus::Calibrating) {
+                m_sensors[i].get_config(sensor_config[i]);
+                save_config = true;
+            }
+
+            rest_api_data[name]["value"] = m_sensors[i].get_value();
+            rest_api_data[name]["raw_value"] = m_sensors[i].get_raw_value();
+        }
+        payload = rest_api_data.dump();
+        status = true;
+
+        if (save_config) {
+            m_config_handler.write_config(sensor_config);
+        }
+    } else if ("CONFIG" == resource) {
+        std::vector<sensor_config_t> sensor_config(m_sensors.size());
+        for (auto i{0}; i < m_sensors.size(); i++) {
+            m_sensors[i].get_config(sensor_config[i]);
+        }
+        payload = nlohmann::json{sensor_config}.dump();
+        status = true;
+    } else {
+        LogError(("'GET /%s' is not implemented", resource.c_str()));
+    }
+    return status;
 }
 auto RestApiCommandHandler::post_callback(const std::string &resource,
                                           const std::string &payload) -> bool {
@@ -21,11 +61,11 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
     }
 
     auto status{false};
-    // ToDo make case insensitive
-    if (resource == "sensors") {
-        if (json_data.contains("sensors") && json_data["sensors"].is_array()) {
+    if (resource == "SENSORS") {
+        if (json_data.contains("config") && json_data["config"].is_array()) {
+            LogDebug(("Store new config"));
             std::vector<sensor_config_t> config =
-                json_data["sensors"].get<std::vector<sensor_config_t>>();
+                json_data["config"].get<std::vector<sensor_config_t>>();
             m_config_handler.write_config(config);
             status = true;
         }
@@ -74,7 +114,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             m_software_download.download_complete();
         }
     } else {
-        LogError(("Resource %s is not implemented", resource.c_str()));
+        LogError(("'POST /%s' is not implemented", resource.c_str()));
     }
 
     return true;
