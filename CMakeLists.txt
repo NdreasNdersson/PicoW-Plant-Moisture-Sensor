@@ -40,6 +40,7 @@ add_executable(${NAME}
     src/main.cpp
     src/network/wifi_helper.cpp
     src/network/rest_api.cpp
+    src/network/rest_api_command_handler.cpp
     src/run_time_stats/run_time_stats.cpp
     src/sensors/sensor_factory.cpp
     src/sensors/ads1115_adc.cpp

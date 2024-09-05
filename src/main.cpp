@@ -1,4 +1,3 @@
-#include <charconv>
 #include <cstdint>
 #include <cstdio>
 #include <functional>
@@ -6,7 +5,6 @@
 #include <vector>
 
 #include "FreeRTOS.h"
-#include "bootloader_lib.h"
 #include "common_definitions.h"
 #include "hal/task_priorities.h"
 #include "network/rest_api.h"
@@ -56,23 +54,40 @@ void main_task(void *params) {
     LogDebug(("Started"));
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 
-    auto config_handler = ConfigHandler();
-
     wifi_config_t wifi_config{};
-    if (config_handler.read_config(wifi_config)) {
-        LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
-                  wifi_config.password.c_str()));
-    } else {
-        LogInfo(
-            ("wifi.ssid and wifi.password are not set. These must be set to "
-             "continue.\n Enter SSID <enter> then password <enter>:"));
-        char ssid[128];
-        char password[128];
-        scanf("%s", ssid);
-        scanf("%s", password);
-        wifi_config.ssid = ssid;
-        wifi_config.password = password;
-        config_handler.write_config(wifi_config);
+    std::vector<sensor_config_t> sensor_config;
+    {
+        auto config_handler = ConfigHandler();
+
+        if (config_handler.read_config(wifi_config)) {
+            LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
+                      wifi_config.password.c_str()));
+        } else {
+            LogInfo((
+                "wifi.ssid and wifi.password are not set. These must be set to "
+                "continue.\n Enter SSID <enter> then password <enter>:"));
+            char ssid[128];
+            char password[128];
+            scanf("%s", ssid);
+            scanf("%s", password);
+            wifi_config.ssid = ssid;
+            wifi_config.password = password;
+            config_handler.write_config(wifi_config);
+        }
+
+        if (config_handler.read_config(sensor_config)) {
+            for (auto sensor : sensor_config) {
+                if (sensor.pin < 1) {
+                    LogError(("Sensor config pin must be >= 1"));
+                    continue;
+                }
+
+                float value{};
+                std::string name{};
+            }
+        } else {
+            LogInfo(("No sensors configured"));
+        }
     }
 
     auto button_control = ButtonControl();
@@ -110,22 +125,6 @@ void main_task(void *params) {
         vTaskDelete(nullptr);
     }
 
-    std::vector<sensor_config_t> sensor_config;
-    if (config_handler.read_config(sensor_config)) {
-        for (auto sensor : sensor_config) {
-            if (sensor.pin < 1) {
-                LogError(("Sensor config pin must be >= 1"));
-                continue;
-            }
-
-            float value{};
-            std::string name{};
-        }
-        rest_api.set_device_config(nlohmann::json{sensor_config});
-    } else {
-        LogInfo(("No sensors configured"));
-    }
-
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     std::vector<Ads1115Adc> sensors;
@@ -142,9 +141,6 @@ void main_task(void *params) {
 
     std::string received_data;
     nlohmann::json rest_api_data;
-    auto software_download = SoftwareDownload();
-    unsigned char temp_download[DOWNLOAD_BLOCK_SIZE]{};
-    uint16_t temp_download_iterator{};
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -178,91 +174,10 @@ void main_task(void *params) {
             rest_api.set_device_data(rest_api_data);
         }
 
-        if (save_config) {
-            config_handler.write_config(sensor_config);
-            rest_api.set_device_config(nlohmann::json{sensor_config});
-        }
-
-        if (rest_api.get_data(received_data)) {
-            auto json_data =
-                nlohmann::json::parse(received_data, nullptr, false);
-
-            if (json_data.is_discarded()) {
-                LogError(("Failed to parse json from received data"));
-                continue;
-            }
-
-            if (json_data.contains("sensors") &&
-                json_data["sensors"].is_array()) {
-                std::vector<sensor_config_t> config =
-                    json_data["sensors"].get<std::vector<sensor_config_t>>();
-                config_handler.write_config(config);
-            } else if (json_data.contains("SWDL")) {
-                if (json_data["SWDL"].contains("size")) {
-                    uint32_t size{json_data["SWDL"]["size"]};
-                    LogDebug(("Store app size %u", size));
-                    software_download.init_download(size);
-                }
-                if (json_data["SWDL"].contains("hash")) {
-                    unsigned char temp[SHA256_DIGEST_SIZE]{};
-                    std::string hash{json_data["SWDL"]["hash"]};
-                    auto hash_c_str{hash.c_str()};
-                    LogDebug(("Store app hash %s", hash_c_str));
-                    if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
-                        for (uint8_t i{0}; i < hash.size(); i += 2) {
-                            std::from_chars(hash_c_str + i, hash_c_str + i + 2,
-                                            temp[i / 2], 16);
-                        }
-                        LogDebug(("Set app hash"));
-                        software_download.set_hash(temp);
-                    } else {
-                        LogError(("Received hash has wrong length"));
-                    }
-                }
-                if (json_data["SWDL"].contains("binary")) {
-                    LogDebug(("Copy binary"));
-                    std::string data{json_data["SWDL"]["binary"]};
-                    auto data_c_str{data.c_str()};
-                    if (((data.size() / 2) + temp_download_iterator) <=
-                        DOWNLOAD_BLOCK_SIZE) {
-                        uint16_t i{0};
-                        for (; i < data.size(); i += 2) {
-                            std::from_chars(
-                                data_c_str + i, data_c_str + i + 2,
-                                temp_download[temp_download_iterator + (i / 2)],
-                                16);
-                        }
-                        temp_download_iterator += i / 2;
-                        if ((temp_download_iterator) == DOWNLOAD_BLOCK_SIZE) {
-                            if (!software_download.write_app(temp_download)) {
-                                LogError(("SWDL write to swap failed"));
-                            }
-                            temp_download_iterator = 0;
-                            memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
-                        }
-                    } else {
-                        LogError(
-                            ("SWDL binary content must be evenly divided by %d",
-                             DOWNLOAD_BLOCK_SIZE));
-                    }
-                }
-                if (json_data["SWDL"].contains("complete")) {
-                    LogInfo(("SWDL complete"));
-                    if (temp_download_iterator != 0) {
-                        if (!software_download.write_app(temp_download)) {
-                            LogError(("SWDL write to swap failed"));
-                        }
-                        temp_download_iterator = 0;
-                        memset(temp_download, 0, DOWNLOAD_BLOCK_SIZE);
-                    }
-                    software_download.download_complete();
-                }
-            } else {
-                LogError(
-                    ("Json data does not contain sensors and/or is not an "
-                     "array, or SWDL"));
-            }
-        }
+        /* if (save_config) { */
+        /*     config_handler.write_config(sensor_config); */
+        /*     rest_api.set_device_config(nlohmann::json{sensor_config}); */
+        /* } */
     }
 }
 
@@ -283,7 +198,6 @@ auto main() -> int {
     stdio_uart_init_full(PICO_UART, PICO_UART_BAUD_RATE, PICO_UART_TX_PIN,
                          PICO_UART_RX_PIN);
 
-    sleep_ms(1000);
     init_queue();
 
     vLaunch();

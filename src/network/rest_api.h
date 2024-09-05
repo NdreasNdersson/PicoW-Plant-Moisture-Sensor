@@ -8,6 +8,7 @@
 #include "FreeRTOS.h"
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
+#include "network/rest_api_command_handler.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
 #include "semphr.h"
@@ -35,17 +36,22 @@ class RestApi {
         struct tcp_pcb *client_pcb;
         uint8_t device_data[MAX_BUF_SIZE];
         uint8_t device_config[MAX_BUF_SIZE];
-        uint8_t buffer_recv[MAX_BUF_SIZE];
         bool data_received;
         int device_data_len;
         int device_config_len;
-        int buffer_recv_len;
         SemaphoreHandle_t buffer_mutex;
         std::function<void(bool)> led_control;
+        std::function<bool(const std::string &resource,
+                           const std::string &payload)>
+            get_callback;
+        std::function<bool(const std::string &resource,
+                           const std::string &payload)>
+            post_callback;
     };
 
+    std::unique_ptr<RestApiCommandHandler> m_rest_api_command_handler;
     std::string m_ip_address;
-    int m_port{80};
+    int m_port;
     std::unique_ptr<TCP_SERVER_T> m_server_state;
 
     void update();

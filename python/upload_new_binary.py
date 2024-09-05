@@ -4,17 +4,19 @@ import argparse
 import hashlib
 import math
 import socket
-import time
+import sys
 
 APP_FILE = "build/external/PicoW-Bootloader/example_app/PICO_BOOTLOADER_EXAMPLE_APP.bin"
 
 BINARY_CONTENT_SIZE = 256
 
+RETRIES = 5
+
 HOST = "192.168.50.222"
 PORT = 80
 
 headers = """\
-POST /SWDW HTTP/1.1\r
+POST /SWDL HTTP/1.1\r
 Host: {host}\r
 Content-Type: application/json\r
 Content-Length: {content_length}\r
@@ -28,15 +30,15 @@ def iterate_chunks(string, chunk_size):
 
 
 def send(args, binary, hash="", size=0, send_completed=False):
-    body = '{"SWDL": {'
+    body = "{"
     if hash != "":
         body += f'"hash": "{hash}", '
     if size != 0:
         body += f'"size": {size}, '
     if send_completed:
-        body += '"complete": "true"}}'
+        body += '"complete": "true"}'
     else:
-        body += f'"binary": "{binary}"' + "}}"
+        body += f'"binary": "{binary}"' + "}"
     body_bytes = body.encode("ascii")
     header_bytes = headers.format(
         host=str(args.host) + ":" + str(args.port),
@@ -74,20 +76,28 @@ def main():
     iterations = math.ceil(len(app_hexdata) / BINARY_CONTENT_SIZE)
     counter = 0
     first_iteration = True
+
     for chunk in iterate_chunks(app_hexdata, BINARY_CONTENT_SIZE):
         counter += 1
-        print(f"Send package {counter}/{iterations}")
+        progress = counter / iterations
+        sys.stdout.write(
+            f"Download progress: {counter}/{iterations} = {progress:.0%}   \r"
+        )
+        sys.stdout.flush()
         if first_iteration:
-            send(
-                args,
-                chunk,
-                hashlib.sha256(app_raw_file).hexdigest(),
-                len(app_raw_file),
-            )
-            first_iteration = False
+            for _ in range(RETRIES):
+                if send(
+                    args,
+                    chunk,
+                    hashlib.sha256(app_raw_file).hexdigest(),
+                    len(app_raw_file),
+                ):
+                    first_iteration = False
+                    break
         else:
-            send(args, chunk)
-        time.sleep(0.5)
+            for _ in range(RETRIES):
+                if send(args, chunk):
+                    break
     send(args, "", send_completed=True)
 
 
