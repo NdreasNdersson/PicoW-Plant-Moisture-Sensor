@@ -49,11 +49,11 @@ add_executable(${NAME}
 target_include_directories(${NAME} PRIVATE src)
 
 # Add bootloader
-add_subdirectory(${CMAKE_SOURCE_DIR}/external/PicoW-Bootloader)
+add_subdirectory(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader)
 target_link_options(${NAME} PRIVATE
-    -L${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common
+    -L${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/linker_common
 )
-pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common/app.ld)
+pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/linker_common/app.ld)
 
 # pull in common dependencies
 target_link_libraries(${NAME}

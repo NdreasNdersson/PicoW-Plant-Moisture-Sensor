@@ -307,7 +307,7 @@ def main():
     )
     args = parser.parse_args()
 
-    db_path = "compile_commands.json"
+    db_path = "build/compile_commands.json"
 
     if args.build_path is not None:
         build_path = args.build_path
