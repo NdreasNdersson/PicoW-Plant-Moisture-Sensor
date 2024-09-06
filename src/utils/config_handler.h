@@ -17,7 +17,7 @@ enum { MAX_VALUE_SIZE = 32 };
 
 class ConfigHandler {
    public:
-    ConfigHandler() = default;
+    ConfigHandler();
 
     using return_value_t = char[MAX_VALUE_SIZE];
 
@@ -40,8 +40,7 @@ class ConfigHandler {
     static void erase_and_program(void *data);
     void print_buf(const uint8_t *buf, size_t len);
 
-    const uint8_t *m_flash_target_contents{
-        reinterpret_cast<const uint8_t *>(ADDR_AS_U32(__APP_STORAGE_ADDRESS))};
+    const uint8_t *m_flash_target_contents;
 };
 
 #endif

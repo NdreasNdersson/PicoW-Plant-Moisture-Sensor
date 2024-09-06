@@ -8,5 +8,5 @@
 	path = libs/pico-ads1115
 	url = git@github.com:NdreasNdersson/pico-ads1115.git
 [submodule "external/PicoW-Bootloader"]
-	path = external/PicoW-Bootloader
+	path = libs/PicoW-Bootloader
 	url = git@github.com:NdreasNdersson/PicoW-Bootloader.git

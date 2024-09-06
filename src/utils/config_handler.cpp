@@ -6,6 +6,22 @@
 #include "pico/flash.h"
 #include "utils/json_converter.h"
 
+ConfigHandler::ConfigHandler()
+    : m_flash_target_contents{reinterpret_cast<const uint8_t *>(
+          ADDR_AS_U32(__APP_STORAGE_ADDRESS))} {
+    nlohmann::json json;
+    if (!read_json_from_flash(json)) {
+        LogInfo(("No previously saved config data, write default values"));
+        std::vector<sensor_config_t> sensor_config{};
+        wifi_config_t wifi_config{};
+        nlohmann::json json_new;
+
+        json_new["sensors"] = nlohmann::json(sensor_config);
+        json_new["wifi"] = nlohmann::json(wifi_config);
+        write_json_to_flash(json_new);
+    }
+}
+
 auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
     -> bool {
     auto status{false};
@@ -13,6 +29,11 @@ auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
     if (read_json_from_flash(json)) {
         json["sensors"] = config;
         status = write_json_to_flash(json);
+    } else {
+        nlohmann::json json_new;
+        LogInfo(("No previously saved data, write sensor config"));
+        json_new["sensors"] = nlohmann::json(config);
+        status = write_json_to_flash(json_new);
     }
 
     return status;
@@ -25,10 +46,10 @@ auto ConfigHandler::write_config(const wifi_config_t &config) -> bool {
         json["wifi"] = nlohmann::json(config);
         status = write_json_to_flash(json);
     } else {
-        nlohmann::json json_empty;
+        nlohmann::json json_new;
         LogInfo(("No previously saved data, write wifi config"));
-        json_empty["wifi"] = nlohmann::json(config);
-        status = write_json_to_flash(json_empty);
+        json_new["wifi"] = nlohmann::json(config);
+        status = write_json_to_flash(json_new);
     }
 
     return status;

@@ -40,6 +40,7 @@ add_executable(${NAME}
     src/main.cpp
     src/network/wifi_helper.cpp
     src/network/rest_api.cpp
+    src/network/rest_api_command_handler.cpp
     src/run_time_stats/run_time_stats.cpp
     src/sensors/sensor_factory.cpp
     src/sensors/ads1115_adc.cpp
@@ -48,11 +49,11 @@ add_executable(${NAME}
 target_include_directories(${NAME} PRIVATE src)
 
 # Add bootloader
-add_subdirectory(${CMAKE_SOURCE_DIR}/external/PicoW-Bootloader)
+add_subdirectory(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader)
 target_link_options(${NAME} PRIVATE
-    -L${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common
+    -L${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/linker_common
 )
-pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/external/PicoW-Bootloader/linker_common/app.ld)
+pico_set_linker_script(${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/linker_common/app.ld)
 
 # pull in common dependencies
 target_link_libraries(${NAME}
