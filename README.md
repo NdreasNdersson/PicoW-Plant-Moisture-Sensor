@@ -5,27 +5,44 @@ pre-commit install
 ```
 
 # Build
+Following script will build the bootloader and rest sensor board application and combine these as a .bin file. It will
+also prepend hash to application so it will be launched by the bootloader.
 ```
-./environment.sh
-mkdir -p build/debug
-cd build/debug
-cmake ../.. -DCMAKE_BUILD_TYPE=DEBUG
-ninja
+./build_and_combine.sh
 ```
 
 # Flash
-Connect Pico Probe and run ./flash
-  or
-press BOOTSEL button when starting and copy build/debug/src/PICO_REST_SENSOR.uf2 to mounted drive.
+Connect Pico Probe and run ./flash_combined.sh
 
 # Config
-Set json data and uncomment write command:
+Enter wifi SSID and password over serial when promted. Once it have connected, the sensors can be configured with REST API.
 ```
-    /*·Uncomment to write config to flash */
-    std::string json_str{"{\"wifi\":{\"ssid\":\"xxxx\",\"password\":\"xxxx\"},\"sensors\":[{\"type\":\"moisture\",\"pin\":1,\"min\":7648,\"max\":17930,\"inversed\":true},{\"type\":\"moisture\",\"pin\":6,\"min\":7757,\"max\":17888,\"inversed\":true}]}"};
-    config_handler.write_json_to_flash(json_str);
+POST /SENSORS HTTP/1.1
+Host: 192.168.X.X
+Content-Type: application/json
+Content-Length: 147
+
+{"config": [{"inversed":true,"max":18214,"min":8387,"pin":1,"type":"moisture"},{"inversed":true,"max":18204,"min":8180,"pin":2,"type":"moisture"}]}
 ```
-in main.cpp. Wifi ssid and password are mandatory. Each sensor requires type and pin to be set.
+
+# Rest get
+Get sensor readings:
+```
+GET /SENSORS HTTP/1.1
+Host: 192.168.50.205
+```
+
+Get current sensor config:
+```
+GET /CONFIG HTTP/1.1
+Host: 192.168.50.205
+```
+
+# SW download
+Run
+```
+./python/upload_new_binary.py --app-file build/PICO_REST_SENSOR.bin
+```
 
 # Raspberry Pi Pico W Analog sensor board
 ![picow_plant_moisture_sensor](https://github.com/NdreasNdersson/PicoW-Plant-Moisture-Sensor/blob/main/KiCad/picow_plant_moisture_sensor/picow_plant_moisture_sensor.png?raw=true)
