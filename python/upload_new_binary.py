@@ -12,7 +12,6 @@ BINARY_CONTENT_SIZE = 256 * 2
 
 RETRIES = 5
 
-HOST = "192.168.50.222"
 PORT = 80
 
 headers = """\
@@ -65,7 +64,7 @@ def main():
     parser.add_argument(
         "--app-file", default=APP_FILE, help="path to app .bin file"
     )
-    parser.add_argument("--host", default=HOST, help="Host IP")
+    parser.add_argument("--host", required=True, help="Host IP")
     parser.add_argument("--port", default=PORT, help="Host port")
     args = parser.parse_args()
 

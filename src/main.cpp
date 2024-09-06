@@ -56,8 +56,7 @@ void main_task(void *params) {
     std::vector<sensor_config_t> sensor_config;
     {
         auto config_handler = ConfigHandler();
-        config_handler.read_config(wifi_config);
-        if ((wifi_config.ssid != "") && (wifi_config.password != "")) {
+        if (config_handler.read_config(wifi_config)) {
             LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
                       wifi_config.password.c_str()));
         } else {

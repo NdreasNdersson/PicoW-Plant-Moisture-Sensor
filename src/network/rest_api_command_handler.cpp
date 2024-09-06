@@ -5,6 +5,7 @@
 #include <charconv>
 #include <vector>
 
+#include "bootloader_lib.h"
 #include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
 #include "utils/json_converter.h"
@@ -60,14 +61,17 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         return false;
     }
 
-    auto status{false};
+    auto status{true};
     if (resource == "SENSORS") {
         if (json_data.contains("config") && json_data["config"].is_array()) {
-            LogDebug(("Store new config"));
             std::vector<sensor_config_t> config =
                 json_data["config"].get<std::vector<sensor_config_t>>();
             m_config_handler.write_config(config);
-            status = true;
+            LogDebug(("Sensor config stored, will reboot in 1s..."));
+            uint32_t reboot_delay_ms{1000};
+            m_software_download.reboot(reboot_delay_ms);
+        } else {
+            status = false;
         }
     } else if (resource == "SWDL") {
         if (json_data.contains("size")) {
@@ -87,6 +91,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                 LogDebug(("Store app hash %s", hash_c_str));
                 m_software_download.set_hash(temp);
             } else {
+                status = false;
                 LogError(("Received hash has wrong length"));
             }
         }
@@ -100,9 +105,11 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                                     download_block[i / 2], 16);
                 }
                 if (!m_software_download.write_app(download_block)) {
+                    status = false;
                     LogError(("SWDL write to swap failed"));
                 }
             } else {
+                status = false;
                 LogError(
                     ("SWDL binary content must be less then (last packages) or "
                      "equal size %d",
@@ -114,8 +121,9 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             m_software_download.download_complete();
         }
     } else {
+        status = false;
         LogError(("'POST /%s' is not implemented", resource.c_str()));
     }
 
-    return true;
+    return status;
 }
