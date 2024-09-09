@@ -9,7 +9,7 @@
 
 class RestApiCommandHandler {
    public:
-    RestApiCommandHandler(std::vector<Ads1115Adc> &sensors);
+    explicit RestApiCommandHandler(std::vector<Ads1115Adc> &sensors);
     auto get_callback(const std::string &resource, std::string &payload)
         -> bool;
     auto post_callback(const std::string &resource, const std::string &payload)

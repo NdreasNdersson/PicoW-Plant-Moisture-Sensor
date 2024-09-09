@@ -11,7 +11,7 @@
 
 class Led {
    public:
-    Led(uint pin_number);
+    explicit Led(uint pin_number);
     ~Led();
 
     void set_on();

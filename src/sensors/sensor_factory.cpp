@@ -13,7 +13,7 @@ SensorFactory::SensorFactory() = default;
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<Ads1115Adc> &sensors,
                            ButtonControl &button_control,
-                           std::function<void(bool)> led_callback,
+                           const std::function<void(bool)> &led_callback,
                            float delta_time) {
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
         LogError(("Can't initialise %u dacs", m_number_of_dacs));

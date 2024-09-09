@@ -22,7 +22,8 @@ class SensorFactory {
 
     void create(std::vector<sensor_config_t> &pin_configs,
                 std::vector<Ads1115Adc> &sensors, ButtonControl &button_control,
-                std::function<void(bool)> led_callback, float delta_time);
+                const std::function<void(bool)> &led_callback,
+                float delta_time);
 
    private:
     uint8_t m_number_of_dacs{MAX_NUMBER_OF_DACS};

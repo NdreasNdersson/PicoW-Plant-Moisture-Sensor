@@ -26,7 +26,7 @@
 
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
 
-void status_task(void *params) {
+void status_task(void *) {
     while (true) {
         runTimeStats();
 
@@ -48,16 +48,18 @@ void set_led_in_connected_mode(LedControl &led_control) {
     led_control.set(LedPin::led_c, true);
 }
 
-void main_task(void *params) {
+void main_task(void *) {
     LogDebug(("Started"));
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     wifi_config_t wifi_config{};
-    std::vector<sensor_config_t> sensor_config;
+    std::vector<sensor_config_t> sensor_config{};
     {
         auto config_handler = ConfigHandler();
-        if (config_handler.read_config(wifi_config)) {
-            LogDebug(("Get SSID %s and password %s", wifi_config.ssid.c_str(),
+        auto wifi_config_status{config_handler.read_config(wifi_config)};
+        if (wifi_config_status && (wifi_config.ssid != "") &&
+            (wifi_config.password != "")) {
+            LogDebug(("Use SSID %s and password %s", wifi_config.ssid.c_str(),
                       wifi_config.password.c_str()));
         } else {
             LogInfo((
@@ -65,23 +67,30 @@ void main_task(void *params) {
                 "continue.\n Enter SSID <enter> then password <enter>:"));
             char ssid[128];
             char password[128];
-            scanf("%s", ssid);
-            scanf("%s", password);
-            wifi_config.ssid = ssid;
-            wifi_config.password = password;
+
+            auto status{true};
+            if (scanf("%s", ssid) <= 0) {
+                status = false;
+                LogError(("SSID was not correctly entered"));
+            }
+            if (scanf("%s", password) <= 0) {
+                status = false;
+                LogError(("Password was not correctly entered"));
+            }
+            if (status) {
+                wifi_config.ssid = ssid;
+                wifi_config.password = password;
+            }
             config_handler.write_config(wifi_config);
         }
 
         if (config_handler.read_config(sensor_config)) {
             LogInfo(("%d sensors configured", sensor_config.size()));
-            for (auto sensor : sensor_config) {
+            for (const auto &sensor : sensor_config) {
                 if (sensor.pin < 1) {
                     LogError(("Sensor config pin must be >= 1"));
                     continue;
                 }
-
-                float value{};
-                std::string name{};
             }
         } else {
             LogInfo(("No sensors configured"));

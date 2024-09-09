@@ -8,7 +8,7 @@
 void runTimeStats() {
     TaskStatus_t *pxTaskStatusArray;
     volatile UBaseType_t uxArraySize, x;
-    unsigned long ulTotalRunTime;
+    configRUN_TIME_COUNTER_TYPE ulTotalRunTime;
 
     /* Take a snapshot of the number of tasks in case it changes while this
     function is executing. */

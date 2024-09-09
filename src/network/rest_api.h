@@ -42,7 +42,7 @@ class RestApi {
     static auto tcp_client_close(void *arg) -> err_t;
     static auto tcp_server_close(void *arg) -> err_t;
     static auto tcp_server_send(void *arg, struct tcp_pcb *tpcb,
-                                std::string data) -> err_t;
+                                const std::string &data) -> err_t;
     static auto tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
                                 err_t err) -> err_t;
     static void tcp_server_err(void *arg, err_t err);

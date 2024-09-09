@@ -59,7 +59,7 @@ auto ConfigHandler::read_config(std::vector<sensor_config_t> &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
-        for (auto sensor : json["sensors"]) {
+        for (const auto &sensor : json["sensors"]) {
             config.emplace_back(sensor.get<sensor_config_t>());
         }
         status = true;

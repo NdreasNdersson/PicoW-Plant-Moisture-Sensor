@@ -12,7 +12,7 @@ using pin_t = uint;
 class Button : public Publisher {
    public:
     Button() = default;
-    Button(pin_t pin);
+    explicit Button(pin_t pin);
     void attach(Subscriber *subscriber) override;
     void detach(Subscriber *subscriber) override;
     void notify() override;

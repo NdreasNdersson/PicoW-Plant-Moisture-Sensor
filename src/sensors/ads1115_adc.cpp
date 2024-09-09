@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <utility>
 
 #include "sensors/sensor_config.h"
 #include "utils/logging.h"
@@ -17,7 +18,7 @@ Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
       calibration_samples_{0},
       name_(config_.type + "_" + std::to_string(config_.pin)),
       mux_setting_(mux_setting_),
-      led_callback_{led_callback},
+      led_callback_{std::move(led_callback)},
       adc_value_{0U},
       value_{0.0F},
       low_pass_filter_(0.01f, delta_time) {}
