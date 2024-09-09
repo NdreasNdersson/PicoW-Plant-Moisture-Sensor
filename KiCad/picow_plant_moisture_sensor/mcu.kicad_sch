@@ -1,0 +1,9083 @@
+(kicad_sch
+	(version 20231120)
+	(generator "eeschema")
+	(generator_version "8.0")
+	(uuid "c1f037fd-eb8c-4902-8999-538567a4de5e")
+	(paper "A3")
+	(lib_symbols
+		(symbol "Connector:USB_B_Micro"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at -5.08 11.43 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "USB_B_Micro"
+				(at -5.08 8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 3.81 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 3.81 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "USB Micro Type B connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector USB micro"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "USB*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "USB_B_Micro_0_1"
+				(rectangle
+					(start -5.08 -7.62)
+					(end 5.08 7.62)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -3.81 2.159)
+					(radius 0.635)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(circle
+					(center -0.635 3.429)
+					(radius 0.381)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start -0.127 -7.62)
+					(end 0.127 -6.858)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.905 2.159) (xy 0.635 2.159)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.175 2.159) (xy -2.54 2.159) (xy -1.27 3.429) (xy -0.635 3.429)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 2.159) (xy -1.905 2.159) (xy -1.27 0.889) (xy 0 0.889)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.635 2.794) (xy 0.635 1.524) (xy 1.905 2.159) (xy 0.635 2.794)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -4.318 5.588) (xy -1.778 5.588) (xy -2.032 4.826) (xy -4.064 4.826) (xy -4.318 5.588)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -4.699 5.842) (xy -4.699 5.588) (xy -4.445 4.826) (xy -4.445 4.572) (xy -1.651 4.572) (xy -1.651 4.826)
+						(xy -1.397 5.588) (xy -1.397 5.842) (xy -4.699 5.842)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 0.254 1.27)
+					(end -0.508 0.508)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 5.08 -5.207)
+					(end 4.318 -4.953)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 -2.667)
+					(end 4.318 -2.413)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 -0.127)
+					(end 4.318 0.127)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 4.953)
+					(end 4.318 5.207)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "USB_B_Micro_1_1"
+				(pin power_out line
+					(at 7.62 5.08 180)
+					(length 2.54)
+					(name "VBUS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 7.62 -2.54 180)
+					(length 2.54)
+					(name "D-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "D+"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -5.08 180)
+					(length 2.54)
+					(name "ID"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 0 -10.16 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 -10.16 90)
+					(length 2.54)
+					(name "Shield"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Connector_Generic:Conn_01x02"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x02"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x02_1_1"
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Device:C"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Unpolarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "C_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_0_1"
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Device:Crystal_GND24"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "Y"
+				(at 3.175 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Crystal_GND24"
+				(at 3.175 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Four pin crystal, GND on pins 2 and 4"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "quartz ceramic resonator oscillator"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Crystal*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Crystal_GND24_0_1"
+				(rectangle
+					(start -1.143 2.54)
+					(end 1.143 -2.54)
+					(stroke
+						(width 0.3048)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 0) (xy -2.032 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 -1.27) (xy -2.032 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -3.81) (xy 0 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 3.556) (xy 0 3.81)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 -1.27) (xy 2.032 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -2.286) (xy -2.54 -3.556) (xy 2.54 -3.556) (xy 2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 2.286) (xy -2.54 3.556) (xy 2.54 3.556) (xy 2.54 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Crystal_GND24_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 5.08 270)
+					(length 1.27)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 1.27)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 1.27)
+					(name "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Device:R"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "MCU_RaspberryPi:RP2040"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 17.78 45.72 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "RP2040"
+				(at 17.78 43.18 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_DFN_QFN:QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "A microcontroller by Raspberry Pi"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "RP2040 ARM Cortex-M0+ USB"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "QFN*1EP*7x7mm?P0.4mm*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "RP2040_0_1"
+				(rectangle
+					(start -21.59 41.91)
+					(end 21.59 -41.91)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "RP2040_1_1"
+				(pin power_in line
+					(at 2.54 45.72 270)
+					(length 3.81)
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 45.72 270)
+					(length 3.81) hide
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 17.78 180)
+					(length 3.81)
+					(name "GPIO8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 15.24 180)
+					(length 3.81)
+					(name "GPIO9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 12.7 180)
+					(length 3.81)
+					(name "GPIO10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 10.16 180)
+					(length 3.81)
+					(name "GPIO11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 7.62 180)
+					(length 3.81)
+					(name "GPIO12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 5.08 180)
+					(length 3.81)
+					(name "GPIO13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 2.54 180)
+					(length 3.81)
+					(name "GPIO14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 0 180)
+					(length 3.81)
+					(name "GPIO15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -25.4 -38.1 0)
+					(length 3.81)
+					(name "TESTEN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 38.1 180)
+					(length 3.81)
+					(name "GPIO0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -25.4 -7.62 0)
+					(length 3.81)
+					(name "XIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -25.4 -17.78 0)
+					(length 3.81)
+					(name "XOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 45.72 270)
+					(length 3.81) hide
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -2.54 45.72 270)
+					(length 3.81)
+					(name "DVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -25.4 -27.94 0)
+					(length 3.81)
+					(name "SWCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 -30.48 0)
+					(length 3.81)
+					(name "SWD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -25.4 38.1 0)
+					(length 3.81)
+					(name "RUN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -2.54 180)
+					(length 3.81)
+					(name "GPIO16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -5.08 180)
+					(length 3.81)
+					(name "GPIO17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -7.62 180)
+					(length 3.81)
+					(name "GPIO18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 35.56 180)
+					(length 3.81)
+					(name "GPIO1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -10.16 180)
+					(length 3.81)
+					(name "GPIO19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -12.7 180)
+					(length 3.81)
+					(name "GPIO20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -15.24 180)
+					(length 3.81)
+					(name "GPIO21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 45.72 270)
+					(length 3.81) hide
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "33"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -17.78 180)
+					(length 3.81)
+					(name "GPIO22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "34"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -20.32 180)
+					(length 3.81)
+					(name "GPIO23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "35"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -22.86 180)
+					(length 3.81)
+					(name "GPIO24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "36"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -25.4 180)
+					(length 3.81)
+					(name "GPIO25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "37"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -30.48 180)
+					(length 3.81)
+					(name "GPIO26_ADC0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "38"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -33.02 180)
+					(length 3.81)
+					(name "GPIO27_ADC1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "39"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 33.02 180)
+					(length 3.81)
+					(name "GPIO2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -35.56 180)
+					(length 3.81)
+					(name "GPIO28_ADC2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "40"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 -38.1 180)
+					(length 3.81)
+					(name "GPIO29_ADC3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "41"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 45.72 270)
+					(length 3.81) hide
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "42"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 7.62 45.72 270)
+					(length 3.81)
+					(name "ADC_AVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "43"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 45.72 270)
+					(length 3.81)
+					(name "VREG_IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "44"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at -5.08 45.72 270)
+					(length 3.81)
+					(name "VREG_VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "45"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 27.94 0)
+					(length 3.81)
+					(name "USB_DM"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "46"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 30.48 0)
+					(length 3.81)
+					(name "USB_DP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "47"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 5.08 45.72 270)
+					(length 3.81)
+					(name "USB_VDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "48"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 45.72 270)
+					(length 3.81) hide
+					(name "IOVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "49"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 30.48 180)
+					(length 3.81)
+					(name "GPIO3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 45.72 270)
+					(length 3.81) hide
+					(name "DVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "50"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 7.62 0)
+					(length 3.81)
+					(name "QSPI_SD3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "51"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -25.4 5.08 0)
+					(length 3.81)
+					(name "QSPI_SCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "52"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 15.24 0)
+					(length 3.81)
+					(name "QSPI_SD0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "53"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 10.16 0)
+					(length 3.81)
+					(name "QSPI_SD2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "54"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 12.7 0)
+					(length 3.81)
+					(name "QSPI_SD1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "55"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -25.4 20.32 0)
+					(length 3.81)
+					(name "QSPI_SS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "56"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -45.72 90)
+					(length 3.81)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "57"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 27.94 180)
+					(length 3.81)
+					(name "GPIO4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 25.4 180)
+					(length 3.81)
+					(name "GPIO5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 22.86 180)
+					(length 3.81)
+					(name "GPIO6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 25.4 20.32 180)
+					(length 3.81)
+					(name "GPIO7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Memory_Flash:W25Q128JVS"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -8.89 8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "W25Q128JVS"
+				(at 7.62 8.89 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "128Mb Serial Flash Memory, Standard/Dual/Quad SPI, SOIC-8"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "flash memory SPI QPI DTR"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SOIC*5.23x5.23mm*P1.27mm*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "W25Q128JVS_0_1"
+				(rectangle
+					(start -7.62 10.16)
+					(end 7.62 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "W25Q128JVS_1_1"
+				(pin input line
+					(at -10.16 7.62 0)
+					(length 2.54)
+					(name "~{CS}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "DO(IO1)"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "IO2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -12.7 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "DI(IO0)"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 5.08 0)
+					(length 2.54)
+					(name "CLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at -10.16 -5.08 0)
+					(length 2.54)
+					(name "IO3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 12.7 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Regulator_Linear:NCP1117-3.3_SOT223"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -3.81 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "NCP1117-3.3_SOT223"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "http://www.onsemi.com/pub_link/Collateral/NCP1117-D.PDF"
+				(at 2.54 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "1A Low drop-out regulator, Fixed Output 3.3V, SOT-223"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "REGULATOR LDO 3.3V"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SOT?223*TabPin2*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "NCP1117-3.3_SOT223_0_1"
+				(rectangle
+					(start -5.08 -5.08)
+					(end 5.08 1.905)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "NCP1117-3.3_SOT223_1_1"
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "VO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "VI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Switch:SW_Push"
+			(pin_numbers hide)
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 1.27 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Push button switch, generic, two pins"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "switch normally-open pushbutton push-button"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_Push_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.27) (xy 0 3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.27) (xy -2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "power:+1V1"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "+1V1"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+1V1\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "+1V1_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+1V1_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "+1V1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "power:+3V3"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "+3V3"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+3V3\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "+3V3_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+3V3_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "+3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "power:GND"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0) hide
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "power:VBUS"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "VBUS"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"VBUS\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "VBUS_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "VBUS_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0) hide
+					(name "VBUS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+	)
+	(junction
+		(at 46.99 195.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "072525a2-9b6a-47b5-a307-58e30c320ccd")
+	)
+	(junction
+		(at 87.63 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "092a8721-452c-40fb-a148-9636a48abc4a")
+	)
+	(junction
+		(at 292.1 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0ad896ff-d2ad-4ad2-8d5c-7a5c214a6ffa")
+	)
+	(junction
+		(at 236.22 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1cfc0be9-ef40-4d03-9262-8880476cf4e2")
+	)
+	(junction
+		(at 59.69 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "20f7bc65-a997-4e8c-ba03-6245e5354fe6")
+	)
+	(junction
+		(at 248.92 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "210f28e2-769e-4b71-a2db-3a22421e298f")
+	)
+	(junction
+		(at 303.53 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2268e7bc-c079-4720-9e42-f0e0a86e215c")
+	)
+	(junction
+		(at 292.1 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "23e32e05-5423-4cd8-b60f-45d2b7fa172b")
+	)
+	(junction
+		(at 248.92 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "29f59ef9-e910-499a-9cd6-5b00a6b76475")
+	)
+	(junction
+		(at 236.22 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "35b124aa-0974-4126-83a1-15562abba953")
+	)
+	(junction
+		(at 269.24 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3c2b497e-c9e4-4e15-82d2-1bc8926e7437")
+	)
+	(junction
+		(at 246.38 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "46308a3e-a1b0-4a3a-a7bd-0fca97c1a3f2")
+	)
+	(junction
+		(at 337.82 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "56ea979b-85db-433e-997b-ac8118acd73b")
+	)
+	(junction
+		(at 119.38 110.49)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6bfc059d-a07d-4d63-a0a8-737806fde6fa")
+	)
+	(junction
+		(at 123.19 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6f6fd5b8-26b8-43c2-a3ee-b958fd76de2d")
+	)
+	(junction
+		(at 280.67 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "77c0fd5b-f33b-4d9c-b3fd-307bf640fc9e")
+	)
+	(junction
+		(at 257.81 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7fcd6190-da81-459b-ba48-f8f926b720ad")
+	)
+	(junction
+		(at 85.09 130.81)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8515ae86-4013-4e59-a291-565447c5ae46")
+	)
+	(junction
+		(at 215.9 53.34)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "975eab2a-fa63-445e-a508-f19bed495b8f")
+	)
+	(junction
+		(at 227.33 43.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a771306d-e799-4114-97d3-867b92796ba4")
+	)
+	(junction
+		(at 243.84 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b181eb44-adb6-4684-a6c0-1b668618d0a8")
+	)
+	(junction
+		(at 269.24 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b49a67a8-1ddc-47a5-a51a-ab296e947088")
+	)
+	(junction
+		(at 236.22 43.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b5504f09-5701-4eae-abe5-5ff7aa91b2d2")
+	)
+	(junction
+		(at 248.92 62.23)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b8183c3b-6550-4ae1-acaf-62eb93942136")
+	)
+	(junction
+		(at 280.67 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c4a15442-656f-4b07-9353-e90bf164eff1")
+	)
+	(junction
+		(at 303.53 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c7f1760d-ada7-4800-968c-5efc44b916e1")
+	)
+	(junction
+		(at 314.96 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c953cf6c-0204-45ff-a870-496582085b62")
+	)
+	(junction
+		(at 326.39 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "db0a62e6-e055-43c7-8ff8-d82ff27b220d")
+	)
+	(junction
+		(at 326.39 46.99)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e276c381-122c-496e-91d5-e3c0657339ea")
+	)
+	(junction
+		(at 314.96 58.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f46972d1-0b84-4b3b-997d-2aea5c95c270")
+	)
+	(junction
+		(at 68.58 185.42)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f5b70e94-ca7d-4bf9-b15b-19cdc8235bbe")
+	)
+	(junction
+		(at 68.58 195.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f96513e8-d848-4949-8b5b-0401e86ef967")
+	)
+	(junction
+		(at 77.47 45.72)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fbbee729-f46d-4efa-a17f-375a8e64433d")
+	)
+	(junction
+		(at 119.38 106.68)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fcfff8bc-4451-4d6f-b8ef-28530bc36ee3")
+	)
+	(no_connect
+		(at 69.85 55.88)
+		(uuid "49934832-83fb-4300-930d-cee091ca43e1")
+	)
+	(wire
+		(pts
+			(xy 327.66 177.8) (xy 327.66 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0037fc4a-e79a-48c6-a6f7-ceaf763d056f")
+	)
+	(wire
+		(pts
+			(xy 105.41 53.34) (xy 105.41 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "065b0e8b-50fc-42bb-bf08-10ccd1b61bc1")
+	)
+	(wire
+		(pts
+			(xy 198.12 129.54) (xy 213.36 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f8c205a-7c36-43da-a412-77bf08a4a0cf")
+	)
+	(wire
+		(pts
+			(xy 337.82 46.99) (xy 326.39 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "109111a2-8d24-4224-9db7-c61e6edaf8dc")
+	)
+	(wire
+		(pts
+			(xy 62.23 62.23) (xy 59.69 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1107d0cc-31e4-415b-96cf-7e639f862ebf")
+	)
+	(wire
+		(pts
+			(xy 236.22 43.18) (xy 236.22 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1140472b-a0e3-4790-bfaa-22b2a3dd5d8d")
+	)
+	(wire
+		(pts
+			(xy 54.61 133.35) (xy 54.61 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11ded7f3-5925-42fb-92b8-5a838186ef90")
+	)
+	(wire
+		(pts
+			(xy 327.66 167.64) (xy 327.66 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "180d77df-8db1-4020-a477-9ba533a133f6")
+	)
+	(wire
+		(pts
+			(xy 227.33 67.31) (xy 227.33 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18337a16-3dc4-4a96-b1fb-ff7dfa551176")
+	)
+	(wire
+		(pts
+			(xy 264.16 165.1) (xy 267.97 165.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1b20e237-64e1-4603-9617-814a719e8e24")
+	)
+	(wire
+		(pts
+			(xy 198.12 119.38) (xy 213.36 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1bc50b18-18c6-4bee-8b41-4e723b7e1a7e")
+	)
+	(wire
+		(pts
+			(xy 326.39 55.88) (xy 326.39 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ecd3289-38a5-4019-93b5-32e3ef356f5e")
+	)
+	(wire
+		(pts
+			(xy 269.24 58.42) (xy 257.81 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23c9a0c7-7690-4acf-a511-e3d7692c9777")
+	)
+	(wire
+		(pts
+			(xy 264.16 137.16) (xy 267.97 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23f4a0c2-21ed-4d92-b21a-9df612006dc5")
+	)
+	(wire
+		(pts
+			(xy 303.53 55.88) (xy 303.53 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24c16152-ea7d-41e4-89c8-61f265944edb")
+	)
+	(wire
+		(pts
+			(xy 236.22 41.91) (xy 236.22 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "295b9616-b591-4ad6-a397-c8bc7fa1e353")
+	)
+	(wire
+		(pts
+			(xy 205.74 104.14) (xy 213.36 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29c9401b-4595-446f-b8be-f2d06f5a9e39")
+	)
+	(wire
+		(pts
+			(xy 68.58 185.42) (xy 100.33 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2a3da78f-85ed-475e-9734-1c394e849f4b")
+	)
+	(wire
+		(pts
+			(xy 213.36 172.72) (xy 209.55 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2adf6278-1a61-4f50-9a9e-c159e6666308")
+	)
+	(wire
+		(pts
+			(xy 57.15 185.42) (xy 68.58 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b752f33-00c8-4a6d-9b2d-aee6b118beb8")
+	)
+	(wire
+		(pts
+			(xy 85.09 110.49) (xy 119.38 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c032a2b-60f9-4034-9e2b-58a901644cb5")
+	)
+	(wire
+		(pts
+			(xy 337.82 58.42) (xy 337.82 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2edb22fe-74ac-4429-91fa-8cc4d0a42209")
+	)
+	(wire
+		(pts
+			(xy 226.06 81.28) (xy 226.06 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "30fb745b-933c-43eb-b08d-81011df540e7")
+	)
+	(wire
+		(pts
+			(xy 264.16 101.6) (xy 267.97 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32cdd78c-a8d1-405c-8254-e3f9acb57545")
+	)
+	(wire
+		(pts
+			(xy 68.58 195.58) (xy 82.55 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3362131b-d804-48c8-889e-de016f4b9c34")
+	)
+	(wire
+		(pts
+			(xy 85.09 111.76) (xy 85.09 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36bb2c7b-ce36-4ddf-9728-007ccb39eb22")
+	)
+	(wire
+		(pts
+			(xy 248.92 45.72) (xy 248.92 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36ff5418-8090-4a80-afa8-b43c1b9723b1")
+	)
+	(wire
+		(pts
+			(xy 227.33 59.69) (xy 227.33 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37d6409c-7f00-4e41-8b78-4754bd9977cf")
+	)
+	(wire
+		(pts
+			(xy 257.81 71.12) (xy 257.81 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39ea4d33-481d-4bac-ad68-bd2fa98f304e")
+	)
+	(wire
+		(pts
+			(xy 337.82 48.26) (xy 337.82 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bd92b60-79b7-496c-ae8d-6c6b423b6881")
+	)
+	(wire
+		(pts
+			(xy 53.34 133.35) (xy 54.61 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e187fd8-21ad-465d-9fb8-aeafb1607043")
+	)
+	(wire
+		(pts
+			(xy 196.85 106.68) (xy 213.36 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e67beb7-6497-4c03-8721-2767ee2968b6")
+	)
+	(wire
+		(pts
+			(xy 125.73 107.95) (xy 125.73 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "405385b7-8460-4d17-91bb-6cba7d6c4051")
+	)
+	(wire
+		(pts
+			(xy 292.1 48.26) (xy 292.1 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "41b0f46e-1d95-4afc-a929-4e27b3607807")
+	)
+	(wire
+		(pts
+			(xy 264.16 106.68) (xy 267.97 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "467bf766-5c2d-4b7a-bf72-7e02b13c00f4")
+	)
+	(wire
+		(pts
+			(xy 241.3 78.74) (xy 241.3 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48a00f86-c1f2-4bd5-bb29-35a8738e3559")
+	)
+	(wire
+		(pts
+			(xy 215.9 43.18) (xy 227.33 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "496ba48b-fe2d-4efe-b544-33666a5f3c81")
+	)
+	(wire
+		(pts
+			(xy 292.1 58.42) (xy 280.67 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a771c8a-17a5-454a-89de-d1cba5072041")
+	)
+	(wire
+		(pts
+			(xy 246.38 78.74) (xy 246.38 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bc923e4-245b-4e23-a965-7437d31bbc47")
+	)
+	(wire
+		(pts
+			(xy 337.82 58.42) (xy 326.39 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bd75469-78fb-4388-afb5-10beb9406f3f")
+	)
+	(wire
+		(pts
+			(xy 257.81 48.26) (xy 257.81 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bf6a22a-0ea9-4454-8c34-444ed670df09")
+	)
+	(wire
+		(pts
+			(xy 215.9 53.34) (xy 227.33 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d04c0e2-3fa5-4754-a87e-ea8bc9ad1049")
+	)
+	(wire
+		(pts
+			(xy 205.74 97.79) (xy 196.85 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f3196d1-8976-4430-b68d-84dda876175b")
+	)
+	(wire
+		(pts
+			(xy 49.53 185.42) (xy 46.99 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f65043d-ce5b-48cc-a819-d995b62ff45d")
+	)
+	(wire
+		(pts
+			(xy 280.67 46.99) (xy 292.1 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "502690e6-4b74-47ec-b5ec-b35487694a52")
+	)
+	(wire
+		(pts
+			(xy 314.96 46.99) (xy 326.39 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "508bb452-feee-4551-828c-33e7814fcb65")
+	)
+	(wire
+		(pts
+			(xy 125.73 106.68) (xy 119.38 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50966934-d2b4-4bca-850f-dd07b4419ba2")
+	)
+	(wire
+		(pts
+			(xy 246.38 78.74) (xy 248.92 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51b294aa-eaaa-48b8-9e6a-9f1847754439")
+	)
+	(wire
+		(pts
+			(xy 269.24 55.88) (xy 269.24 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51c48772-de8c-4a7c-9941-5c7bc1e76c8d")
+	)
+	(wire
+		(pts
+			(xy 57.15 195.58) (xy 68.58 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "559931f4-abb9-4462-ada4-6ece5f7cf07b")
+	)
+	(wire
+		(pts
+			(xy 113.03 45.72) (xy 123.19 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "574272db-cf5d-4e3e-9d0c-618d017fa656")
+	)
+	(wire
+		(pts
+			(xy 280.67 48.26) (xy 280.67 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58091474-45df-4ab9-a9c4-0ed901fdfe0a")
+	)
+	(wire
+		(pts
+			(xy 213.36 152.4) (xy 204.47 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "596c6d7d-7bed-4522-a933-0692e0b764c0")
+	)
+	(wire
+		(pts
+			(xy 209.55 81.28) (xy 209.55 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a6ca98d-acf2-4ede-95a5-6622ad3bd70c")
+	)
+	(wire
+		(pts
+			(xy 198.12 124.46) (xy 213.36 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b451718-a11a-4566-bc8c-7368dd199aa0")
+	)
+	(wire
+		(pts
+			(xy 227.33 58.42) (xy 236.22 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d4a76a3-753b-4c69-b462-5b3718da7e58")
+	)
+	(wire
+		(pts
+			(xy 109.22 140.97) (xy 92.71 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61bc18c7-1a5c-4f75-8ea0-a70f89487cff")
+	)
+	(wire
+		(pts
+			(xy 243.84 78.74) (xy 241.3 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6252cc40-a6de-463b-93ff-aaf64f2eb7f3")
+	)
+	(wire
+		(pts
+			(xy 69.85 50.8) (xy 78.74 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "634b0b8c-36f4-436b-9430-ea366f492913")
+	)
+	(wire
+		(pts
+			(xy 125.73 115.57) (xy 125.73 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63c699cb-b0d4-4682-8b13-709f69630acd")
+	)
+	(wire
+		(pts
+			(xy 46.99 195.58) (xy 46.99 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "64bf006a-d06a-4fbf-ac22-d83107bc9389")
+	)
+	(wire
+		(pts
+			(xy 248.92 62.23) (xy 257.81 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6970e023-6f7b-44f4-b164-c88a10e90955")
+	)
+	(wire
+		(pts
+			(xy 207.01 162.56) (xy 213.36 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c1a7ae5-6c82-4024-95df-becf819f150b")
+	)
+	(wire
+		(pts
+			(xy 264.16 139.7) (xy 267.97 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c3c49f3-d2c2-4f55-8e2d-8798c3cea63f")
+	)
+	(wire
+		(pts
+			(xy 215.9 44.45) (xy 215.9 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e26f2c1-5097-473a-abd9-69ad9e4b8854")
+	)
+	(wire
+		(pts
+			(xy 109.22 138.43) (xy 92.71 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ece9a8a-150b-4ca8-ae8d-4b56a4789518")
+	)
+	(wire
+		(pts
+			(xy 77.47 44.45) (xy 77.47 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70870618-3609-4022-b73e-0c1c2170d91f")
+	)
+	(wire
+		(pts
+			(xy 257.81 46.99) (xy 269.24 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "724a2c51-5181-40db-8de2-3b0c5846fc1e")
+	)
+	(wire
+		(pts
+			(xy 292.1 46.99) (xy 303.53 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "76430535-9ab0-4711-a622-415bf1675a3e")
+	)
+	(wire
+		(pts
+			(xy 209.55 81.28) (xy 213.36 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "787decf1-4a7d-409d-b678-ffe9121c5dd7")
+	)
+	(wire
+		(pts
+			(xy 227.33 43.18) (xy 236.22 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ed114d8-1e49-4148-805f-aec8a2005ced")
+	)
+	(wire
+		(pts
+			(xy 314.96 48.26) (xy 314.96 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ed4e37f-4663-4338-9c4e-c79ede56e23c")
+	)
+	(wire
+		(pts
+			(xy 264.16 96.52) (xy 267.97 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f39176c-d9f0-4de7-895f-fba6a50bd738")
+	)
+	(wire
+		(pts
+			(xy 223.52 81.28) (xy 226.06 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8174bbc7-0f54-40b3-8b09-2c2b55088601")
+	)
+	(wire
+		(pts
+			(xy 337.82 55.88) (xy 337.82 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "828f08c6-b216-4c26-aad0-9cb5dfff2532")
+	)
+	(wire
+		(pts
+			(xy 227.33 53.34) (xy 227.33 52.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "829b079a-7b00-4811-b523-9bd07c8f5466")
+	)
+	(wire
+		(pts
+			(xy 109.22 135.89) (xy 92.71 135.89)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8349f3d0-dff9-4e05-bd70-f4d7c6cd5ad5")
+	)
+	(wire
+		(pts
+			(xy 233.68 78.74) (xy 236.22 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "848b2af7-b126-44ec-ab02-b268b14368fd")
+	)
+	(wire
+		(pts
+			(xy 243.84 78.74) (xy 243.84 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85a166cc-1226-4e36-b293-17aa39b0d26d")
+	)
+	(wire
+		(pts
+			(xy 66.04 130.81) (xy 53.34 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8758085f-0715-4eb3-9e7c-698f6663e9b5")
+	)
+	(wire
+		(pts
+			(xy 248.92 88.9) (xy 248.92 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ba33a5b-81ae-4233-9144-78f1f33fe3d8")
+	)
+	(wire
+		(pts
+			(xy 69.85 45.72) (xy 77.47 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c718ecb-66fe-4140-bee2-af974b157b75")
+	)
+	(wire
+		(pts
+			(xy 303.53 58.42) (xy 292.1 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8da66055-2608-42f0-b553-ae8a3d7ceaa4")
+	)
+	(wire
+		(pts
+			(xy 207.01 165.1) (xy 213.36 165.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8db36fc5-7d9b-47bf-a99d-90a3a8301c7a")
+	)
+	(wire
+		(pts
+			(xy 292.1 55.88) (xy 292.1 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8eb77df5-f25c-428e-a04d-29da182afbd3")
+	)
+	(wire
+		(pts
+			(xy 236.22 78.74) (xy 236.22 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f0e5a44-9449-44a9-b3f2-733e8b6c3058")
+	)
+	(wire
+		(pts
+			(xy 87.63 54.61) (xy 87.63 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f3908b4-7c60-4a2e-87c1-0a24893d4815")
+	)
+	(wire
+		(pts
+			(xy 238.76 180.34) (xy 238.76 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8fbf3850-b88f-49b9-b206-1b06f61872ab")
+	)
+	(wire
+		(pts
+			(xy 209.55 172.72) (xy 209.55 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "917a42f5-77a0-47ee-b42e-d156d6ac1ebf")
+	)
+	(wire
+		(pts
+			(xy 280.67 55.88) (xy 280.67 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "932218f1-75e4-4b44-bf02-d614ae7e7a35")
+	)
+	(wire
+		(pts
+			(xy 213.36 96.52) (xy 209.55 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "940112e6-5896-4375-bac7-69bcec650a0b")
+	)
+	(wire
+		(pts
+			(xy 68.58 194.31) (xy 68.58 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97938dc6-4a4d-46a7-8eed-47b57972a34d")
+	)
+	(wire
+		(pts
+			(xy 62.23 190.5) (xy 63.5 190.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "99cbdfbd-0bab-4991-9ae3-77a0789ffa5e")
+	)
+	(wire
+		(pts
+			(xy 257.81 63.5) (xy 257.81 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f66c7ae-c186-4800-a2c9-a3a8fb67b957")
+	)
+	(wire
+		(pts
+			(xy 62.23 60.96) (xy 62.23 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a79ca39a-5b7a-439d-b657-0c815f7ba1d8")
+	)
+	(wire
+		(pts
+			(xy 198.12 114.3) (xy 213.36 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7c3601c-fcd2-4c11-8bb3-b0f09a3b6179")
+	)
+	(wire
+		(pts
+			(xy 77.47 45.72) (xy 87.63 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7d3a2cc-3775-410e-853c-ea48b409acf6")
+	)
+	(wire
+		(pts
+			(xy 119.38 110.49) (xy 119.38 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a9a833ed-9d70-4792-b76a-1273c24ed4a8")
+	)
+	(wire
+		(pts
+			(xy 189.23 97.79) (xy 175.26 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b476974d-4f3d-4535-b80b-f7857a624abe")
+	)
+	(wire
+		(pts
+			(xy 97.79 45.72) (xy 87.63 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b57e59a8-f739-4e20-b1f7-1a03ab4188c4")
+	)
+	(wire
+		(pts
+			(xy 90.17 195.58) (xy 100.33 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b77f17bd-619b-4d67-b60c-155a2ee5cc7d")
+	)
+	(wire
+		(pts
+			(xy 215.9 52.07) (xy 215.9 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b7db983f-8025-4e17-907e-998114b3f2cb")
+	)
+	(wire
+		(pts
+			(xy 326.39 48.26) (xy 326.39 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b8b9bb6a-0691-46ba-97c8-d9c3ee085f22")
+	)
+	(wire
+		(pts
+			(xy 119.38 105.41) (xy 119.38 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9123664-0f96-48fc-90f4-0ee2168cd7c0")
+	)
+	(wire
+		(pts
+			(xy 233.68 88.9) (xy 233.68 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbd259ea-fe9f-4919-b25a-9e7e17453fb4")
+	)
+	(wire
+		(pts
+			(xy 87.63 46.99) (xy 87.63 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbf90ba3-d49c-4272-9dd7-7e7cdd96262e")
+	)
+	(wire
+		(pts
+			(xy 314.96 55.88) (xy 314.96 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3e874e8-9910-4dd9-b734-3b150c47e5ef")
+	)
+	(wire
+		(pts
+			(xy 227.33 44.45) (xy 227.33 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c69a1c27-d77f-4802-8555-f590c2407824")
+	)
+	(wire
+		(pts
+			(xy 73.66 130.81) (xy 85.09 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7c67976-b629-430f-bda0-9e6995533b64")
+	)
+	(wire
+		(pts
+			(xy 269.24 48.26) (xy 269.24 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cb9ce475-bf83-4d82-a56a-70cca7d7b5a6")
+	)
+	(wire
+		(pts
+			(xy 68.58 186.69) (xy 68.58 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce4c5ed3-8295-4bbc-b609-18e915b0843a")
+	)
+	(wire
+		(pts
+			(xy 248.92 46.99) (xy 257.81 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cfe60c1f-b4d9-443e-b962-f7e62d5807d4")
+	)
+	(wire
+		(pts
+			(xy 314.96 58.42) (xy 303.53 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0fd2b67-c46e-46b7-b474-52bcf1a40058")
+	)
+	(wire
+		(pts
+			(xy 246.38 78.74) (xy 243.84 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1ce7fe9-12a0-4190-848a-d47f4e5d3726")
+	)
+	(wire
+		(pts
+			(xy 123.19 54.61) (xy 123.19 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d24cb8a8-47e6-4fd9-a077-951723c44497")
+	)
+	(wire
+		(pts
+			(xy 69.85 53.34) (xy 78.74 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5051b43-79ad-4095-ab37-cc670de1dc36")
+	)
+	(wire
+		(pts
+			(xy 264.16 167.64) (xy 267.97 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5565e00-0752-4959-ad9e-b2a85e829b7f")
+	)
+	(wire
+		(pts
+			(xy 85.09 130.81) (xy 109.22 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9050e59-690c-4335-b81c-36b0422bfe29")
+	)
+	(wire
+		(pts
+			(xy 314.96 58.42) (xy 326.39 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "da880cae-977d-4db8-a96b-b3c67c50011b")
+	)
+	(wire
+		(pts
+			(xy 49.53 195.58) (xy 46.99 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db714db5-1cf8-4209-8469-d5e31c8ffe7c")
+	)
+	(wire
+		(pts
+			(xy 109.22 143.51) (xy 92.71 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc3a6c9f-47f6-42b8-ac0f-b9aae05a4a9b")
+	)
+	(wire
+		(pts
+			(xy 248.92 62.23) (xy 248.92 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ddc66412-a95d-4556-9fc7-c5cf43dd2d90")
+	)
+	(wire
+		(pts
+			(xy 264.16 170.18) (xy 267.97 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de399f4d-b362-457f-bf92-9a06e01f47ae")
+	)
+	(wire
+		(pts
+			(xy 73.66 190.5) (xy 74.93 190.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e24a0b56-ec2b-41d1-92eb-78349b569ea1")
+	)
+	(wire
+		(pts
+			(xy 204.47 142.24) (xy 213.36 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e37c5c67-b0da-47a8-9f33-f0535d697a0c")
+	)
+	(wire
+		(pts
+			(xy 215.9 53.34) (xy 215.9 54.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e497e733-3874-437d-bbe2-9e29b782f092")
+	)
+	(wire
+		(pts
+			(xy 198.12 121.92) (xy 213.36 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4af1e1f-e3bb-4a7e-a3e9-8a00c0a05f3d")
+	)
+	(wire
+		(pts
+			(xy 303.53 48.26) (xy 303.53 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e5dd1eca-5edd-4028-849f-f7d7e5b01a02")
+	)
+	(wire
+		(pts
+			(xy 264.16 119.38) (xy 267.97 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e74d108c-14d7-49f4-9a4a-3ff8bcd152f7")
+	)
+	(wire
+		(pts
+			(xy 205.74 97.79) (xy 205.74 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e7cfcd76-24b5-4dcc-81ec-2ceee7ef6475")
+	)
+	(wire
+		(pts
+			(xy 123.19 45.72) (xy 123.19 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e82c2d72-e507-40d8-972d-cb46177795f8")
+	)
+	(wire
+		(pts
+			(xy 257.81 55.88) (xy 257.81 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e982c13a-e125-4728-8a80-b70e8a5aeb3d")
+	)
+	(wire
+		(pts
+			(xy 92.71 133.35) (xy 109.22 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e9c699b5-2e50-4c13-93f9-9edbe7ea83b6")
+	)
+	(wire
+		(pts
+			(xy 189.23 106.68) (xy 175.26 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb34bdeb-5eaa-468e-9458-98ce5f36f23e")
+	)
+	(wire
+		(pts
+			(xy 198.12 127) (xy 213.36 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0ecf339-06d8-4799-938c-630ace8158ea")
+	)
+	(wire
+		(pts
+			(xy 123.19 46.99) (xy 123.19 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f11028c4-b420-4dfa-b00e-fc5ec1e6eafa")
+	)
+	(wire
+		(pts
+			(xy 119.38 151.765) (xy 119.38 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f17751c8-9d3e-45e0-945c-5d991489f09f")
+	)
+	(wire
+		(pts
+			(xy 119.38 106.68) (xy 119.38 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2f1b9f6-cb58-4b06-b6c8-6ba7763e71d3")
+	)
+	(wire
+		(pts
+			(xy 248.92 46.99) (xy 248.92 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3dd6f6e-51e4-4870-b087-63843a0f9cb3")
+	)
+	(wire
+		(pts
+			(xy 303.53 46.99) (xy 314.96 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5b1b9dd-2b57-4988-abc2-39d3e1873b40")
+	)
+	(wire
+		(pts
+			(xy 280.67 58.42) (xy 269.24 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5f803dc-71de-4443-b80f-2460513183e5")
+	)
+	(wire
+		(pts
+			(xy 269.24 46.99) (xy 280.67 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5facd40-fc97-4787-8b43-cff5e04fe139")
+	)
+	(wire
+		(pts
+			(xy 264.16 116.84) (xy 267.97 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7034390-6338-40e4-a98c-1a2b673df32f")
+	)
+	(wire
+		(pts
+			(xy 85.09 119.38) (xy 85.09 130.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f74c425e-8392-4f98-9a50-61bfe2fc6b04")
+	)
+	(wire
+		(pts
+			(xy 59.69 62.23) (xy 59.69 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7a0acd9-5920-478d-9803-ccf034077003")
+	)
+	(wire
+		(pts
+			(xy 59.69 60.96) (xy 59.69 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f881c527-fe09-44af-b77f-f5911e94ca8e")
+	)
+	(wire
+		(pts
+			(xy 236.22 58.42) (xy 236.22 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8cd0173-a799-456a-a3f9-d911d3dd00ca")
+	)
+	(wire
+		(pts
+			(xy 46.99 185.42) (xy 46.99 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9854c7e-2331-4df0-b246-f0a3dca174fd")
+	)
+	(rectangle
+		(start 39.37 90.17)
+		(end 140.97 162.56)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 1edba25a-8e7e-4fc0-8845-3818a97dbfdf)
+	)
+	(rectangle
+		(start 152.4 25.4)
+		(end 349.25 194.31)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 4a62bc5b-16cc-4e84-b803-7d5026551a8b)
+	)
+	(rectangle
+		(start 49.53 25.4)
+		(end 134.62 76.2)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 6b076533-cee3-457c-b2f7-572f477fbf5d)
+	)
+	(rectangle
+		(start 39.37 167.64)
+		(end 107.95 212.09)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid ac52117c-4201-4d5e-8d07-c3a28f7b1413)
+	)
+	(text "Make sure R26 and R27 are close to RP2040"
+		(exclude_from_sim no)
+		(at 161.29 94.742 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "331a4cd4-e861-4b63-a1ff-aff05e5452d0")
+	)
+	(text "Make sure C13 is close to pin 45 of RP2040"
+		(exclude_from_sim no)
+		(at 179.07 64.77 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3fcd4f70-dcf6-4f27-b7ed-797e34ea6063")
+	)
+	(text "Power"
+		(exclude_from_sim no)
+		(at 83.82 34.29 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+			(justify left bottom)
+		)
+		(uuid "407feb57-aae7-4174-867a-c3d9c149e46f")
+	)
+	(text "Make sure C15 is close to pin 44 of RP2040"
+		(exclude_from_sim no)
+		(at 265.43 69.85 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4b1bd774-b51e-468a-acca-02214e7454e4")
+	)
+	(text "Flash"
+		(exclude_from_sim no)
+		(at 68.58 104.14 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+			(justify left bottom)
+		)
+		(uuid "61081939-42e7-419c-a68f-6cd3d75c8ae5")
+	)
+	(text "Crystal"
+		(exclude_from_sim no)
+		(at 61.595 176.53 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+			(justify left bottom)
+		)
+		(uuid "bf4c63b6-9422-4041-bd5a-662931a43f22")
+	)
+	(label "QSPI_SCLK"
+		(at 198.12 129.54 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "08afc571-305f-4cfc-8afc-1ae57cd22f52")
+	)
+	(label "QSPI_SD1"
+		(at 198.12 121.92 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0b7e6609-18a1-4225-8f2a-c5cbb6705549")
+	)
+	(label "XIN"
+		(at 204.47 142.24 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2ec9fc85-bf3d-4a02-835e-356776fc0f8e")
+	)
+	(label "~{USB_BOOT}"
+		(at 53.34 130.81 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4325f049-0260-45a7-a02b-39fa1993abee")
+	)
+	(label "QSPI_SD0"
+		(at 92.71 135.89 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6155e915-b14a-4d79-b5b8-aee5cdedf476")
+	)
+	(label "XOUT"
+		(at 100.33 195.58 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "61705d87-85c5-4705-9b3c-aa32b089e4b4")
+	)
+	(label "QSPI_SD2"
+		(at 92.71 140.97 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "62443c70-e912-4b45-bb13-173c6c70ad39")
+	)
+	(label "USB_D+"
+		(at 78.74 50.8 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "6e626597-bd9a-48f4-a401-072e77030965")
+	)
+	(label "QSPI_SS"
+		(at 198.12 114.3 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "753e9a31-f8ac-4a61-9181-1788663040de")
+	)
+	(label "QSPI_SCLK"
+		(at 92.71 133.35 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "791aeb03-36d8-41e2-8987-6607980242c8")
+	)
+	(label "XOUT"
+		(at 204.47 152.4 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8317a362-86f9-4a88-b6f7-445f0476df49")
+	)
+	(label "USB_D+"
+		(at 175.26 97.79 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "98b0e1ef-4887-4298-8e82-21430e0b084f")
+	)
+	(label "QSPI_SS"
+		(at 92.71 130.81 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a174bf89-281f-4dc5-8f82-08f60f1a340e")
+	)
+	(label "QSPI_SD2"
+		(at 198.12 124.46 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "bb9675fa-588b-44bb-b669-6bad2b83092a")
+	)
+	(label "USB_D-"
+		(at 78.74 53.34 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c3525ddd-6f91-4e6f-8ba3-5aa46176887b")
+	)
+	(label "XIN"
+		(at 100.33 185.42 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "c8d78cb2-ad58-4a15-ad43-636d1108f340")
+	)
+	(label "QSPI_SD3"
+		(at 92.71 143.51 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d9fbec38-b6f7-4d24-bbcf-c49e22d15dc8")
+	)
+	(label "QSPI_SD0"
+		(at 198.12 119.38 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "de3e00cc-fcfa-4eaf-9fe0-249242142a05")
+	)
+	(label "QSPI_SD3"
+		(at 198.12 127 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e93e597f-5096-435e-b71b-cda4f249eaaf")
+	)
+	(label "USB_D-"
+		(at 175.26 106.68 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fbdb65da-202a-4280-a683-cc0d770abffd")
+	)
+	(label "QSPI_SD1"
+		(at 92.71 138.43 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fd0850e6-e0f5-4053-8a4e-6c85c7fbf423")
+	)
+	(hierarchical_label "GPIO4"
+		(shape input)
+		(at 267.97 106.68 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2e127798-5d7b-4666-b580-e276651bfbc0")
+	)
+	(hierarchical_label "UART0_RX"
+		(shape input)
+		(at 267.97 139.7 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3470954a-a4f9-4810-92aa-73c214de3305")
+	)
+	(hierarchical_label "UART0_TX"
+		(shape input)
+		(at 267.97 137.16 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3ac000e5-b8eb-44d9-80bc-9cc65e983117")
+	)
+	(hierarchical_label "SWD"
+		(shape input)
+		(at 207.01 165.1 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "411e208c-f741-48bc-b691-98f1a8ce2e04")
+	)
+	(hierarchical_label "GPIO26"
+		(shape input)
+		(at 267.97 165.1 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5276e632-5783-45c0-b966-268f1898513f")
+	)
+	(hierarchical_label "SCL1"
+		(shape input)
+		(at 267.97 119.38 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "87922325-2a2f-4847-991b-1317ecd6abf9")
+	)
+	(hierarchical_label "GPIO28"
+		(shape input)
+		(at 267.97 170.18 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b4283e50-02dd-4fb4-aad5-e9bb2840933a")
+	)
+	(hierarchical_label "GPIO0"
+		(shape input)
+		(at 267.97 96.52 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d9f44deb-bd80-4265-97fe-f2df240620a9")
+	)
+	(hierarchical_label "GPIO2"
+		(shape input)
+		(at 267.97 101.6 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e0b1d020-2de6-4103-a598-644a3cf1bb9e")
+	)
+	(hierarchical_label "SWCLK"
+		(shape input)
+		(at 207.01 162.56 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f064a213-49cd-439b-81b1-654e1daf1ca9")
+	)
+	(hierarchical_label "SDA1"
+		(shape input)
+		(at 267.97 116.84 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fa558200-13bb-4331-ad63-5affaed70259")
+	)
+	(hierarchical_label "GPIO27"
+		(shape input)
+		(at 267.97 167.64 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fe6c9691-e3ed-464c-b460-c4d88c19b77f")
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 248.92 45.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "009083c0-43fd-4aaa-9dcb-fecd3baa0e83")
+		(property "Reference" "#PWR088"
+			(at 248.92 49.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 249.301 41.3258 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 248.92 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 248.92 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 248.92 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "044a29e0-d763-4d35-8b66-bbc8f2fd511e")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR088")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 59.69 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "05ceb866-c168-4449-ab2e-a9874bdaabaa")
+		(property "Reference" "#PWR070"
+			(at 59.69 69.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 59.817 67.8942 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 59.69 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 59.69 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 59.69 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8879a1c2-62f0-4d4f-8ebb-39387e233fb9")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR070")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 227.33 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "07e58538-4c47-45bb-bb1f-2f4a8a99fb0c")
+		(property "Reference" "C13"
+			(at 230.251 62.3316 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 230.251 64.643 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 228.2952 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 227.33 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 227.33 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "49a93daf-02c1-4a18-9f80-894e39aea979")
+		)
+		(pin "2"
+			(uuid "c92012e3-51db-4b23-b401-95e1050eb465")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 123.19 50.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "099e58c7-de8b-4b37-874e-80800caa6198")
+		(property "Reference" "C9"
+			(at 126.111 49.6316 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10u"
+			(at 126.111 51.943 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 124.1552 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 123.19 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9a2af1a7-dbf3-4141-ac56-ac92ea3ddbd7")
+		)
+		(pin "2"
+			(uuid "adcffcdc-1a07-4534-9330-ea126853ae71")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 337.82 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "16f0324d-5d69-4868-a204-f9790c355ff8")
+		(property "Reference" "C23"
+			(at 340.741 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 340.741 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 338.7852 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 337.82 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 337.82 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a273d665-7a35-433d-ba90-c426ed2e7566")
+		)
+		(pin "2"
+			(uuid "b162878e-3699-4644-aac6-5d0bf84d7f29")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 215.9 48.26 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "19c72842-cfb3-4349-84fe-d108f7752db5")
+		(property "Reference" "C11"
+			(at 218.821 47.0916 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 218.821 49.403 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 216.8652 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 215.9 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 215.9 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7832a415-6d3b-456a-8f9f-af94871a4788")
+		)
+		(pin "2"
+			(uuid "dc81421f-a10e-40d1-bd0f-413381e0e1d9")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 257.81 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "20722963-65b7-4d59-9344-92946c169e41")
+		(property "Reference" "C14"
+			(at 260.731 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 260.731 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 258.7752 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 257.81 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 257.81 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f21525cf-2c8a-4745-9426-62710e05be75")
+		)
+		(pin "2"
+			(uuid "ed7cf914-8ac1-4c81-990e-1491ecd53c42")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x02")
+		(at 48.26 130.81 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "252aada9-245b-4994-9d1c-d49156d281ef")
+		(property "Reference" "J18"
+			(at 46.99 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x02"
+			(at 46.99 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 48.26 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 48.26 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 48.26 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1ecaa6bd-0746-4264-a4d9-b7a4945d5dd9")
+		)
+		(pin "2"
+			(uuid "385acce6-6f8e-4b67-87db-8ae14c796e2c")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "J18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 69.85 130.81 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "27ab5a15-87c9-43cd-8610-4c3300be690a")
+		(property "Reference" "R23"
+			(at 69.85 125.5522 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k"
+			(at 69.85 127.8636 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 69.85 129.032 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 69.85 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "79d35532-9427-4221-a846-cd3f5f086570")
+		)
+		(pin "2"
+			(uuid "0eaba823-a362-4862-bdb2-160bc2fe6c0c")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "R23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 269.24 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "28a845fa-bccd-4f18-b847-5c50f8934e94")
+		(property "Reference" "C16"
+			(at 272.161 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 272.161 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 270.2052 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 269.24 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 269.24 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6fcf559a-e1ca-4ebe-acc8-b10221c29287")
+		)
+		(pin "2"
+			(uuid "f18b4f5c-004a-443e-8ec0-6e45124a7db7")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:USB_B_Micro")
+		(at 62.23 50.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "29d9e8eb-5a07-4c90-ad8e-330ccb86b87e")
+		(property "Reference" "J19"
+			(at 58.42 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "USB_B_Micro"
+			(at 76.2 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Connector_USB:USB_Micro-B_Amphenol_10103594-0001LF_Horizontal"
+			(at 66.04 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 66.04 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 62.23 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "51176dbb-40b1-412a-886a-cfb98bca9cdd")
+		)
+		(pin "2"
+			(uuid "49ac69de-07c3-4b6d-a84b-1c9f6df30867")
+		)
+		(pin "3"
+			(uuid "436dd137-0a6f-48f5-a6a4-7948a7e9b109")
+		)
+		(pin "4"
+			(uuid "51877678-02ed-4520-ad59-0c509cf68ab3")
+		)
+		(pin "5"
+			(uuid "07e9119e-25b6-48a5-b488-91eb138fa72d")
+		)
+		(pin "6"
+			(uuid "065fd875-4fb9-45b1-8fc3-d9865fab63e9")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "J19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 123.19 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "358d7b50-184b-42a3-b322-82da66a4d74a")
+		(property "Reference" "#PWR079"
+			(at 123.19 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 119.38 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 123.19 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123.19 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5f902f78-3ba8-46e8-a5b1-45ec0ba240b6")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR079")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 87.63 50.8 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3c4b8671-bb9d-4c30-9492-a95d11f7a608")
+		(property "Reference" "C8"
+			(at 90.551 49.6316 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10u"
+			(at 90.551 51.943 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 88.5952 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 87.63 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 87.63 50.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bf51e35a-1ea9-4708-880f-3fd247577090")
+		)
+		(pin "2"
+			(uuid "eb883a28-a4b2-4ce8-aad4-40c4cc6fd180")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 46.99 198.12 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "434977d3-9834-440c-b147-1c8b88c3abba")
+		(property "Reference" "#PWR072"
+			(at 46.99 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 47.117 202.5142 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 46.99 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 46.99 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 46.99 198.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c5eaf6ff-eed2-4837-98f7-60ba62bf661c")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR072")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:Crystal_GND24")
+		(at 68.58 190.5 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "448c1035-231f-479e-a0db-ecb4524820f9")
+		(property "Reference" "Y1"
+			(at 73.66 187.96 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ABM8-272-T3"
+			(at 62.23 182.88 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"
+			(at 68.58 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 68.58 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 68.58 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dbfc0be1-9498-4589-b837-171e96f31b32")
+		)
+		(pin "2"
+			(uuid "ad077f7f-1419-4069-a251-09cb967b9740")
+		)
+		(pin "3"
+			(uuid "5ffdd784-a999-4824-9a20-e6fbf4271e94")
+		)
+		(pin "4"
+			(uuid "abd854dc-490e-4933-8740-f96d4283e993")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "Y1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 209.55 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "44ee72ac-11a7-44e8-9d68-a1105cad598d")
+		(property "Reference" "#PWR086"
+			(at 209.55 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 209.677 179.6542 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 209.55 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 209.55 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 209.55 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10421805-5a23-4666-b13a-9efd23621164")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR086")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 125.73 111.76 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "46ac926f-d593-4f9f-afe7-2a8755457d23")
+		(property "Reference" "C10"
+			(at 128.651 110.5916 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 128.651 112.903 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 126.6952 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 125.73 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 125.73 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "90688720-c1d4-4cdc-ad64-bc9a1e4e24a5")
+		)
+		(pin "2"
+			(uuid "72f1cb00-2a10-4644-a47e-03b90bd6c2bc")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 119.38 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4a786545-33f5-4694-8dd4-2a6d4c6cb1c8")
+		(property "Reference" "#PWR080"
+			(at 119.38 109.22 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 119.761 101.0158 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 119.38 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 119.38 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 119.38 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2e83e96e-0556-41df-9cc1-d509f2f1b629")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR080")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 54.61 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4b0a8247-73e3-4037-9bc0-5409d0b24dab")
+		(property "Reference" "#PWR071"
+			(at 54.61 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 54.737 139.0142 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 54.61 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 54.61 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 54.61 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e9ab730-5e88-4733-accb-396f68515ab5")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 327.66 173.99 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "51735677-1fb5-452e-a287-f26ac0b0124a")
+		(property "Reference" "C22"
+			(at 330.581 172.8216 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10u"
+			(at 330.581 175.133 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
+			(at 328.6252 177.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 327.66 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 327.66 173.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d9c5c0fe-d92c-4119-a2dd-a301f243f4bf")
+		)
+		(pin "2"
+			(uuid "01ee3036-20a0-45f8-b8e5-cc8c05b1a649")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 74.93 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "547dfcc5-5679-45ba-9a43-67b00d3ad00b")
+		(property "Reference" "#PWR076"
+			(at 74.93 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 78.74 191.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 74.93 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 74.93 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 74.93 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c6b6d9f8-63d1-4a58-9e8e-69e988b5873a")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR076")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Regulator_Linear:NCP1117-3.3_SOT223")
+		(at 105.41 45.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "561e8a1f-c445-48a4-8b6e-aead950bd8dc")
+		(property "Reference" "U7"
+			(at 105.41 39.5732 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "NCP1117-3.3_SOT223"
+			(at 105.41 41.8846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+			(at 105.41 40.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.onsemi.com/pub_link/Collateral/NCP1117-D.PDF"
+			(at 107.95 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 105.41 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bf467edd-77a4-467f-8ea9-50de29777120")
+		)
+		(pin "2"
+			(uuid "6ec7833a-7c5e-438a-8df6-8fb4644a8388")
+		)
+		(pin "3"
+			(uuid "59c76093-d642-45b0-84c0-006b87a47208")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 227.33 48.26 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "56f81688-685d-47d0-876b-aa0b41719d0c")
+		(property "Reference" "C12"
+			(at 230.251 47.0916 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 230.251 49.403 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 228.2952 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 227.33 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 227.33 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "830f1ce5-8b35-4e70-8699-81b0ccb94537")
+		)
+		(pin "2"
+			(uuid "449e5f29-7450-4f21-9fcf-def00bc4e8ae")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 85.09 115.57 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5e1f7064-8a73-4d52-b7a7-7b2dea2a9eb7")
+		(property "Reference" "R24"
+			(at 86.868 114.4016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "DNF"
+			(at 86.868 116.713 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 83.312 115.57 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 85.09 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 85.09 115.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8ec99897-ca19-4761-82a0-670e68903f5c")
+		)
+		(pin "2"
+			(uuid "5a0416ae-3295-473f-b869-dc91007fe2ee")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "R24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 314.96 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "604db2f2-8920-4c13-a678-5484e7ce378e")
+		(property "Reference" "C20"
+			(at 317.881 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 317.881 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 315.9252 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 314.96 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 314.96 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "23e00231-2d68-421a-8585-e2f497203adc")
+		)
+		(pin "2"
+			(uuid "d7932a6e-37bc-43a4-8779-da6b433e37ee")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 86.36 195.58 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "61c5e152-1269-41ae-9bd0-c3a593713357")
+		(property "Reference" "R25"
+			(at 86.36 190.3222 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "1k"
+			(at 86.36 192.6336 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 86.36 193.802 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 86.36 195.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 195.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8530f4eb-83f2-4a23-b77a-2e1e3710abdf")
+		)
+		(pin "2"
+			(uuid "ae0bf40a-92b0-4e3f-9439-e685566e8fd8")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "R25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 337.82 59.69 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "62141b8c-059b-47d7-ba29-39679a7b0da6")
+		(property "Reference" "#PWR090"
+			(at 337.82 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 337.947 64.0842 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 337.82 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 337.82 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 337.82 59.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b35a9176-2b55-4669-90c8-79a94a595b8d")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR090")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 326.39 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "626693b7-3e44-4ca1-ad1a-1072d1dc5370")
+		(property "Reference" "C21"
+			(at 329.311 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 329.311 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 327.3552 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 326.39 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 326.39 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2ee2c1b9-3d76-4c9b-b0e7-a8f0e8a27f1e")
+		)
+		(pin "2"
+			(uuid "2f6fc317-ed89-4dd4-9db5-ab0663a7ebe4")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "MCU_RaspberryPi:RP2040")
+		(at 238.76 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "68d004f1-3a91-47a4-825f-346d6e73ae31")
+		(property "Reference" "U2"
+			(at 240.9541 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RP2040"
+			(at 240.9541 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DFN_QFN:QFN-56-1EP_7x7mm_P0.4mm_EP3.2x3.2mm"
+			(at 238.76 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+			(at 238.76 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "A microcontroller by Raspberry Pi"
+			(at 238.76 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "30"
+			(uuid "90a0e3df-e190-4066-a6f9-ef791e97de8a")
+		)
+		(pin "36"
+			(uuid "6ce674a9-8bdd-4627-bbba-6e686e4641d2")
+		)
+		(pin "52"
+			(uuid "23801fd4-1610-476c-8f47-0582b50fe8d1")
+		)
+		(pin "45"
+			(uuid "52b9ba61-6ee0-4a7a-89e2-bd7306f22bd1")
+		)
+		(pin "27"
+			(uuid "b423591e-9072-4c31-b299-25a14159aa74")
+		)
+		(pin "9"
+			(uuid "ef81b5a8-38f5-4d83-b57d-bfec83378d65")
+		)
+		(pin "8"
+			(uuid "7e31891d-721f-497e-972d-d0116308b59b")
+		)
+		(pin "18"
+			(uuid "a834c8e2-ed4d-4829-9c4c-511e1f35df4c")
+		)
+		(pin "51"
+			(uuid "4b3c655f-8c78-410b-a349-44af61accde9")
+		)
+		(pin "39"
+			(uuid "602442a1-1edb-408d-8480-1af4c91d5fc3")
+		)
+		(pin "6"
+			(uuid "84fa3e79-66bf-461d-bd89-d83d19f12d60")
+		)
+		(pin "34"
+			(uuid "e47d049d-dfb9-4c09-86fe-30d469e07cf9")
+		)
+		(pin "7"
+			(uuid "057e0a84-5f16-4314-9cfb-aea24b2aa7ef")
+		)
+		(pin "23"
+			(uuid "e843d0f6-b199-4dc8-83d4-271785fa9a2f")
+		)
+		(pin "28"
+			(uuid "4785842c-c114-49fb-b960-5462e6a9aa2c")
+		)
+		(pin "26"
+			(uuid "88341b18-88fe-4097-a469-d8bfca4db2ff")
+		)
+		(pin "3"
+			(uuid "6db37325-b155-4160-a9ec-1b3e414b69aa")
+		)
+		(pin "38"
+			(uuid "20b001b1-dc47-4665-8cb9-4c1dd07f0e69")
+		)
+		(pin "41"
+			(uuid "38a8cd1d-09ac-4043-aa58-3d79ddd06383")
+		)
+		(pin "40"
+			(uuid "21e0f560-581c-4d51-8836-6ce908565f90")
+		)
+		(pin "56"
+			(uuid "ac5e8d8f-317e-4a31-b167-82e977dae431")
+		)
+		(pin "31"
+			(uuid "acc31314-fff6-4d26-9c47-784471b54eb8")
+		)
+		(pin "15"
+			(uuid "0fe17bf7-73f6-4061-8179-2f1c68b9b4ba")
+		)
+		(pin "37"
+			(uuid "93d375d5-7e11-41ed-b23b-4e5f013b725c")
+		)
+		(pin "29"
+			(uuid "a9cfef31-cbc0-4e8f-b405-a3920c583438")
+		)
+		(pin "35"
+			(uuid "629d27e8-fa08-4bbf-a8c6-07827a1c26cd")
+		)
+		(pin "1"
+			(uuid "9faf82c3-112f-4229-8168-f2986219728e")
+		)
+		(pin "21"
+			(uuid "737b50b3-5785-435c-bebd-46ebf3d5bb69")
+		)
+		(pin "5"
+			(uuid "072de46c-dfec-4aa7-aee3-7921a573e58f")
+		)
+		(pin "11"
+			(uuid "79362055-4aaf-4bd5-87c9-ba96e43858fc")
+		)
+		(pin "50"
+			(uuid "8fd978cb-d5ae-4c92-a84f-96e5eccd7586")
+		)
+		(pin "10"
+			(uuid "9761e749-74b0-403b-80e8-db9aef624b7c")
+		)
+		(pin "17"
+			(uuid "3afea843-f398-40cc-a502-c839dbc5f7ae")
+		)
+		(pin "54"
+			(uuid "e45dd9d5-4879-4aae-9999-736f348eedcf")
+		)
+		(pin "43"
+			(uuid "c1d3c389-b8fe-48b6-8c4c-6299092e2ed3")
+		)
+		(pin "44"
+			(uuid "f38bfe24-4ac2-4711-8dd8-d3cc5be7be47")
+		)
+		(pin "13"
+			(uuid "2fa36952-2f7c-425f-8ff4-a1c7f299ff16")
+		)
+		(pin "12"
+			(uuid "6162fc8d-355a-406f-af9c-7dd2b44a1dfa")
+		)
+		(pin "57"
+			(uuid "dcd70502-b8c8-47c7-b61f-058f134f5de5")
+		)
+		(pin "2"
+			(uuid "4cd3df0f-fb0a-4d47-8651-04b58c116834")
+		)
+		(pin "46"
+			(uuid "a038ce3e-ea79-49de-908e-6bc5762c00a9")
+		)
+		(pin "47"
+			(uuid "b2aca8e2-69f8-4b63-b8b2-e9308aac9a84")
+		)
+		(pin "16"
+			(uuid "4436b4a2-297a-47d4-8cbf-3b99262ac9ae")
+		)
+		(pin "22"
+			(uuid "68a219d3-57d8-438a-8f1a-534dcd380a07")
+		)
+		(pin "14"
+			(uuid "47aaafad-128a-44cc-9d05-3c80155471af")
+		)
+		(pin "20"
+			(uuid "f386d7ca-c5b8-40cc-9f41-36a2d9cdb2f4")
+		)
+		(pin "24"
+			(uuid "fbd41b12-f731-4501-81cc-15493fbee366")
+		)
+		(pin "4"
+			(uuid "04bd59b1-3bc4-4522-8f69-aab35466fb33")
+		)
+		(pin "25"
+			(uuid "e140e56c-e354-4c8c-8779-dd0529117357")
+		)
+		(pin "53"
+			(uuid "2dd27fdd-6253-4e5a-a6d9-85b31247abb1")
+		)
+		(pin "42"
+			(uuid "d675b205-6b76-4584-8794-8cdf096409b1")
+		)
+		(pin "48"
+			(uuid "70d17542-3437-468a-b322-ccaf5c9c40b1")
+		)
+		(pin "19"
+			(uuid "ae4a573c-2141-4ba1-890b-09e7de1ae951")
+		)
+		(pin "49"
+			(uuid "3cbaf539-201b-4981-9675-ed7eb57bdf2c")
+		)
+		(pin "55"
+			(uuid "0cbaf6de-ac98-41b9-86c8-b444337d6581")
+		)
+		(pin "33"
+			(uuid "4d1a4a23-9ff0-4ed0-90b8-d01350a5a1f7")
+		)
+		(pin "32"
+			(uuid "53c84e24-6973-4ee4-98bf-b693cb211fe5")
+		)
+		(instances
+			(project ""
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 105.41 54.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "70207ff0-2f82-451a-b218-ce15462f8582")
+		(property "Reference" "#PWR077"
+			(at 105.41 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 101.6 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 105.41 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 105.41 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 105.41 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ff56bbce-bf29-4274-b2c7-b570ae3f661e")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR077")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 303.53 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "730256d0-9bf0-4395-8049-8fe95e44eed6")
+		(property "Reference" "C19"
+			(at 306.451 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 306.451 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 304.4952 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 303.53 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 303.53 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1139f96b-c2af-444a-ac74-07c4b087ccdc")
+		)
+		(pin "2"
+			(uuid "fa031e44-f949-4550-b624-729aa31907bc")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+1V1")
+		(at 236.22 41.91 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "74a51fe9-3335-4a34-921a-869613e4aaf8")
+		(property "Reference" "#PWR085"
+			(at 236.22 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+1V1"
+			(at 236.601 37.5158 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 236.22 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 236.22 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "316621bf-d2a5-4826-916a-148bb3094ba8")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR085")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 280.67 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "767b991e-0771-44c8-aca6-dc802c0a9997")
+		(property "Reference" "C17"
+			(at 283.591 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 283.591 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 281.6352 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 280.67 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 280.67 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2dd3cfb0-a6a1-479b-a1b9-7658337c4c5c")
+		)
+		(pin "2"
+			(uuid "8da2da68-96c8-4bad-aeae-b1269d7b2261")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 193.04 97.79 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7d4fa9c5-232b-4496-8c5a-b25c8c72c577")
+		(property "Reference" "R26"
+			(at 193.04 103.0478 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "27"
+			(at 193.04 100.7364 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 193.04 99.568 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 193.04 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 193.04 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e06587b5-2a13-4ad9-a390-8bd12a8dfe09")
+		)
+		(pin "2"
+			(uuid "3bab37fb-cd4b-4d89-b846-e7464ed069b5")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 53.34 195.58 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7f94c6eb-6bd2-47e4-8051-dc22e8586cc2")
+		(property "Reference" "C7"
+			(at 54.5084 198.501 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "15p"
+			(at 52.197 198.501 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 49.53 196.5452 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 53.34 195.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 195.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10ad112b-f7a7-4979-acb3-15b121552e8d")
+		)
+		(pin "2"
+			(uuid "5fbf3d71-9212-4f11-bfbc-11a9787b755c")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 125.73 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "84e2acd1-a292-4df5-938d-ab2cad1ce51b")
+		(property "Reference" "#PWR082"
+			(at 125.73 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 129.54 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 125.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 125.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 125.73 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "13da7848-d290-4a9a-9451-35f43d121f8b")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR082")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 119.38 151.765 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "86fec7bf-7f5a-4891-96e8-31be1141785b")
+		(property "Reference" "#PWR081"
+			(at 119.38 158.115 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 115.57 153.035 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 119.38 151.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 119.38 151.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 119.38 151.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bc9b2c5f-9970-4f84-9952-3f15a329fd49")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR081")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 215.9 54.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8f1eb7bc-f1ac-4337-bf14-de5e2194e4b3")
+		(property "Reference" "#PWR083"
+			(at 215.9 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 216.027 59.0042 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 215.9 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 215.9 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 215.9 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8cc4e57d-f59e-4c1a-b3de-8655ed155f1f")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR083")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 123.19 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "92152b23-f6c9-468a-bbe8-51b88fcf4b63")
+		(property "Reference" "#PWR078"
+			(at 123.19 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 123.571 40.0558 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 123.19 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 123.19 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 123.19 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "63bf7be9-2315-42de-91b0-78f959362ccf")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR078")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 292.1 52.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "95e2fcfc-334d-4c8c-bb94-0f42f42c9ab6")
+		(property "Reference" "C18"
+			(at 295.021 50.9016 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100n"
+			(at 295.021 53.213 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 293.0652 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 292.1 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 292.1 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b784a57c-fc9f-47d1-8f73-0bd4eba310f8")
+		)
+		(pin "2"
+			(uuid "6367b904-bb5c-4a02-8b78-ab57fcb85d78")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 87.63 55.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9bb51869-8478-4fad-81e0-b77a6498aa50")
+		(property "Reference" "#PWR074"
+			(at 87.63 62.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 83.82 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 87.63 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 87.63 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 87.63 55.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2644d043-4979-45e8-b3d6-cc08da8e86fb")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR074")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:VBUS")
+		(at 77.47 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9fad1c2e-b593-4219-8f08-d3c673894be7")
+		(property "Reference" "#PWR073"
+			(at 77.47 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "VBUS"
+			(at 77.851 40.0558 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 77.47 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 77.47 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 77.47 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c3980d3a-0e7c-4732-989d-b480f43b4042")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR073")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 227.33 68.58 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a342890c-6fcc-4eab-90c0-286222b4079a")
+		(property "Reference" "#PWR084"
+			(at 227.33 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 227.457 72.9742 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 227.33 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 227.33 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 227.33 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aceb3413-3df3-4621-b9a4-a7d0d22874df")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR084")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Memory_Flash:W25Q128JVS")
+		(at 119.38 138.43 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a8fbdaae-da4b-4b82-84d6-6f38ab722010")
+		(property "Reference" "U8"
+			(at 113.03 126.365 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "W25Q128JVS"
+			(at 128.27 150.495 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm"
+			(at 119.38 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.winbond.com/resource-files/w25q128jv_dtr%20revc%2003272018%20plus.pdf"
+			(at 119.38 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 119.38 138.43 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cca67a35-20eb-4927-9ee7-8a654066fcef")
+		)
+		(pin "2"
+			(uuid "14d678a1-9dde-4cb7-97f1-218b61ceb54e")
+		)
+		(pin "3"
+			(uuid "ffd9387a-0ca7-4a98-967e-4e2ddc5e8326")
+		)
+		(pin "4"
+			(uuid "65f5bb37-eb88-468e-a845-1de12bc33da8")
+		)
+		(pin "5"
+			(uuid "2d70582c-0500-4fa5-b67e-2bff8cdbf50a")
+		)
+		(pin "6"
+			(uuid "06d61d48-f03d-4387-a2f2-ee15aae23273")
+		)
+		(pin "7"
+			(uuid "499a0d78-2362-4a4b-9b3d-52b3d7a0764e")
+		)
+		(pin "8"
+			(uuid "23fba212-a80e-44a5-8ed3-f8e34bce386b")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "U8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 193.04 106.68 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a9e82135-eca3-4c8b-b727-ae34a04b24bd")
+		(property "Reference" "R27"
+			(at 193.04 111.9378 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "27"
+			(at 193.04 109.6264 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 193.04 108.458 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 193.04 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 193.04 106.68 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7c086ab5-1952-493e-825b-6efb31fa689f")
+		)
+		(pin "2"
+			(uuid "f3686335-2a42-4b01-afc1-0bdebbd2abd0")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 327.66 167.64 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bb072129-7e07-4896-badf-439e263f7f23")
+		(property "Reference" "#PWR094"
+			(at 327.66 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 328.041 163.2458 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 327.66 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 327.66 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 327.66 167.64 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bee5b9c4-91ca-4eb9-9353-986a159b86ed")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR094")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 327.66 179.07 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c7198902-30c2-4f30-bdb6-2e4d683d9349")
+		(property "Reference" "#PWR095"
+			(at 327.66 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 323.85 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 327.66 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 327.66 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 327.66 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1c03c2c7-7812-4d45-bd06-bb3d570eb712")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR095")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 62.23 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0b2b32f-251d-4f14-8b30-596527ea56c6")
+		(property "Reference" "#PWR075"
+			(at 62.23 196.85 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 58.42 191.77 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 62.23 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 62.23 190.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6fbf65d0-975f-40ed-812d-c92a6e756b55")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR075")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 238.76 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e7600462-acb2-4a3a-af0b-34aa8a90bdf4")
+		(property "Reference" "#PWR087"
+			(at 238.76 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 238.887 187.2742 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 238.76 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "63f3a46a-2708-45a7-83f5-421b1fcbff49")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR087")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 257.81 72.39 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e8a59e04-ecfb-4c0b-b943-bc4fd01731d1")
+		(property "Reference" "#PWR089"
+			(at 257.81 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 257.937 76.7842 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 257.81 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 257.81 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 257.81 72.39 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b6d2a19c-77f7-4799-8db6-668871438780")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR089")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_Push")
+		(at 218.44 81.28 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "eb64b1c3-b26d-47e9-b01b-3af115ffdf77")
+		(property "Reference" "SW1"
+			(at 215.9 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SW_Push"
+			(at 214.63 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Button_Switch_SMD:SW_SPST_TL3305A"
+			(at 218.44 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 218.44 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 218.44 81.28 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2e0dc48b-39f9-4a09-ba22-bc57e2fcfbab")
+		)
+		(pin "2"
+			(uuid "8910eb2e-0037-48ad-a5fb-23400dde7cb0")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 53.34 185.42 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ee7b0159-8c93-4dba-9895-d9651c430b44")
+		(property "Reference" "C6"
+			(at 54.5084 188.341 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "15p"
+			(at 52.197 188.341 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 49.53 186.3852 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 53.34 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 53.34 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e19569f4-bdde-4a60-b7cc-e1e179e7c99b")
+		)
+		(pin "2"
+			(uuid "77f719fc-449b-46f4-b101-796348ebe6ce")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 226.06 82.55 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f12e0286-4dd1-4df4-b98e-bff9441fbfee")
+		(property "Reference" "#PWR011"
+			(at 226.06 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 225.933 86.9442 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 226.06 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 226.06 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 226.06 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1466f9a8-8f13-44b7-a7a9-50dab85b1b48")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "#PWR011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 257.81 67.31 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f2d1f9cf-901c-4270-959b-8387b79c895b")
+		(property "Reference" "C15"
+			(at 260.731 66.1416 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1u"
+			(at 260.731 68.453 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 258.7752 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 257.81 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 257.81 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "05c9a616-53b5-4f4d-bcd1-a8780ffa116c")
+		)
+		(pin "2"
+			(uuid "1c8114c1-e314-401d-87c5-03a5773d4c9e")
+		)
+		(instances
+			(project "picow_plant_moisture_sensor"
+				(path "/7e7c068a-a341-4358-ab45-53bb7a793d6f/14d04228-2443-4438-b1c1-f617ac35dcde"
+					(reference "C15")
+					(unit 1)
+				)
+			)
+		)
+	)
+)
