@@ -28,7 +28,7 @@ void print_task(void * /*params*/) {
     while (true) {
         if (queue != nullptr &&
             xQueueReceive(queue, buffer, portMAX_DELAY) == pdTRUE) {
-            printf("%s\n", buffer);
+            printf("%s", buffer);
         }
     }
 }
