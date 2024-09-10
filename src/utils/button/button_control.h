@@ -1,5 +1,5 @@
-#ifndef __UTILS__BUTTON__BUTTON_CONTROL__
-#define __UTILS__BUTTON__BUTTON_CONTROL__
+#ifndef PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_
+#define PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_
 
 #include <map>
 
@@ -20,4 +20,5 @@ class ButtonControl {
     static void button_press_callback(uint gpio, uint32_t event_mask);
     static void queue_task(void *params);
 };
-#endif
+
+#endif  // PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_

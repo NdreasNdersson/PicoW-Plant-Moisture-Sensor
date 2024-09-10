@@ -1,5 +1,5 @@
-#ifndef __PATTERNS__SUBSCRIBER__
-#define __PATTERNS__SUBSCRIBER__
+#ifndef PICO_REST_SENSOR_PATTERNS_SUBSCRIBER_H_
+#define PICO_REST_SENSOR_PATTERNS_SUBSCRIBER_H_
 
 class Subscriber {
    public:
@@ -12,4 +12,5 @@ class Subscriber {
 
     virtual void update() = 0;
 };
-#endif
+
+#endif  // PICO_REST_SENSOR_PATTERNS_SUBSCRIBER_H_

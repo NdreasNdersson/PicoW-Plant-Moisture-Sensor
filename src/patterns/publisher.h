@@ -1,5 +1,5 @@
-#ifndef __PATTERNS__PUBLISHER__
-#define __PATTERNS__PUBLISHER__
+#ifndef PICO_REST_SENSOR_PATTERNS_PUBLISHER_H_
+#define PICO_REST_SENSOR_PATTERNS_PUBLISHER_H_
 
 #include "subscriber.h"
 
@@ -16,4 +16,4 @@ class Publisher {
     virtual void detach(Subscriber* subscriber) = 0;
     virtual void notify() = 0;
 };
-#endif
+#endif  // PICO_REST_SENSOR_PATTERNS_PUBLISHER_H_

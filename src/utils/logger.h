@@ -1,5 +1,5 @@
-#ifndef _UTILS_LOGGER_
-#define _UTILS_LOGGER_
+#ifndef PICO_REST_SENSOR_UTILS_LOGGER_H_
+#define PICO_REST_SENSOR_UTILS_LOGGER_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,4 +17,4 @@ void print_task(void *params);
 }
 #endif
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LOGGER_H_

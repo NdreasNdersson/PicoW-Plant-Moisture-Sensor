@@ -1,5 +1,5 @@
-#ifndef __UTILS__LED__LED__
-#define __UTILS__LED__LED__
+#ifndef PICO_REST_SENSOR_UTILS_LED_LED_H_
+#define PICO_REST_SENSOR_UTILS_LED_LED_H_
 
 #include <atomic>
 #include <cstdint>
@@ -42,4 +42,4 @@ class Led {
     std::unique_ptr<TaskAttributes> m_task_attributes;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LED_LED_H_

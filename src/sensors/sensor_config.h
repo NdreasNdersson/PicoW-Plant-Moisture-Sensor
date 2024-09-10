@@ -1,5 +1,5 @@
-#ifndef __SENSORS__SENSOR_CONFIG__
-#define __SENSORS__SENSOR_CONFIG__
+#ifndef PICO_REST_SENSOR_SENSORS_SENSOR_CONFIG_H_
+#define PICO_REST_SENSOR_SENSORS_SENSOR_CONFIG_H_
 
 #include <cstdint>
 #include <string>
@@ -12,4 +12,4 @@ struct sensor_config_t {
     bool inverse_measurement;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_SENSORS_SENSOR_CONFIG_H_

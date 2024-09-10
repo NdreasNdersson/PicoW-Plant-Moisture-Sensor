@@ -1,5 +1,5 @@
-#ifndef __NETWORK__REST_API__
-#define __NETWORK__REST_API__
+#ifndef PICO_REST_SENSOR_NETWORK_REST_API_H_
+#define PICO_REST_SENSOR_NETWORK_REST_API_H_
 
 #include <functional>
 #include <memory>
@@ -50,4 +50,4 @@ class RestApi {
                                   err_t err) -> err_t;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_NETWORK_REST_API_H_

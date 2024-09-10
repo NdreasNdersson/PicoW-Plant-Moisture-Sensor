@@ -1,5 +1,5 @@
-#ifndef __SENSORS__SENSOR_FACTORY__
-#define __SENSORS__SENSOR_FACTORY__
+#ifndef PICO_REST_SENSOR_SENSORS_SENSOR_FACTORY_H_
+#define PICO_REST_SENSOR_SENSORS_SENSOR_FACTORY_H_
 
 #include <functional>
 #include <vector>
@@ -29,4 +29,4 @@ class SensorFactory {
     uint8_t m_number_of_dacs{MAX_NUMBER_OF_DACS};
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_SENSORS_SENSOR_FACTORY_H_

@@ -7,8 +7,8 @@
 #include "utils/json_converter.h"
 
 ConfigHandler::ConfigHandler()
-    : m_flash_target_contents{reinterpret_cast<const uint8_t *>(
-          ADDR_AS_U32(__APP_STORAGE_ADDRESS))} {
+    : m_flash_target_contents{
+          reinterpret_cast<const uint8_t *>(ADDR_AS_U32(APP_STORAGE_ADDRESS))} {
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
         LogInfo(("No previously saved config data, write default values"));
@@ -155,9 +155,9 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
 void ConfigHandler::erase_and_program(void *data) {
     auto flash_data{static_cast<flash_data_t *>(data)};
-    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
+    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
                       FLASH_SECTOR_SIZE);
-    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
+    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
                         static_cast<uint8_t *>(flash_data->data),
                         FLASH_PAGE_SIZE * flash_data->number_of_pages);
 }

@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Pull in Pico SDK (must be before project)
 include(external/pico-sdk/pico_sdk_init.cmake)
 
-project(${NAME} C CXX ASM)
+project(PICO_REST_SENSOR C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)

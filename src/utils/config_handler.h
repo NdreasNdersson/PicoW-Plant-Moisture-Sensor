@@ -1,5 +1,5 @@
-#ifndef __UTILS__CONFIG_HANDLER__
-#define __UTILS__CONFIG_HANDLER__
+#ifndef PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_
+#define PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_
 
 #include <vector>
 
@@ -43,4 +43,4 @@ class ConfigHandler {
     const uint8_t *m_flash_target_contents;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_

@@ -1,5 +1,5 @@
-#ifndef __UTILS__LOW_PASS_FILTER__
-#define __UTILS__LOW_PASS_FILTER__
+#ifndef PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_
+#define PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_
 
 #include <cmath>
 #define M_PI 3.14159265358979323846
@@ -25,4 +25,4 @@ class LowPassFilter {
     bool first_value_;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_

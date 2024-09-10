@@ -1,5 +1,5 @@
-#ifndef __SENSORS__ADS1115_ADC__
-#define __SENSORS__ADS1115_ADC__
+#ifndef PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
+#define PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
 
 #include <cstdint>
 #include <functional>
@@ -43,4 +43,5 @@ class Ads1115Adc : public Subscriber {
     float value_;
     LowPassFilter<float> low_pass_filter_;
 };
-#endif
+
+#endif  // PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
