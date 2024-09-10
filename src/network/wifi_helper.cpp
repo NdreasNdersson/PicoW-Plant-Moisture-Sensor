@@ -123,15 +123,16 @@ auto WifiHelper::getMACAddressStr(char *macStr) -> bool {
     int r = cyw43_wifi_get_mac(&cyw43_state, CYW43_ITF_STA, mac);
 
     if (r == 0) {
+        int result;
         for (uint8_t i = 0; i < 6; i++) {
             if (mac[i] < 16) {
-                sprintf(&macStr[i * 2], "0%X", mac[i]);
+                result = sprintf(&macStr[i * 2], "0%X", mac[i]);
             } else {
-                sprintf(&macStr[i * 2], "%X", mac[i]);
+                result = sprintf(&macStr[i * 2], "%X", mac[i]);
             }
         }
         macStr[13] = 0;
-        return true;
+        return (result >= 0) ? true : false;
     }
     return false;
 }

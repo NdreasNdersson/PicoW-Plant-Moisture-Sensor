@@ -30,14 +30,14 @@ ButtonControl::ButtonControl() {
 
 void ButtonControl::button_press_callback(uint gpio, uint32_t event_mask) {
     if (event_mask == GPIO_IRQ_EDGE_RISE) {
-        xQueueSendToBackFromISR(g_queue, &gpio, NULL);
+        xQueueSendToBackFromISR(g_queue, &gpio, nullptr);
     }
 }
 
-void ButtonControl::queue_task(void *params) {
+void ButtonControl::queue_task(void * /*params*/) {
     uint gpio{};
     while (true) {
-        if (g_queue != NULL &&
+        if (g_queue != nullptr &&
             xQueueReceive(g_queue, &gpio, portMAX_DELAY) == pdTRUE) {
             auto button_it{g_buttons.find(gpio)};
             if (button_it != g_buttons.end()) {

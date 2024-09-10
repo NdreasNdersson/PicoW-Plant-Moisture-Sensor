@@ -35,6 +35,12 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
+    - name: Static code analysis
+      uses: whisperity/codechecker-analysis-action@v1
+      id: codechecker
+      with:
+        logfile: ${{ github.workspace }}/build/compile_commands.json
+
     - name: Deploy
       uses: actions/upload-artifact@v4
       with:
@@ -43,6 +49,7 @@ jobs:
           build/*.uf2
           build/*.bin
           build/**/PICO_BOOTLOADER.bin
+          ${{ steps.codechecker.outputs.result-html-dir }}
 
     - name: Test
       working-directory: ${{github.workspace}}/build

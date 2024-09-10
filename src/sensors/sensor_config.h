@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <string>
 
-using sensor_config_t = struct sensor_config {
+struct sensor_config_t {
     int pin;
     std::string type;
     std::uint16_t min_value;

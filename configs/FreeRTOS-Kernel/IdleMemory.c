@@ -78,8 +78,8 @@ static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
     *puxTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
 
-void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                      char *pcTaskName ){
+void vApplicationStackOverflowHook( TaskHandle_t /*xTask*/,
+                                    char *pcTaskName ){
 	printf("----------------------------------------------\n");
 	printf("STACK OVERFLOW on %s\n", pcTaskName);
 	printf("----------------------------------------------\n");
