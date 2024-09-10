@@ -169,8 +169,8 @@ void main_task(void *) {
 void vLaunch() {
     xTaskCreate(main_task, "MainThread", 2048, nullptr, MAIN_TASK_PRIORITY,
                 nullptr);
-    xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE, nullptr,
-                LOGGER_TASK_PRIORITY, nullptr);
+    xTaskCreate(print_task, "LoggerThread", configMINIMAL_STACK_SIZE * 2,
+                nullptr, LOGGER_TASK_PRIORITY, nullptr);
 #if PRINT_TASK_INFO == 1
     xTaskCreate(status_task, "StatusThread", configMINIMAL_STACK_SIZE, nullptr,
                 STATUS_TASK_PRIORITY, nullptr);
