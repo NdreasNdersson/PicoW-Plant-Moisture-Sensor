@@ -89,7 +89,7 @@ void vApplicationStackOverflowHook( TaskHandle_t /*xTask*/,
 
 void vAssertCalled( const char *pcFile, uint32_t ulLine ){
 	printf("----------------------------------------------\n");
-	printf("ASSERT FAILED %s line: %d\n", pcFile, ulLine);
+	printf("ASSERT FAILED %s line: %u\n", pcFile, ulLine);
 	printf("----------------------------------------------\n");
 	taskDISABLE_INTERRUPTS();
 	for( ;; );

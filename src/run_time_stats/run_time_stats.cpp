@@ -13,7 +13,7 @@ void runTimeStats() {
     /* Take a snapshot of the number of tasks in case it changes while this
     function is executing. */
     uxArraySize = uxTaskGetNumberOfTasks();
-    printf("Number of tasks %d\n", uxArraySize);
+    printf("Number of tasks %u\n", uxArraySize);
 
     /* Allocate a TaskStatus_t structure for each task.  An array could be
     allocated statically at compile time. */
