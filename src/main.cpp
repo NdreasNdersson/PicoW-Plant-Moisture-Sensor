@@ -147,7 +147,6 @@ void main_task(void *) {
         vTaskDelete(nullptr);
     }
 
-    std::string received_data;
     nlohmann::json rest_api_data;
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);

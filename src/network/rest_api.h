@@ -18,7 +18,6 @@ class RestApi {
    public:
     RestApi(std::function<void(bool)> led_control,
             std::vector<Ads1115Adc> &sensors);
-    ~RestApi();
 
     auto start() -> bool;
 

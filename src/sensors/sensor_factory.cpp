@@ -8,8 +8,6 @@
 #include "utils/button/button_control.h"
 #include "utils/logging.h"
 
-SensorFactory::SensorFactory() = default;
-
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<Ads1115Adc> &sensors,
                            ButtonControl &button_control,

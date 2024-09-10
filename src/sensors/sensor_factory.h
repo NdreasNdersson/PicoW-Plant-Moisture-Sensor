@@ -19,9 +19,6 @@ const uint8_t SCL_PIN = 9;
 
 class SensorFactory {
    public:
-    SensorFactory();
-    ~SensorFactory() = default;
-
     void create(std::vector<sensor_config_t> &pin_configs,
                 std::vector<Ads1115Adc> &sensors, ButtonControl &button_control,
                 const std::function<void(bool)> &led_callback,

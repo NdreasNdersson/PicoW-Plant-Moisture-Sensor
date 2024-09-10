@@ -20,7 +20,7 @@ void runTimeStats() {
     pxTaskStatusArray =
         (TaskStatus_t *)pvPortMalloc(uxArraySize * sizeof(TaskStatus_t));
 
-    if (pxTaskStatusArray != NULL) {
+    if (pxTaskStatusArray != nullptr) {
         /* Generate raw status information about each task. */
         uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize,
                                            &ulTotalRunTime);
@@ -28,7 +28,7 @@ void runTimeStats() {
         /* For each populated position in the pxTaskStatusArray array,
         format the raw data as human readable ASCII data. */
         for (x = 0; x < uxArraySize; x++) {
-            printf("Task: %d \t cPri:%d \t bPri:%d \t hw:%d \t%s\n",
+            printf("Task: %u \t cPri:%u \t bPri:%u \t hw:%u \t%s\n",
                    pxTaskStatusArray[x].xTaskNumber,
                    pxTaskStatusArray[x].uxCurrentPriority,
                    pxTaskStatusArray[x].uxBasePriority,
@@ -44,7 +44,7 @@ void runTimeStats() {
 
     HeapStats_t heapStats;
     vPortGetHeapStats(&heapStats);
-    printf("HEAP avl: %d, blocks %d, alloc: %d, free: %d\n",
+    printf("HEAP avl: %u, blocks %u, alloc: %u, free: %u\n",
            heapStats.xAvailableHeapSpaceInBytes, heapStats.xNumberOfFreeBlocks,
            heapStats.xNumberOfSuccessfulAllocations,
            heapStats.xNumberOfSuccessfulFrees);

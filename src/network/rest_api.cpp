@@ -37,8 +37,6 @@ RestApi::RestApi(std::function<void(bool)> led_control,
     };
 }
 
-RestApi::~RestApi() = default;
-
 auto RestApi::start() -> bool {
     if (m_server_state == nullptr) {
         return false;

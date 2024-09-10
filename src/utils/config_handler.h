@@ -11,9 +11,9 @@ extern "C" {
 #include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
 
-enum { MAX_NUMBER_OF_PAGES = 4 };
+constexpr uint8_t MAX_NUMBER_OF_PAGES{4};
 #define MAX_FLASH_SIZE FLASH_PAGE_SIZE *MAX_NUMBER_OF_PAGES
-enum { MAX_VALUE_SIZE = 32 };
+constexpr uint8_t MAX_VALUE_SIZE{32};
 
 class ConfigHandler {
    public:
@@ -31,7 +31,7 @@ class ConfigHandler {
     using pages_t = uint8_t[MAX_FLASH_SIZE];
     using flash_data_t = struct flash_data_t_ {
         pages_t data;
-        uint8_t number_of_pages;
+        size_t number_of_pages;
     };
 
     auto write_json_to_flash(const nlohmann::json &json_data) -> bool;
