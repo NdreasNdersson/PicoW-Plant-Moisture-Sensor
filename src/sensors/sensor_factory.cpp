@@ -20,7 +20,6 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
         return;
     }
 
-    bool status{true};
     i2c_init(I2C_PORT, I2C_FREQ);
     gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
@@ -31,7 +30,7 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
             LogError(("Pin number can't be less than 1"));
             continue;
         }
-        auto dac_idx{(config.pin - 1) / MAX_NUMBER_OF_ANALOG_PINS};
+        auto dac_idx{(config.pin - 1U) / MAX_NUMBER_OF_ANALOG_PINS};
         auto dac_id{dac_idx + 1};
         auto analog_pin_id{(config.pin - 1) % MAX_NUMBER_OF_ANALOG_PINS + 1};
 
@@ -61,6 +60,8 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
             case 4:
                 sensors.emplace_back(ADS1115_MUX_SINGLE_3, config, led_callback,
                                      delta_time);
+                break;
+            default:
                 break;
         }
 

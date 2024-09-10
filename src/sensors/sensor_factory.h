@@ -1,6 +1,7 @@
 #ifndef PICO_REST_SENSOR_SENSORS_SENSOR_FACTORY_H_
 #define PICO_REST_SENSOR_SENSORS_SENSOR_FACTORY_H_
 
+#include <cstdint>
 #include <functional>
 #include <vector>
 
@@ -8,7 +9,8 @@
 #include "sensors/ads1115_adc.h"
 #include "utils/button/button_control.h"
 
-enum { MAX_NUMBER_OF_DACS = 4, MAX_NUMBER_OF_ANALOG_PINS = 4 };
+constexpr uint8_t MAX_NUMBER_OF_DACS{4};
+constexpr uint8_t MAX_NUMBER_OF_ANALOG_PINS{4};
 #define I2C_PORT i2c0
 enum { I2C_FREQ = 400000, ADS1115_I2C_FIRST_ADDRESS = 0x48 };
 

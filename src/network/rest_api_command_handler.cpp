@@ -23,8 +23,7 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
         nlohmann::json rest_api_data;
         auto save_config{false};
         std::vector<sensor_config_t> sensor_config(m_sensors.size());
-        for (auto i{0}; i < m_sensors.size(); i++) {
-            float value{};
+        for (size_t i{0}; i < m_sensors.size(); i++) {
             std::string name{};
             m_sensors[i].get_name(name);
             if (m_sensors[i].read() == SensorReadStatus::Calibrating) {
@@ -43,7 +42,7 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
         }
     } else if ("CONFIG" == resource) {
         std::vector<sensor_config_t> sensor_config(m_sensors.size());
-        for (auto i{0}; i < m_sensors.size(); i++) {
+        for (size_t i{0}; i < m_sensors.size(); i++) {
             m_sensors[i].get_config(sensor_config[i]);
         }
         payload = nlohmann::json{sensor_config}.dump();
@@ -84,7 +83,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             std::string hash{json_data["hash"]};
             auto hash_c_str{hash.c_str()};
             if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
-                for (uint8_t i{0}; i < hash.size(); i += 2) {
+                for (size_t i{0}; i < hash.size(); i += 2) {
                     std::from_chars(hash_c_str + i, hash_c_str + i + 2,
                                     temp[i / 2], 16);
                 }
@@ -100,7 +99,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             auto data_c_str{data.c_str()};
             if ((data.size() / 2) <= DOWNLOAD_BLOCK_SIZE) {
                 unsigned char download_block[DOWNLOAD_BLOCK_SIZE]{};
-                for (uint16_t i{0}; i < data.size(); i += 2) {
+                for (size_t i{0}; i < data.size(); i += 2) {
                     std::from_chars(data_c_str + i, data_c_str + i + 2,
                                     download_block[i / 2], 16);
                 }

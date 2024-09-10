@@ -1,6 +1,7 @@
 #ifndef PICO_REST_SENSOR_NETWORK_REST_API_H_
 #define PICO_REST_SENSOR_NETWORK_REST_API_H_
 
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
@@ -35,7 +36,7 @@ class RestApi {
 
     std::unique_ptr<RestApiCommandHandler> m_rest_api_command_handler;
     std::string m_ip_address;
-    int m_port;
+    uint16_t m_port;
     std::unique_ptr<TCP_SERVER_T> m_server_state;
 
     void update();

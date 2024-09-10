@@ -14,10 +14,6 @@
 
 class WifiHelper {
    public:
-    WifiHelper();
-
-    virtual ~WifiHelper();
-
     /***
      * Initialise the controller
      * @return true if successful

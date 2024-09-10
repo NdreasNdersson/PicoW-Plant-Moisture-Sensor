@@ -13,6 +13,10 @@ class Led {
    public:
     explicit Led(uint pin_number);
     ~Led();
+    Led(const Led&) = default;
+    Led(Led&&) = default;
+    Led& operator=(const Led&) = default;
+    Led& operator=(Led&&) = default;
 
     void set_on();
     void set_off();
@@ -35,7 +39,7 @@ class Led {
         std::atomic<std::uint16_t> blink_delay;
     };
 
-    static void blink_task(void *params);
+    static void blink_task(void* params);
 
     static constexpr std::uint16_t min_delay{100};
 

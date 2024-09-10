@@ -58,7 +58,7 @@ auto Ads1115Adc::read() -> SensorReadStatus {
         }
     } else {
         value_ = static_cast<float>(adc_value_ - config_.min_value) * 100 /
-                 (config_.max_value - config_.min_value);
+                 static_cast<float>(config_.max_value - config_.min_value);
         if (config_.inverse_measurement) {
             value_ = (value_ - 100.0f) * (-1.0f);
         }

@@ -1,5 +1,6 @@
 #include "config_handler.h"
 
+#include <cstdint>
 #include <cstring>
 
 #include "logging.h"
@@ -91,7 +92,8 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
     LogDebug(("Write %u of data", json_string.length()));
 
     std::memcpy(data.data, json_string.c_str(), json_string.length());
-    data.number_of_pages = json_string.length() / FLASH_PAGE_SIZE + 1U;
+    data.number_of_pages =
+        json_string.length() / FLASH_PAGE_SIZE + static_cast<uint8_t>(1U);
     return write(data);
 }
 
@@ -119,7 +121,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
         return false;
     }
     LogDebug(("Flash number of pages: %u", data.number_of_pages));
-    for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+    for (auto i = 0U; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
         if (data.data[i] != m_flash_target_contents[i]) {
             mismatch = true;
             break;
@@ -136,7 +138,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
         }
 
         mismatch = false;
-        for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+        for (auto i{0u}; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
             if (data.data[i] != m_flash_target_contents[i]) {
                 mismatch = true;
             }

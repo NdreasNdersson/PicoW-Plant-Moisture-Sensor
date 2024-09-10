@@ -5,7 +5,7 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 
-static QueueHandle_t g_queue = nullptr;
+static QueueHandle_t queue = nullptr;
 
 void logger(const char *format, ...) {
     buffer_t buffer;
@@ -14,20 +14,20 @@ void logger(const char *format, ...) {
     auto result{vsprintf(buffer, format, args)};
     va_end(args);
 
-    if ((result >= 0) && (g_queue != nullptr)) {
-        if (xQueueSend(g_queue, buffer, 0U) == errQUEUE_FULL) {
+    if ((result >= 0) && (queue != nullptr)) {
+        if (xQueueSend(queue, buffer, 0U) == errQUEUE_FULL) {
             printf("LOGGING QUEUE IS FULL!");
         }
     }
 }
 
-void init_queue() { g_queue = xQueueCreate(64, sizeof(buffer_t)); }
+void init_queue() { queue = xQueueCreate(64, sizeof(buffer_t)); }
 
 void print_task(void * /*params*/) {
     buffer_t buffer;
     while (true) {
-        if (g_queue != nullptr &&
-            xQueueReceive(g_queue, buffer, portMAX_DELAY) == pdTRUE) {
+        if (queue != nullptr &&
+            xQueueReceive(queue, buffer, portMAX_DELAY) == pdTRUE) {
             printf("%s\n", buffer);
         }
     }

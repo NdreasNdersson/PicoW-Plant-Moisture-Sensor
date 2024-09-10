@@ -6,14 +6,6 @@
 #include "task.h"
 #include "utils/logging.h"
 
-WifiHelper::WifiHelper() {
-    // NOP
-}
-
-WifiHelper::~WifiHelper() {
-    // NOP
-}
-
 /***
  * Initialise the controller
  * @return true if successful
@@ -123,7 +115,7 @@ auto WifiHelper::getMACAddressStr(char *macStr) -> bool {
     int r = cyw43_wifi_get_mac(&cyw43_state, CYW43_ITF_STA, mac);
 
     if (r == 0) {
-        int result;
+        int result{};
         for (uint8_t i = 0; i < 6; i++) {
             if (mac[i] < 16) {
                 result = sprintf(&macStr[i * 2], "0%X", mac[i]);

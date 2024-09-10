@@ -5,7 +5,7 @@
 #include <string>
 
 struct sensor_config_t {
-    int pin;
+    uint8_t pin;
     std::string type;
     std::uint16_t min_value;
     std::uint16_t max_value;

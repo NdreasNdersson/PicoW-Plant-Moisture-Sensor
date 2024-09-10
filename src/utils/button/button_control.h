@@ -1,11 +1,12 @@
 #ifndef PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_
 #define PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_
 
+#include <cstdint>
 #include <map>
 
 #include "button.h"
 
-enum class ButtonNames { A, B, C };
+enum class ButtonNames : uint8_t { A, B, C };
 static const std::map<ButtonNames, pin_t> PIN_GPIOS{
     {ButtonNames::C, 0}, {ButtonNames::B, 2}, {ButtonNames::A, 4}};
 
