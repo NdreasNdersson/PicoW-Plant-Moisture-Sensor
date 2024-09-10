@@ -1,5 +1,5 @@
-#ifndef __UTILS__LED__LED__
-#define __UTILS__LED__LED__
+#ifndef PICO_REST_SENSOR_UTILS_LED_LED_H_
+#define PICO_REST_SENSOR_UTILS_LED_LED_H_
 
 #include <atomic>
 #include <cstdint>
@@ -11,8 +11,12 @@
 
 class Led {
    public:
-    Led(uint pin_number);
+    explicit Led(uint pin_number);
     ~Led();
+    Led(const Led&) = default;
+    Led(Led&&) = default;
+    Led& operator=(const Led&) = default;
+    Led& operator=(Led&&) = default;
 
     void set_on();
     void set_off();
@@ -35,11 +39,11 @@ class Led {
         std::atomic<std::uint16_t> blink_delay;
     };
 
-    static void blink_task(void *params);
+    static void blink_task(void* params);
 
     static constexpr std::uint16_t min_delay{100};
 
     std::unique_ptr<TaskAttributes> m_task_attributes;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LED_LED_H_

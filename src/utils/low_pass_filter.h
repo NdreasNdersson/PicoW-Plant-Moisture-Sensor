@@ -1,15 +1,16 @@
-#ifndef __UTILS__LOW_PASS_FILTER__
-#define __UTILS__LOW_PASS_FILTER__
+#ifndef PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_
+#define PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_
 
 #include <cmath>
-#define M_PI 3.14159265358979323846
+
+constexpr float PI{3.14159274101257324219};
 
 template <typename T>
 class LowPassFilter {
    public:
     LowPassFilter(float cut_off_frequency, float delta_time)
         : value_{}, e_pow_{0.0F}, first_value_{true} {
-        e_pow_ = 1 - std::exp(-delta_time * 2 * M_PI * cut_off_frequency);
+        e_pow_ = 1 - expf(-delta_time * 2.0f * PI * cut_off_frequency);
     }
     T update(T input) {
         if (first_value_) {
@@ -25,4 +26,4 @@ class LowPassFilter {
     bool first_value_;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LOW_PASS_FILTER_H_

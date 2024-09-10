@@ -1,6 +1,7 @@
-#ifndef __NETWORK__REST_API__
-#define __NETWORK__REST_API__
+#ifndef PICO_REST_SENSOR_NETWORK_REST_API_H_
+#define PICO_REST_SENSOR_NETWORK_REST_API_H_
 
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
@@ -17,7 +18,6 @@ class RestApi {
    public:
     RestApi(std::function<void(bool)> led_control,
             std::vector<Ads1115Adc> &sensors);
-    ~RestApi();
 
     auto start() -> bool;
 
@@ -35,14 +35,14 @@ class RestApi {
 
     std::unique_ptr<RestApiCommandHandler> m_rest_api_command_handler;
     std::string m_ip_address;
-    int m_port;
+    uint16_t m_port;
     std::unique_ptr<TCP_SERVER_T> m_server_state;
 
     void update();
     static auto tcp_client_close(void *arg) -> err_t;
     static auto tcp_server_close(void *arg) -> err_t;
     static auto tcp_server_send(void *arg, struct tcp_pcb *tpcb,
-                                std::string data) -> err_t;
+                                const std::string &data) -> err_t;
     static auto tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
                                 err_t err) -> err_t;
     static void tcp_server_err(void *arg, err_t err);
@@ -50,4 +50,4 @@ class RestApi {
                                   err_t err) -> err_t;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_NETWORK_REST_API_H_

@@ -1,5 +1,5 @@
-#ifndef __SENSORS__ADS1115_ADC__
-#define __SENSORS__ADS1115_ADC__
+#ifndef PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
+#define PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
 
 #include <cstdint>
 #include <functional>
@@ -15,7 +15,7 @@ extern "C" {
 }
 #include "hardware/i2c.h"
 
-enum class SensorReadStatus { Calibrating, CalibrationComplete, Ok };
+enum class SensorReadStatus : uint8_t { Calibrating, CalibrationComplete, Ok };
 
 class Ads1115Adc : public Subscriber {
    public:
@@ -36,11 +36,12 @@ class Ads1115Adc : public Subscriber {
     sensor_config_t config_;
     bool calibration_run_;
     int calibration_samples_;
-    const std::string name_;
-    const ads1115_mux_t mux_setting_;
+    std::string name_;
+    ads1115_mux_t mux_setting_;
     std::function<void(bool)> led_callback_;
     std::uint16_t adc_value_;
     float value_;
     LowPassFilter<float> low_pass_filter_;
 };
-#endif
+
+#endif  // PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_

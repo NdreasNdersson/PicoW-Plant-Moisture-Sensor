@@ -1,5 +1,5 @@
-#ifndef __NETWORK__REST_API_COMMAND_HANDLER__
-#define __NETWORK__REST_API_COMMAND_HANDLER__
+#ifndef PICO_REST_SENSOR_NETWORK_REST_API_COMMAND_HANDLER_H_
+#define PICO_REST_SENSOR_NETWORK_REST_API_COMMAND_HANDLER_H_
 
 #include <string>
 
@@ -9,7 +9,7 @@
 
 class RestApiCommandHandler {
    public:
-    RestApiCommandHandler(std::vector<Ads1115Adc> &sensors);
+    explicit RestApiCommandHandler(std::vector<Ads1115Adc> &sensors);
     auto get_callback(const std::string &resource, std::string &payload)
         -> bool;
     auto post_callback(const std::string &resource, const std::string &payload)
@@ -21,4 +21,4 @@ class RestApiCommandHandler {
     std::vector<Ads1115Adc> m_sensors;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_NETWORK_REST_API_COMMAND_HANDLER_H_

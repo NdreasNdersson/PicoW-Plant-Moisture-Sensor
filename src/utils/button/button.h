@@ -1,5 +1,5 @@
-#ifndef __UTILS__BUTTON__BUTTON__
-#define __UTILS__BUTTON__BUTTON__
+#ifndef PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_H_
+#define PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_H_
 
 #include <list>
 
@@ -12,7 +12,7 @@ using pin_t = uint;
 class Button : public Publisher {
    public:
     Button() = default;
-    Button(pin_t pin);
+    explicit Button(pin_t pin);
     void attach(Subscriber *subscriber) override;
     void detach(Subscriber *subscriber) override;
     void notify() override;
@@ -24,4 +24,4 @@ class Button : public Publisher {
     std::list<Subscriber *> list_subscribers_;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_H_

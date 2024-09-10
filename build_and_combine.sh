@@ -1,7 +1,7 @@
 #! /bin/bash
 set -eux
 
-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 
 ./libs/PicoW-Bootloader/combine_bootloader_and_app.py \

@@ -78,8 +78,8 @@ static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
     *puxTimerTaskStackSize = configTIMER_TASK_STACK_DEPTH;
 }
 
-void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                      char *pcTaskName ){
+void vApplicationStackOverflowHook( TaskHandle_t /*xTask*/,
+                                    char *pcTaskName ){
 	printf("----------------------------------------------\n");
 	printf("STACK OVERFLOW on %s\n", pcTaskName);
 	printf("----------------------------------------------\n");
@@ -89,7 +89,7 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask,
 
 void vAssertCalled( const char *pcFile, uint32_t ulLine ){
 	printf("----------------------------------------------\n");
-	printf("ASSERT FAILED %s line: %d\n", pcFile, ulLine);
+	printf("ASSERT FAILED %s line: %u\n", pcFile, ulLine);
 	printf("----------------------------------------------\n");
 	taskDISABLE_INTERRUPTS();
 	for( ;; );

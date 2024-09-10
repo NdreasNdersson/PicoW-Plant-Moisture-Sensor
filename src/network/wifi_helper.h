@@ -1,5 +1,5 @@
-#ifndef __NETWORK__WIFI_HELPER__
-#define __NETWORK__WIFI_HELPER__
+#ifndef PICO_REST_SENSOR_NETWORK_WIFI_HELPER_H_
+#define PICO_REST_SENSOR_NETWORK_WIFI_HELPER_H_
 
 #include <stdlib.h>
 
@@ -14,10 +14,6 @@
 
 class WifiHelper {
    public:
-    WifiHelper();
-
-    virtual ~WifiHelper();
-
     /***
      * Initialise the controller
      * @return true if successful
@@ -90,4 +86,4 @@ class WifiHelper {
    private:
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_NETWORK_WIFI_HELPER_H_

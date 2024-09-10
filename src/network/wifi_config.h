@@ -1,5 +1,5 @@
-#ifndef __NETWORK__WIFI_CONFIG__
-#define __NETWORK__WIFI_CONFIG__
+#ifndef PICO_REST_SENSOR_NETWORK_WIFI_CONFIG_H_
+#define PICO_REST_SENSOR_NETWORK_WIFI_CONFIG_H_
 
 #include <string>
 
@@ -8,4 +8,4 @@ using wifi_config_t = struct wifi_config_t_ {
     std::string password;
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_NETWORK_WIFI_CONFIG_H_

@@ -23,6 +23,8 @@ void LedControl::set(LedPin pin, bool enable) {
                 m_led_c.set_off();
             }
             break;
+        default:
+            break;
     }
 }
 
@@ -36,6 +38,8 @@ void LedControl::set_blink_delay(LedPin pin, std::uint16_t delay) {
             break;
         case LedPin::led_c:
             m_led_c.set_blink_delay(delay);
+            break;
+        default:
             break;
     }
 }
@@ -51,6 +55,8 @@ void LedControl::start_blink(LedPin pin) {
         case LedPin::led_c:
             m_led_c.start_blink();
             break;
+        default:
+            break;
     }
 }
 
@@ -64,6 +70,8 @@ void LedControl::stop_blink(LedPin pin) {
             break;
         case LedPin::led_c:
             m_led_c.stop_blink();
+            break;
+        default:
             break;
     }
 }

@@ -19,7 +19,10 @@ Led::Led(uint pin_number) {
     gpio_set_dir(m_task_attributes->pin_number, GPIO_OUT);
 }
 
-Led::~Led() { stop_blink(); }
+Led::~Led() {
+    stop_blink();
+    m_task_attributes.reset();
+}
 
 void Led::set_on() {
     stop_blink();

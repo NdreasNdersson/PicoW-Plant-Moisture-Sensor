@@ -1,10 +1,12 @@
-#ifndef __UTILS__LED__LED_CONTROL__
-#define __UTILS__LED__LED_CONTROL__
+#ifndef PICO_REST_SENSOR_UTILS_LED_LED_CONTROL_H_
+#define PICO_REST_SENSOR_UTILS_LED_LED_CONTROL_H_
+
+#include <cstdint>
 
 #include "hal/pin_map.h"
 #include "led.h"
 
-enum class LedPin { led_a, led_b, led_c };
+enum class LedPin : uint8_t { led_a, led_b, led_c };
 
 class LedControl {
    public:
@@ -21,4 +23,4 @@ class LedControl {
     Led m_led_c{LED_PIN_C};
 };
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_LED_LED_CONTROL_H_

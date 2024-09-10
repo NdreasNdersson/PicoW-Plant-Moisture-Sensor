@@ -1,6 +1,5 @@
-#ifndef __LWIPOPTS_H__
-#define __LWIPOPTS_H__
-
+#ifndef PICO_REST_SENSOR_LWIPOPTS_H
+#define PICO_REST_SENSOR_LWIPOPTS_H
 
 #define TCPIP_THREAD_PRIO   2
 #define TCPIP_THREAD_STACKSIZE 5120 //1024
@@ -84,6 +83,4 @@
 
 #define DEFAULT_TCP_RECVMBOX_SIZE 128
 
-
-
-#endif /* __LWIPOPTS_H__ */
+#endif // PICO_REST_SENSOR_LWIPOPTS_H

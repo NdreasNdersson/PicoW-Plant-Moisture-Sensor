@@ -1,5 +1,5 @@
-#ifndef __UTILS__JSON_CONVERTER__
-#define __UTILS__JSON_CONVERTER__
+#ifndef PICO_REST_SENSOR_UTILS_JSON_CONVERTER_H_
+#define PICO_REST_SENSOR_UTILS_JSON_CONVERTER_H_
 
 #include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
@@ -15,4 +15,4 @@ void from_json(const json &json_data, sensor_config_t &config);
 void to_json(json &json_data, const wifi_config_t &config);
 void from_json(const json &json_data, wifi_config_t &config);
 
-#endif
+#endif  // PICO_REST_SENSOR_UTILS_JSON_CONVERTER_H_

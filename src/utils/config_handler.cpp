@@ -1,5 +1,6 @@
 #include "config_handler.h"
 
+#include <cstdint>
 #include <cstring>
 
 #include "logging.h"
@@ -7,8 +8,8 @@
 #include "utils/json_converter.h"
 
 ConfigHandler::ConfigHandler()
-    : m_flash_target_contents{reinterpret_cast<const uint8_t *>(
-          ADDR_AS_U32(__APP_STORAGE_ADDRESS))} {
+    : m_flash_target_contents{
+          reinterpret_cast<const uint8_t *>(ADDR_AS_U32(APP_STORAGE_ADDRESS))} {
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
         LogInfo(("No previously saved config data, write default values"));
@@ -59,7 +60,7 @@ auto ConfigHandler::read_config(std::vector<sensor_config_t> &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
-        for (auto sensor : json["sensors"]) {
+        for (const auto &sensor : json["sensors"]) {
             config.emplace_back(sensor.get<sensor_config_t>());
         }
         status = true;
@@ -91,7 +92,8 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
     LogDebug(("Write %u of data", json_string.length()));
 
     std::memcpy(data.data, json_string.c_str(), json_string.length());
-    data.number_of_pages = json_string.length() / FLASH_PAGE_SIZE + 1U;
+    data.number_of_pages =
+        json_string.length() / FLASH_PAGE_SIZE + static_cast<uint8_t>(1U);
     return write(data);
 }
 
@@ -119,7 +121,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
         return false;
     }
     LogDebug(("Flash number of pages: %u", data.number_of_pages));
-    for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+    for (auto i = 0U; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
         if (data.data[i] != m_flash_target_contents[i]) {
             mismatch = true;
             break;
@@ -136,7 +138,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
         }
 
         mismatch = false;
-        for (int i = 0; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
+        for (auto i{0u}; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
             if (data.data[i] != m_flash_target_contents[i]) {
                 mismatch = true;
             }
@@ -155,9 +157,9 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
 void ConfigHandler::erase_and_program(void *data) {
     auto flash_data{static_cast<flash_data_t *>(data)};
-    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
+    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
                       FLASH_SECTOR_SIZE);
-    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(__APP_STORAGE_ADDRESS),
+    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
                         static_cast<uint8_t *>(flash_data->data),
                         FLASH_PAGE_SIZE * flash_data->number_of_pages);
 }
