@@ -40,6 +40,7 @@ jobs:
       id: codechecker
       with:
         logfile: ${{ github.workspace }}/build/compile_commands.json
+        config: ${{ github.workspace }}/.codechecker.json
 
     - name: Deploy
       uses: actions/upload-artifact@v4
