@@ -1,8 +1,8 @@
 #include "network/rest_api_command_handler.h"
 
-#include <algorithm>
 #include <cctype>
 #include <charconv>
+#include <utility>
 #include <vector>
 
 #include "bootloader_lib.h"
@@ -11,7 +11,8 @@
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
-RestApiCommandHandler::RestApiCommandHandler(std::vector<Ads1115Adc> &sensors)
+RestApiCommandHandler::RestApiCommandHandler(
+    std::vector<std::shared_ptr<Sensor>> sensors)
     : m_config_handler{},
       m_software_download{},
       m_sensors{std::move(sensors)} {}
@@ -21,29 +22,20 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
     auto status{false};
     if ("SENSORS" == resource) {
         nlohmann::json rest_api_data;
-        auto save_config{false};
-        std::vector<sensor_config_t> sensor_config(m_sensors.size());
         for (size_t i{0}; i < m_sensors.size(); i++) {
             std::string name{};
-            m_sensors[i].get_name(name);
-            if (m_sensors[i].read() == SensorReadStatus::Calibrating) {
-                m_sensors[i].get_config(sensor_config[i]);
-                save_config = true;
-            }
+            m_sensors[i]->get_name(name);
 
-            rest_api_data[name]["value"] = m_sensors[i].get_value();
-            rest_api_data[name]["raw_value"] = m_sensors[i].get_raw_value();
+            rest_api_data[name]["value"] = m_sensors[i]->get_value();
+            rest_api_data[name]["raw_value"] = m_sensors[i]->get_raw_value();
         }
         payload = rest_api_data.dump();
         status = true;
 
-        if (save_config) {
-            m_config_handler.write_config(sensor_config);
-        }
     } else if ("CONFIG" == resource) {
         std::vector<sensor_config_t> sensor_config(m_sensors.size());
         for (size_t i{0}; i < m_sensors.size(); i++) {
-            m_sensors[i].get_config(sensor_config[i]);
+            m_sensors[i]->get_config(sensor_config[i]);
         }
         payload = nlohmann::json{sensor_config}.dump();
         status = true;
@@ -110,7 +102,8 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             } else {
                 status = false;
                 LogError(
-                    ("SWDL binary content must be less then (last packages) or "
+                    ("SWDL binary content must be less then (last "
+                     "packages) or "
                      "equal size %d",
                      DOWNLOAD_BLOCK_SIZE));
             }

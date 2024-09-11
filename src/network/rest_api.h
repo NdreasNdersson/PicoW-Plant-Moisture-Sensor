@@ -12,12 +12,12 @@
 #include "network/rest_api_command_handler.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
-#include "sensors/ads1115_adc.h"
+#include "sensors/sensor.h"
 
 class RestApi {
    public:
     RestApi(std::function<void(bool)> led_control,
-            std::vector<Ads1115Adc> &sensors);
+            const std::vector<std::shared_ptr<Sensor>> &sensors);
 
     auto start() -> bool;
 

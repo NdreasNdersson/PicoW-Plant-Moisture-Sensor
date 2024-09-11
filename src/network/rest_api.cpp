@@ -18,7 +18,7 @@ static const std::string HTTP_CONTENT_TYPE{
     "Content-type: application/json\r\n\r\n"};
 
 RestApi::RestApi(std::function<void(bool)> led_control,
-                 std::vector<Ads1115Adc> &sensors)
+                 const std::vector<std::shared_ptr<Sensor>> &sensors)
     : m_rest_api_command_handler{std::make_unique<RestApiCommandHandler>(
           sensors)},
       m_ip_address{"0.0.0.0"},

@@ -9,24 +9,23 @@
 #include "sensors/sensor_config.h"
 #include "utils/logging.h"
 
-Ads1115Adc::Ads1115Adc(const ads1115_mux_t mux_setting_,
-                       sensor_config_t &config,
+Ads1115Adc::Ads1115Adc(sensor_config_t &config,
                        std::function<void(bool)> led_callback, float delta_time)
     : adc_state_{},
       config_{config},
       calibration_run_{false},
       calibration_samples_{0},
       name_(config_.type + "_" + std::to_string(config_.pin)),
-      mux_setting_(mux_setting_),
       led_callback_{std::move(led_callback)},
       adc_value_{0U},
       value_{0.0F},
       low_pass_filter_(0.01f, delta_time) {}
 
-void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address) {
+void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address,
+                      const ads1115_mux_t mux_setting) {
     ads1115_init(i2c, address, &adc_state_);
 
-    ads1115_set_input_mux(mux_setting_, &adc_state_);
+    ads1115_set_input_mux(mux_setting, &adc_state_);
     ads1115_set_pga(ADS1115_PGA_4_096, &adc_state_);
     ads1115_set_data_rate(ADS1115_RATE_128_SPS, &adc_state_);
 

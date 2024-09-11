@@ -44,6 +44,7 @@ add_executable(${NAME}
     src/run_time_stats/run_time_stats.cpp
     src/sensors/sensor_factory.cpp
     src/sensors/ads1115_adc.cpp
+    src/sensors/temp_adc.cpp
 )
 
 target_include_directories(${NAME} PRIVATE src)
@@ -66,6 +67,7 @@ target_link_libraries(${NAME}
     pico-ads1115
     nlohmann_json::nlohmann_json
     PICO_BOOTLOADER_LIB
+    hardware_adc
 )
 
 # Set logging level
