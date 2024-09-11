@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <functional>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,7 @@
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
 #include "run_time_stats/run_time_stats.h"
-#include "sensors/ads1115_adc.h"
+#include "sensors/sensor.h"
 #include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "task.h"
@@ -54,8 +55,8 @@ void main_task(void *) {
 
     wifi_config_t wifi_config{};
     std::vector<sensor_config_t> sensor_config{};
+    ConfigHandler config_handler{};
     {
-        auto config_handler = ConfigHandler();
         auto wifi_config_status{config_handler.read_config(wifi_config)};
         if (wifi_config_status && (wifi_config.ssid != "") &&
             (wifi_config.password != "")) {
@@ -126,7 +127,7 @@ void main_task(void *) {
 
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
-    std::vector<Ads1115Adc> sensors;
+    auto sensors{std::vector<std::shared_ptr<Sensor>>()};
     sensor_factory.create(
         sensor_config, sensors, button_control,
         [&led_control](bool value) { led_control.set(LedPin::led_a, value); },
@@ -150,6 +151,18 @@ void main_task(void *) {
     nlohmann::json rest_api_data;
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
+
+        auto save_config{false};
+        for (size_t i{0}; i < sensors.size(); i++) {
+            if (sensors[i]->read() == SensorReadStatus::Calibrating) {
+                sensors[i]->get_config(sensor_config[i]);
+                save_config = true;
+            }
+        }
+
+        if (save_config) {
+            config_handler.write_config(sensor_config);
+        }
 
         if (!WifiHelper::isJoined()) {
             LogError(("AP Link is down"));
