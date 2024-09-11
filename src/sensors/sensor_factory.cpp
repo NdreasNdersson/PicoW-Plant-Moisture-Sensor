@@ -6,6 +6,8 @@
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
 #include "sensors/ads1115_adc.h"
+#include "sensors/sensor_config.h"
+#include "sensors/temp_adc.h"
 #include "utils/button/button_control.h"
 #include "utils/logging.h"
 
@@ -23,7 +25,7 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
     gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
     gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
 
-    sensors.reserve(pin_configs.size());
+    sensors.reserve(pin_configs.size() + 1);
     for (auto &config : pin_configs) {
         if (config.pin < 1) {
             LogError(("Pin number can't be less than 1"));
@@ -71,4 +73,10 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
         button_control.attach(ButtonNames::A, sensor.get());
         sensors.push_back(sensor);
     }
+
+    sensor_config_t config{};
+    config.type = "internal_temperature";
+    auto sensor{std::make_shared<TempAdc>(config, led_callback)};
+    sensor->init();
+    sensors.push_back(sensor);
 }

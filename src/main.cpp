@@ -133,12 +133,6 @@ void main_task(void *) {
         [&led_control](bool value) { led_control.set(LedPin::led_a, value); },
         static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
-    if (sensor_config.size() != sensors.size()) {
-        LogError(("Not all sensors was configured"));
-        set_led_in_failed_mode(led_control);
-        vTaskDelete(nullptr);
-    }
-
     auto rest_api{RestApi(
         [&led_control](bool value) { led_control.set(LedPin::led_b, value); },
         sensors)};
@@ -154,7 +148,7 @@ void main_task(void *) {
 
         auto save_config{false};
         for (size_t i{0}; i < sensors.size(); i++) {
-            if (sensors[i]->read() == SensorReadStatus::Calibrating) {
+            if (sensors[i]->read() == SensorReadStatus::CalibrationComplete) {
                 sensors[i]->get_config(sensor_config[i]);
                 save_config = true;
             }
