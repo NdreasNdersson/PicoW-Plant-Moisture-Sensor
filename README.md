@@ -41,7 +41,7 @@ Host: 192.168.50.205
 # SW download
 Run
 ```
-./python/upload_new_binary.py --app-file build/PICO_REST_SENSOR.bin
+./python/upload_new_binary.py --host 192.168.X.X --app-file build/PICO_REST_SENSOR.bin
 ```
 
 # Raspberry Pi Pico W Analog sensor board
