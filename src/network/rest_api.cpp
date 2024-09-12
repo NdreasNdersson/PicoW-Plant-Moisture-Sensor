@@ -161,7 +161,6 @@ auto RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
         if (command == "GET") {
             std::string json_data;
             if (state->get_callback(resource, json_data)) {
-                tcp_server_send(arg, tpcb, HTTP_OK_RESPONSE);
                 if (tcp_server_send(arg, tpcb,
                                     HTTP_OK_RESPONSE + HTTP_CONTENT_TYPE) ==
                     ERR_OK) {
