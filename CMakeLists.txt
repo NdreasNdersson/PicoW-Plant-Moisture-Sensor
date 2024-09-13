@@ -3,15 +3,15 @@ cmake_minimum_required(VERSION 3.12)
 # Change your executable name to something creative!
 set(NAME PICO_REST_SENSOR) # <-- Name your project/executable here!
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PICO_BOARD pico_w) # Set the board used
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Pull in Pico SDK (must be before project)
 include(${CMAKE_SOURCE_DIR}/pico_sdk_import.cmake)
 
-project(PICO_REST_SENSOR C CXX ASM)
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(PICO_BOARD pico_w) # Set the board used
+project(PICO_REST_SENSOR C CXX)
 
 # Initialize the Pico SDK
 pico_sdk_init()

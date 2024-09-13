@@ -1,7 +1,7 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
 
 RUN apt-get update && \
-    apt-get install -y cmake ninja-build curl xz-utils build-essential git
+    apt-get install -y cmake ninja-build curl xz-utils build-essential git cppcheck clang clang-tidy gcc
 
 # install arm toolchain
 ARG ARM_TOOLCHAIN_VERSION=12.3.Rel1
@@ -21,5 +21,8 @@ ENV PICO_SDK_PATH="/repos/pico-sdk"
 # test arm-none-gcc
 RUN arm-none-eabi-gcc --version
 RUN arm-none-eabi-g++ --version
+
+ADD requirements.txt /temp/requirements.txt
+RUN pip install -r /temp/requirements.txt
 
 ENTRYPOINT ["/bin/bash"]
