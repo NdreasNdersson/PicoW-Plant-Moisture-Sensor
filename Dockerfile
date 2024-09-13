@@ -5,9 +5,9 @@ RUN apt-get update && \
 
 # install arm toolchain
 ARG ARM_TOOLCHAIN_VERSION=12.3.Rel1
-RUN curl -Lo gcc-arm-none-eabi.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
+RUN curl -Lo gcc-arm-none-eabi.tar.xz --create-dirs --output-dir /temp "https://developer.arm.com/-/media/Files/downloads/gnu/${ARM_TOOLCHAIN_VERSION}/binrel/arm-gnu-toolchain-${ARM_TOOLCHAIN_VERSION}-x86_64-arm-none-eabi.tar.xz"
 RUN mkdir -p /opt/gcc-arm-none-eabi
-RUN tar xf gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi
+RUN tar xf /temp/gcc-arm-none-eabi.tar.xz --strip-components=1 -C /opt/gcc-arm-none-eabi
 ENV PATH="/opt/gcc-arm-none-eabi/bin:${PATH}"
 
 RUN git clone --depth 1 --branch V11.1.0 https://github.com/FreeRTOS/FreeRTOS-Kernel.git /repos/FreeRTOS-Kernel
@@ -24,5 +24,7 @@ RUN arm-none-eabi-g++ --version
 
 ADD requirements.txt /temp/requirements.txt
 RUN pip install -r /temp/requirements.txt
+
+RUN rm -r /temp
 
 ENTRYPOINT ["/bin/bash"]

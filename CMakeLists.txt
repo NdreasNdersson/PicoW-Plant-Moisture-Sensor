@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Pull in Pico SDK (must be before project)
 include(${CMAKE_SOURCE_DIR}/pico_sdk_import.cmake)
 
-project(PICO_REST_SENSOR C CXX)
+project(PICO_REST_SENSOR C CXX ASM)
 
 # Initialize the Pico SDK
 pico_sdk_init()
