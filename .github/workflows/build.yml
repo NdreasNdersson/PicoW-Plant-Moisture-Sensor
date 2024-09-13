@@ -15,21 +15,18 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ndreasndersson/picow-plant-moisture-sensor:latest
+      volumes:
+        - ${{ github.workspace }}:/project
 
     steps:
     - uses: actions/checkout@v3
       with:
         submodules: recursive
 
-    - name: Build and push docker image
-      uses: docker/build-push-action@v6
-      with:
-        push: true
-        tags: ndreasndersson/picow-plant-moisture-sensor:latest
-
     - name: Build
-      # Build your program with the given configuration
-      run: docker run -v ${{ github.workspace }}:/project --workdir /project ndreasndersson/picow-plant-moisture-sensor ./build_and_combine.sh
+      run: ./build_and_combine.sh
 
     - name: Static code analysis
       uses: whisperity/codechecker-analysis-action@v1

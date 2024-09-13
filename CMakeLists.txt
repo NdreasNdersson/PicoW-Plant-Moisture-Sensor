@@ -5,7 +5,7 @@ set(NAME PICO_REST_SENSOR) # <-- Name your project/executable here!
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Pull in Pico SDK (must be before project)
-include(${CMAKE_SOURCE_DIR}/external/pico-sdk/pico_sdk_init.cmake)
+include(${CMAKE_SOURCE_DIR}/pico_sdk_import.cmake)
 
 project(PICO_REST_SENSOR C CXX ASM)
 set(CMAKE_C_STANDARD 11)
