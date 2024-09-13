@@ -14,9 +14,6 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
     steps:
@@ -31,9 +28,8 @@ jobs:
         tags: ndreasndersson/picow-plant-moisture-sensor:latest
 
     - name: Build
-      container: ndreasndersson/picow-plant-moisture-sensor:latest
       # Build your program with the given configuration
-      run: ./build_and_combine.sh
+      run: docker run -v ${{ github.workspace }}:/project --workdir /project ndreasndersson/picow-plant-moisture-sensor ./build_and_combine.sh
 
     - name: Static code analysis
       uses: whisperity/codechecker-analysis-action@v1
