@@ -5,7 +5,7 @@ set(NAME PICO_REST_SENSOR) # <-- Name your project/executable here!
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Pull in Pico SDK (must be before project)
-include(external/pico-sdk/pico_sdk_init.cmake)
+include(${CMAKE_SOURCE_DIR}/external/pico-sdk/pico_sdk_init.cmake)
 
 project(PICO_REST_SENSOR C CXX ASM)
 set(CMAKE_C_STANDARD 11)
@@ -13,17 +13,20 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(PICO_BOARD pico_w) # Set the board used
 
-# Set config files paths to be used
-include(lwip_import.cmake) # lwip config files
-SET(FREERTOS_CONFIG_FILE_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/configs/FreeRTOS-Kernel" CACHE STRING "Local Config")
-include_directories("${FREERTOS_CONFIG_FILE_DIRECTORY}") # FreeRTOS config files
-
 # Initialize the Pico SDK
 pico_sdk_init()
 
 # Initialize all other external libs & dependencies
+add_library(LWIP_PORT INTERFACE)
+target_include_directories(LWIP_PORT
+    INTERFACE
+       ${CMAKE_CURRENT_LIST_DIR}/configs/lwip
+    )
+SET(FREERTOS_CONFIG_FILE_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/configs/FreeRTOS-Kernel" CACHE STRING "Local Config")
+include_directories("${FREERTOS_CONFIG_FILE_DIRECTORY}") # FreeRTOS config files
 include(FreeRTOS_Kernel_import.cmake) # Configure FreeRTOS Kernel
-include(pico_ads1115_import.cmake)
+add_subdirectory(libs/pico-ads1115/lib)
+add_subdirectory(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader)
 
 include(FetchContent)
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
@@ -49,8 +52,6 @@ add_executable(${NAME}
 
 target_include_directories(${NAME} PRIVATE src)
 
-# Add bootloader
-add_subdirectory(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader)
 target_link_options(${NAME} PRIVATE
     -L${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/linker_common
 )
