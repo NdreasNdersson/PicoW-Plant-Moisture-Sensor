@@ -29,7 +29,11 @@ jobs:
       run: ./build_and_combine.sh
 
     - name: Static code analysis
-      run: ./run_codechecker_and_create_report.sh
+      uses: whisperity/codechecker-analysis-action@v1
+      id: codechecker
+      with:
+        logfile: ${{ github.workspace }}/build/compile_commands.json
+        config: ${{ github.workspace }}/.codechecker.json
 
     - name: Deploy
       uses: actions/upload-artifact@v4

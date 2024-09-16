@@ -11,9 +11,9 @@ extern "C" {
 #include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
 
-constexpr uint8_t MAX_NUMBER_OF_PAGES{4};
-#define MAX_FLASH_SIZE FLASH_PAGE_SIZE *MAX_NUMBER_OF_PAGES
 constexpr uint8_t MAX_VALUE_SIZE{32};
+constexpr uint16_t MAX_FLASH_STORAGE_SIZE{FLASH_SECTOR_SIZE};
+constexpr uint8_t MAX_NUMBER_OF_PAGES{FLASH_SECTOR_SIZE / FLASH_PAGE_SIZE};
 
 class ConfigHandler {
    public:
@@ -28,7 +28,7 @@ class ConfigHandler {
     auto read_config(wifi_config_t &config) -> bool;
 
    private:
-    using pages_t = uint8_t[MAX_FLASH_SIZE];
+    using pages_t = uint8_t[FLASH_SECTOR_SIZE];
     using flash_data_t = struct flash_data_t_ {
         pages_t data;
         size_t number_of_pages;
@@ -39,8 +39,6 @@ class ConfigHandler {
     auto write(flash_data_t &data) -> bool;
     static void erase_and_program(void *data);
     void print_buf(const uint8_t *buf, size_t len);
-
-    const uint8_t *m_flash_target_contents;
 };
 
 #endif  // PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_
