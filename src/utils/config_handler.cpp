@@ -3,12 +3,10 @@
 #include <cstdint>
 #include <cstring>
 
+#include "linker_definitions.h"
 #include "logging.h"
 #include "pico/flash.h"
 #include "utils/json_converter.h"
-
-#pragma DATA_SECTION(app_storage, ".app_storage")
-uint8_t app_storage[FLASH_SECTOR_SIZE];
 
 ConfigHandler::ConfigHandler() {
     nlohmann::json json;
@@ -101,7 +99,7 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
 auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
     uint8_t data[MAX_FLASH_STORAGE_SIZE];
     auto status{true};
-    std::memcpy(data, app_storage, sizeof(data));
+    std::memcpy(data, g_app_storage, sizeof(data));
     json_data =
         nlohmann::json::parse(reinterpret_cast<char *>(data), nullptr, false);
 
@@ -123,7 +121,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
     }
     LogDebug(("Flash number of pages: %u", data.number_of_pages));
     for (auto i = 0U; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-        if (data.data[i] != app_storage[i]) {
+        if (data.data[i] != g_app_storage[i]) {
             mismatch = true;
             break;
         }
@@ -140,7 +138,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
         mismatch = false;
         for (auto i{0u}; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-            if (data.data[i] != app_storage[i]) {
+            if (data.data[i] != g_app_storage[i]) {
                 mismatch = true;
             }
         }
