@@ -57,10 +57,14 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("config") && json_data["config"].is_array()) {
             std::vector<sensor_config_t> config =
                 json_data["config"].get<std::vector<sensor_config_t>>();
-            m_config_handler.write_config(config);
-            LogDebug(("Sensor config stored, will reboot in 1s..."));
-            uint32_t reboot_delay_ms{1000};
-            m_software_download.reboot(reboot_delay_ms);
+            if (m_config_handler.write_config(config)) {
+                LogInfo(("Sensor config stored, will reboot in 3s..."));
+                uint32_t reboot_delay_ms{3000};
+                m_software_download.reboot(reboot_delay_ms);
+            } else {
+                LogError(("Sensor config could not be stored, json_data: \n%s",
+                          json_data.dump()));
+            }
         } else {
             status = false;
         }

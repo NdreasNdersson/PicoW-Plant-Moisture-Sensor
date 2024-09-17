@@ -1,7 +1,11 @@
 #! /bin/bash
 set -eux
 
-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+if [ "${1^^}" = "DEBUG" ]; then
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+else
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+fi
 cmake --build build
 
 python3 libs/PicoW-Bootloader/combine_bootloader_and_app.py \
