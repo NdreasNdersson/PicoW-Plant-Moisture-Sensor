@@ -37,7 +37,6 @@ add_executable(${NAME}
     src/utils/button/button_control.cpp
     src/utils/led/led_control.cpp
     src/utils/led/led.cpp
-    src/utils/logger.cpp
     src/utils/config_handler.cpp
     src/utils/json_converter.cpp
     src/main.cpp
