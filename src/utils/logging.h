@@ -38,8 +38,8 @@
 /* Define the platform-specific logging function to call from
  * enabled logging macros. */
 #ifndef SdkLog
-#include "utils/logger.h"
-#define SdkLog(message) logger message
+#define SdkLog(message) printf message;
+
 #endif
 
 #include "logging_stack.h"
