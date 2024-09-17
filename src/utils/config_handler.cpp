@@ -3,13 +3,12 @@
 #include <cstdint>
 #include <cstring>
 
+#include "linker_definitions.h"
 #include "logging.h"
 #include "pico/flash.h"
 #include "utils/json_converter.h"
 
-ConfigHandler::ConfigHandler()
-    : m_flash_target_contents{
-          reinterpret_cast<const uint8_t *>(ADDR_AS_U32(APP_STORAGE_ADDRESS))} {
+ConfigHandler::ConfigHandler() {
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
         LogInfo(("No previously saved config data, write default values"));
@@ -85,8 +84,8 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
     flash_data_t data{};
     auto json_string{json_data.dump()};
 
-    if (json_string.length() > MAX_FLASH_SIZE) {
-        LogError(("Can't write more than %u!", MAX_FLASH_SIZE));
+    if (json_string.length() > MAX_FLASH_STORAGE_SIZE) {
+        LogError(("Can't write more than %u!", MAX_FLASH_STORAGE_SIZE));
         return false;
     }
     LogDebug(("Write %u of data", json_string.length()));
@@ -98,9 +97,9 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
 }
 
 auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
-    uint8_t data[MAX_FLASH_SIZE];
+    uint8_t data[MAX_FLASH_STORAGE_SIZE];
     auto status{true};
-    std::memcpy(data, m_flash_target_contents, sizeof(data));
+    std::memcpy(data, g_app_storage, sizeof(data));
     json_data =
         nlohmann::json::parse(reinterpret_cast<char *>(data), nullptr, false);
 
@@ -117,12 +116,12 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
     if (data.number_of_pages > (MAX_NUMBER_OF_PAGES)) {
         LogError(("Can't write more than %u number of pages, %u bytes!",
-                  MAX_NUMBER_OF_PAGES, MAX_FLASH_SIZE));
+                  MAX_NUMBER_OF_PAGES, MAX_FLASH_STORAGE_SIZE));
         return false;
     }
     LogDebug(("Flash number of pages: %u", data.number_of_pages));
     for (auto i = 0U; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-        if (data.data[i] != m_flash_target_contents[i]) {
+        if (data.data[i] != g_app_storage[i]) {
             mismatch = true;
             break;
         }
@@ -139,7 +138,7 @@ auto ConfigHandler::write(flash_data_t &data) -> bool {
 
         mismatch = false;
         for (auto i{0u}; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-            if (data.data[i] != m_flash_target_contents[i]) {
+            if (data.data[i] != g_app_storage[i]) {
                 mismatch = true;
             }
         }

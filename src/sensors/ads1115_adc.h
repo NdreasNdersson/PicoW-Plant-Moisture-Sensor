@@ -5,16 +5,13 @@
 #include <functional>
 #include <string>
 
+#include "ads1115.h"
+#include "hardware/i2c.h"
 #include "patterns/subscriber.h"
 #include "registers.h"
 #include "sensors/sensor.h"
 #include "sensors/sensor_config.h"
 #include "utils/low_pass_filter.h"
-
-extern "C" {
-#include "ads1115.h"
-}
-#include "hardware/i2c.h"
 
 class Ads1115Adc : public Sensor, public Subscriber {
    public:

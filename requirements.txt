@@ -1,1 +1,2 @@
 pre-commit==3.5.0
+codechecker==6.24.0

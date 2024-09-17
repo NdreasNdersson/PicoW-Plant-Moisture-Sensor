@@ -1,2 +1,4 @@
+-*FreeRTOS-Kernel/*
+-*pico-sdk/*
 -*build/*
--*external/*
+-/opt/*

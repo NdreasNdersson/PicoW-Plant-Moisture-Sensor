@@ -44,7 +44,7 @@ void runTimeStats() {
 
     HeapStats_t heapStats;
     vPortGetHeapStats(&heapStats);
-    printf("HEAP avl: %u, blocks %u, alloc: %u, free: %u\n",
+    printf("HEAP avl: %zu, blocks %zu, alloc: %zu, free: %zu\n",
            heapStats.xAvailableHeapSpaceInBytes, heapStats.xNumberOfFreeBlocks,
            heapStats.xNumberOfSuccessfulAllocations,
            heapStats.xNumberOfSuccessfulFrees);
