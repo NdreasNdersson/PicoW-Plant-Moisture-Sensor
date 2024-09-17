@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 RUN apt-get update && \
-    apt-get install -y cmake ninja-build curl xz-utils build-essential git cppcheck clang clang-tidy gcc
+    apt-get install -y cmake ninja-build curl xz-utils build-essential git cppcheck clang clang-tidy clang-tools gcc
 
 # install arm toolchain
 ARG ARM_TOOLCHAIN_VERSION=12.3.Rel1

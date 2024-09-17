@@ -21,6 +21,10 @@ class Ads1115Adc : public Sensor, public Subscriber {
                std::shared_ptr<ButtonControl> button_control,
                std::function<void(bool)> led_callback, float delta_time);
     ~Ads1115Adc();
+    Ads1115Adc(const Ads1115Adc &) = default;
+    Ads1115Adc(Ads1115Adc &&) = default;
+    Ads1115Adc &operator=(const Ads1115Adc &) = default;
+    Ads1115Adc &operator=(Ads1115Adc &&) = default;
 
     void init(i2c_inst_t *i2c, uint8_t address,
               const ads1115_mux_t mux_setting);

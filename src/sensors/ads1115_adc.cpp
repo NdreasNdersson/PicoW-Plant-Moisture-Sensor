@@ -21,7 +21,7 @@ Ads1115Adc::Ads1115Adc(sensor_config_t &config,
       adc_value_{0U},
       value_{0.0F},
       low_pass_filter_(0.01f, delta_time),
-      m_button_control{button_control} {
+      m_button_control{std::move(button_control)} {
     m_button_control->attach(ButtonNames::A, this);
 }
 

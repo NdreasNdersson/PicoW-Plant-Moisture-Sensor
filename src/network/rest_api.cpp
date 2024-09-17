@@ -2,11 +2,12 @@
 
 #include <cstring>
 #include <functional>
+#include <limits>
 #include <sstream>
 #include <string>
-#include <utility>
 
 #include "FreeRTOS.h"
+#include "lwip/err.h"
 #include "network/rest_api_command_handler.h"
 #include "nlohmann/json.hpp"
 #include "semphr.h"
@@ -125,7 +126,13 @@ auto RestApi::tcp_server_close(void *arg) -> err_t {
 auto RestApi::tcp_server_send(void *arg, struct tcp_pcb *tpcb,
                               const std::string &data) -> err_t {
     cyw43_arch_lwip_check();
-    err_t err = tcp_write(tpcb, data.c_str(), data.size(), TCP_WRITE_FLAG_COPY);
+    if (data.size() > std::numeric_limits<uint16_t>::max()) {
+        LogError(("Failed to write data, string to long %zu", data.size()));
+        return ERR_VAL;
+    }
+    err_t err =
+        tcp_write(tpcb, data.c_str(), static_cast<uint16_t>(data.size()),
+                  TCP_WRITE_FLAG_COPY);
     if (err != ERR_OK) {
         LogError(("Failed to write data %d", err));
         return tcp_client_close(arg);
@@ -164,8 +171,15 @@ auto RestApi::tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
                 if (tcp_server_send(arg, tpcb,
                                     HTTP_OK_RESPONSE + HTTP_CONTENT_TYPE) ==
                     ERR_OK) {
+                    if (json_data.size() >
+                        std::numeric_limits<uint16_t>::max()) {
+                        LogError(("Failed to write data, string to long %zu",
+                                  json_data.size()));
+                        return ERR_VAL;
+                    }
                     err_t err =
-                        tcp_write(tpcb, json_data.c_str(), json_data.size(),
+                        tcp_write(tpcb, json_data.c_str(),
+                                  static_cast<uint16_t>(json_data.size()),
                                   TCP_WRITE_FLAG_COPY);
                     if (err != ERR_OK) {
                         LogError(("Failed to write data %d", err));

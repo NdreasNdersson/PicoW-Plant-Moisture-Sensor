@@ -1,10 +1,14 @@
 #! /bin/bash
 set -eux
 
-if [ "${1^^}" = "DEBUG" ]; then
-    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-else
+if [ $# -eq 0 ]; then
     cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+else
+    if [ "${1^^}" = "DEBUG" ]; then
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+    else
+        cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+    fi
 fi
 cmake --build build
 

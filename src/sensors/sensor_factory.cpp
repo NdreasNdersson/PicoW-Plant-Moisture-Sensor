@@ -32,7 +32,7 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
             }
             auto dac_idx{static_cast<uint8_t>((config.pin - 1U) /
                                               MAX_NUMBER_OF_ANALOG_PINS)};
-            auto dac_id{dac_idx + 1};
+            auto dac_id{dac_idx + 1U};
             auto analog_pin_id{(config.pin - 1) % MAX_NUMBER_OF_ANALOG_PINS +
                                1};
 
@@ -70,7 +70,7 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
             }
 
             LogDebug(
-                ("Init ADS1115: %u analog pin: %u", dac_id, analog_pin_id));
+                ("Init ADS1115: %d analog pin: %d", dac_id, analog_pin_id));
             sensors.push_back(sensor);
         }
     }
