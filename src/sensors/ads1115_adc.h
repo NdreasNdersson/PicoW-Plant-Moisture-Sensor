@@ -3,11 +3,13 @@
 
 #include <cstdint>
 #include <functional>
+#include <list>
 #include <memory>
 #include <string>
 
 #include "ads1115.h"
 #include "hardware/i2c.h"
+#include "patterns/publisher.h"
 #include "patterns/subscriber.h"
 #include "registers.h"
 #include "sensors/sensor.h"
@@ -15,7 +17,14 @@
 #include "utils/button/button_control.h"
 #include "utils/low_pass_filter.h"
 
-class Ads1115Adc : public Sensor, public Subscriber {
+struct Measurement_t {
+    uint16_t raw_value;
+    float value;
+};
+
+class Ads1115Adc : public Sensor,
+                   public Subscriber<int>,
+                   public Publisher<Measurement_t> {
    public:
     Ads1115Adc(sensor_config_t &config,
                std::shared_ptr<ButtonControl> button_control,
@@ -33,7 +42,14 @@ class Ads1115Adc : public Sensor, public Subscriber {
     auto read() -> SensorReadStatus override;
     auto get_raw_value() -> std::uint16_t override;
     auto get_value() -> float override;
-    void update() override;
+
+    // Subscriber
+    void update(const int &) override;
+
+    // Publisher
+    void attach(Subscriber<Measurement_t> *subscriber) override;
+    void detach(Subscriber<Measurement_t> *subscriber) override;
+    void notify(const Measurement_t &) override;
 
    private:
     static constexpr int SAMPLES_TO_COMPLETE_CALIBRATION{20};
@@ -46,7 +62,8 @@ class Ads1115Adc : public Sensor, public Subscriber {
     std::uint16_t adc_value_;
     float value_;
     LowPassFilter<float> low_pass_filter_;
-    std::shared_ptr<ButtonControl> m_button_control;
+    std::list<Subscriber<Measurement_t> *> list_subscribers_;
+    std::shared_ptr<ButtonControl> button_control_;
 };
 
 #endif  // PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_

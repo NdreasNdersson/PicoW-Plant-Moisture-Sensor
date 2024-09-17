@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <limits>
 #include <string>
-#include <utility>
 
 #include "sensors/sensor_config.h"
 #include "utils/logging.h"
@@ -21,11 +20,12 @@ Ads1115Adc::Ads1115Adc(sensor_config_t &config,
       adc_value_{0U},
       value_{0.0F},
       low_pass_filter_(0.01f, delta_time),
-      m_button_control{std::move(button_control)} {
-    m_button_control->attach(ButtonNames::A, this);
+      list_subscribers_{},
+      button_control_{std::move(button_control)} {
+    button_control_->attach(ButtonNames::A, this);
 }
 
-Ads1115Adc::~Ads1115Adc() { m_button_control->detach(ButtonNames::A, this); }
+Ads1115Adc::~Ads1115Adc() { button_control_->detach(ButtonNames::A, this); }
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address,
                       const ads1115_mux_t mux_setting) {
@@ -71,17 +71,36 @@ auto Ads1115Adc::read() -> SensorReadStatus {
         led_callback_(false);
     }
 
+    const Measurement_t measurement{adc_value_, value_};
+    notify(measurement);
+
     return return_status;
 }
 
 auto Ads1115Adc::get_raw_value() -> std::uint16_t { return adc_value_; }
 auto Ads1115Adc::get_value() -> float { return value_; }
 
-void Ads1115Adc::update() {
+// Subscriber
+void Ads1115Adc::update(const int &) {
     if (!calibration_run_) {
         calibration_run_ = true;
         calibration_samples_ = 0;
         config_.max_value = std::numeric_limits<std::uint16_t>::min();
         config_.min_value = std::numeric_limits<std::uint16_t>::max();
+    }
+}
+
+// Publisher
+void Ads1115Adc::attach(Subscriber<Measurement_t> *subscriber) {
+    list_subscribers_.push_back(subscriber);
+}
+
+void Ads1115Adc::detach(Subscriber<Measurement_t> *subscriber) {
+    list_subscribers_.remove(subscriber);
+}
+
+void Ads1115Adc::notify(const Measurement_t &measurement) {
+    for (auto subsriber : list_subscribers_) {
+        subsriber->update(measurement);
     }
 }
