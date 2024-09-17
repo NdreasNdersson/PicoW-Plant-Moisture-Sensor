@@ -63,7 +63,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                 m_software_download.reboot(reboot_delay_ms);
             } else {
                 LogError(("Sensor config could not be stored, json_data: \n%s",
-                          json_data.dump()));
+                          json_data.dump().c_str()));
             }
         } else {
             status = false;
