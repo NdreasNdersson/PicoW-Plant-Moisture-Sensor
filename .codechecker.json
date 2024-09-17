@@ -1,7 +1,6 @@
 {
   "analyze": [
     "--enable=sensitive",
-    "--disable=clang-diagnostic-unknown-pragmas",
     "--i=.codechecker.skip.list"
   ]
 }
