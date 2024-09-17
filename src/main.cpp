@@ -97,7 +97,7 @@ void main_task(void *) {
         }
     }
 
-    auto button_control = ButtonControl();
+    auto button_control = std::make_shared<ButtonControl>();
     auto led_control = LedControl();
     if (WifiHelper::init()) {
         LogDebug(("Wifi Controller Initialised"));

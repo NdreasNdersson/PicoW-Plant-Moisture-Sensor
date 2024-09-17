@@ -13,7 +13,7 @@
 
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<std::shared_ptr<Sensor>> &sensors,
-                           ButtonControl &button_control,
+                           std::shared_ptr<ButtonControl> &button_control,
                            const std::function<void(bool)> &led_callback,
                            float delta_time) {
     if (pin_configs.empty() || (m_number_of_dacs > MAX_NUMBER_OF_DACS)) {
@@ -46,8 +46,8 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
             config.max_value = std::numeric_limits<std::uint16_t>::max();
         }
 
-        auto sensor{
-            std::make_shared<Ads1115Adc>(config, led_callback, delta_time)};
+        auto sensor{std::make_shared<Ads1115Adc>(config, button_control,
+                                                 led_callback, delta_time)};
         switch (analog_pin_id) {
             case 1:
                 sensor->init(I2C_PORT, ADS1115_I2C_FIRST_ADDRESS + dac_idx,
@@ -70,7 +70,6 @@ void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
         }
 
         LogDebug(("Init ADS1115: %u analog pin: %u", dac_id, analog_pin_id));
-        button_control.attach(ButtonNames::A, sensor.get());
         sensors.push_back(sensor);
     }
 
