@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <memory>
 #include <string>
 
 #include "ads1115.h"
@@ -11,12 +12,19 @@
 #include "registers.h"
 #include "sensors/sensor.h"
 #include "sensors/sensor_config.h"
+#include "utils/button/button_control.h"
 #include "utils/low_pass_filter.h"
 
 class Ads1115Adc : public Sensor, public Subscriber {
    public:
-    Ads1115Adc(sensor_config_t &config, std::function<void(bool)> led_callback,
-               float delta_time);
+    Ads1115Adc(sensor_config_t &config,
+               std::shared_ptr<ButtonControl> button_control,
+               std::function<void(bool)> led_callback, float delta_time);
+    ~Ads1115Adc();
+    Ads1115Adc(const Ads1115Adc &) = default;
+    Ads1115Adc(Ads1115Adc &&) = default;
+    Ads1115Adc &operator=(const Ads1115Adc &) = default;
+    Ads1115Adc &operator=(Ads1115Adc &&) = default;
 
     void init(i2c_inst_t *i2c, uint8_t address,
               const ads1115_mux_t mux_setting);
@@ -38,6 +46,7 @@ class Ads1115Adc : public Sensor, public Subscriber {
     std::uint16_t adc_value_;
     float value_;
     LowPassFilter<float> low_pass_filter_;
+    std::shared_ptr<ButtonControl> m_button_control;
 };
 
 #endif  // PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_
