@@ -10,9 +10,10 @@
 #include "utils/logging.h"
 
 RestApiCommandHandler::RestApiCommandHandler(
+    SoftwareDownload &software_download,
     std::vector<std::shared_ptr<Sensor>> sensors)
     : m_config_handler{},
-      m_software_download{},
+      m_software_download{software_download},
       m_sensors{std::move(sensors)},
       m_rest_api_data{},
       m_bin_sem{xSemaphoreCreateMutex()} {

@@ -23,7 +23,7 @@ class SensorFactory {
    public:
     void create(std::vector<sensor_config_t> &pin_configs,
                 std::vector<std::shared_ptr<Sensor>> &sensors,
-                std::shared_ptr<ButtonControl> &button_control,
+                ButtonControl &button_control,
                 const std::function<void(bool)> &led_callback,
                 float delta_time);
 

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "bootloader_lib.h"
 #include "network/wifi_helper.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
@@ -20,15 +21,21 @@ static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
 
 PlantMoistureSensor::PlantMoistureSensor()
     : config_handler_{},
-      button_control_{std::make_shared<ButtonControl>()},
+      button_control_{},
       sensors_{},
       led_control_{},
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
-      rest_api_command_handler_{} {}
+      software_download_{},
+      rest_api_command_handler_{} {
+    button_control_.attach(ButtonNames::B, this);
+}
 
+PlantMoistureSensor::~PlantMoistureSensor() {
+    button_control_.detach(ButtonNames::B, this);
+}
 void PlantMoistureSensor::init() {
-    LogDebug(("Started"));
+    LogDebug(("Started NEWEST APP"));
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     std::vector<sensor_config_t> sensor_config{};
@@ -75,9 +82,6 @@ void PlantMoistureSensor::init() {
         }
     }
 
-    // Add restore SWDL app to button B
-    /* ButtonControl->attach(ButtonNames::, ); */
-
     if (WifiHelper::init()) {
         LogDebug(("Wifi Controller Initialised"));
         set_led_in_not_connected_mode();
@@ -111,7 +115,7 @@ void PlantMoistureSensor::init() {
         static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
     rest_api_command_handler_ =
-        std::make_unique<RestApiCommandHandler>(sensors_);
+        std::make_unique<RestApiCommandHandler>(software_download_, sensors_);
     auto get_callback{
         [this](const std::string &resource, std::string &payload) -> bool {
             return rest_api_command_handler_->get_callback(resource, payload);
@@ -165,6 +169,17 @@ void PlantMoistureSensor::loop() {
     }
 }
 
+// Subscriber
+void PlantMoistureSensor::update(const int &) {
+    const uint32_t reboot_delay{3000};
+
+    LogInfo(("Reboot in 3s and request restore previous app"));
+    if (!software_download_.restore(reboot_delay)) {
+        LogError(("Failed to restore previous app"));
+    }
+}
+
+// Private
 void PlantMoistureSensor::set_led_in_not_connected_mode() {
     led_control_.set_blink_delay(LedPin::led_c, 500);
     led_control_.start_blink(LedPin::led_c);

@@ -9,7 +9,7 @@
 #include "portmacro.h"
 #include "queue.h"
 #include "task.h"
-#include "utils/button/button.h"
+#include "utils/logging.h"
 
 static std::map<pin_t, Button> buttons;
 static QueueHandle_t queue = nullptr;
@@ -30,7 +30,9 @@ ButtonControl::ButtonControl() {
 }
 
 void ButtonControl::button_press_callback(uint gpio, uint32_t event_mask) {
+    LogDebug(("Button pressed 1 %u: ", gpio));
     if (event_mask == GPIO_IRQ_EDGE_RISE) {
+        LogDebug(("Button pressed 2 %u: ", gpio));
         xQueueSendToBackFromISR(queue, &gpio, nullptr);
     }
 }
@@ -43,6 +45,7 @@ void ButtonControl::queue_task(void * /*params*/) {
             auto button_it{buttons.find(gpio)};
             if (button_it != buttons.end()) {
                 button_it->second.notify(BUTTON_PRESSED_VALUE);
+                LogDebug(("Notify that button %u was pressed: ", gpio));
             }
         }
     }

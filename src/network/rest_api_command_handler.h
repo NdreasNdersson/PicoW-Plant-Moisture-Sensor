@@ -15,6 +15,7 @@
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:
     explicit RestApiCommandHandler(
+        SoftwareDownload &software_download,
         std::vector<std::shared_ptr<Sensor>> sensors);
     ~RestApiCommandHandler();
     RestApiCommandHandler(const RestApiCommandHandler &) = default;
@@ -32,7 +33,7 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
 
    private:
     ConfigHandler m_config_handler;
-    SoftwareDownload m_software_download;
+    SoftwareDownload &m_software_download;
     std::vector<std::shared_ptr<Sensor>> m_sensors;
     nlohmann::json m_rest_api_data;
     SemaphoreHandle_t m_bin_sem;
