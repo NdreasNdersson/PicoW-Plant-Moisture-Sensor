@@ -30,10 +30,10 @@ auto TempAdc::read(sensor_config_t &config) -> SensorReadStatus {
 
     led_callback_(false);
 
-    const Measurement_t measurement{name_, adc_value, value, config_};
+    config = sensor_config_t{};
+    const Measurement_t measurement{name_, adc_value, value, config};
     notify(measurement);
 
-    config = sensor_config_t{};
     return SensorReadStatus::Ok;
 }
 

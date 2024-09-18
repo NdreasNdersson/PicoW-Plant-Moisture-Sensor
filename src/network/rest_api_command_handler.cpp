@@ -40,12 +40,12 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
 
     } else if ("CONFIG" == resource) {
         std::vector<sensor_config_t> sensor_config{};
-        for (const sensor_config_t &sensor : m_rest_api_data["config"]) {
-            if (sensor.type != "") {
-                sensor_config.push_back(sensor);
-            }
+        for (auto &sensor : m_rest_api_data["config"].items()) {
+            sensor_config.push_back(sensor.value());
         }
-        payload = nlohmann::json{sensor_config}.dump();
+        nlohmann::json json{};
+        json["config"] = sensor_config;
+        payload = json.dump();
         status = true;
     } else {
         LogError(("'GET /%s' is not implemented", resource.c_str()));
@@ -139,7 +139,9 @@ void RestApiCommandHandler::update(const Measurement_t &measurement) {
             measurement.value;
         m_rest_api_data["sensors"][measurement.name]["raw_value"] =
             measurement.raw_value;
-        m_rest_api_data["config"][measurement.name] = measurement.config;
+        if (measurement.config.type != "") {
+            m_rest_api_data["config"][measurement.name] = measurement.config;
+        }
         xSemaphoreGive(m_bin_sem);
     }
 }

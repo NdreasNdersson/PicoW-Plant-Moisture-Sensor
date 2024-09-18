@@ -22,7 +22,6 @@ class TempAdc : public Sensor {
     void notify(const Measurement_t &) override;
 
    private:
-    sensor_config_t config_;
     std::string name_;
     std::function<void(bool)> led_callback_;
     std::list<Subscriber<Measurement_t> *> list_subscribers_;
