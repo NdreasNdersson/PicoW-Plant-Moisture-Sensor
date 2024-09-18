@@ -14,8 +14,8 @@ class ButtonControl {
    public:
     ButtonControl();
 
-    void attach(ButtonNames button, Subscriber *subscriber);
-    void detach(ButtonNames button, Subscriber *subscriber);
+    void attach(ButtonNames button, Subscriber<int> *subscriber);
+    void detach(ButtonNames button, Subscriber<int> *subscriber);
 
    private:
     static void button_press_callback(uint gpio, uint32_t event_mask);

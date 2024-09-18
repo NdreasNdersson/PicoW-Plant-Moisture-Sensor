@@ -10,7 +10,6 @@
 #include "lwip/err.h"
 #include "network/rest_api_command_handler.h"
 #include "nlohmann/json.hpp"
-#include "semphr.h"
 #include "utils/logging.h"
 
 static const std::string HTTP_OK_RESPONSE{"HTTP/1.0 200 OK\r\n"};

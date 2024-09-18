@@ -13,6 +13,7 @@
 
 static std::map<pin_t, Button> buttons;
 static QueueHandle_t queue = nullptr;
+constexpr int BUTTON_PRESSED_VALUE{};
 
 ButtonControl::ButtonControl() {
     queue = xQueueCreate(8, sizeof(uint));
@@ -22,7 +23,7 @@ ButtonControl::ButtonControl() {
 
     gpio_set_irq_callback(button_press_callback);
     for (const auto &pin : PIN_GPIOS) {
-        buttons[pin.second] = Button(pin.second);
+        buttons.emplace(pin.second, pin.second);
         gpio_set_irq_enabled(pin.second,
                              GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true);
     }
@@ -41,16 +42,16 @@ void ButtonControl::queue_task(void * /*params*/) {
             xQueueReceive(queue, &gpio, portMAX_DELAY) == pdTRUE) {
             auto button_it{buttons.find(gpio)};
             if (button_it != buttons.end()) {
-                button_it->second.notify();
+                button_it->second.notify(BUTTON_PRESSED_VALUE);
             }
         }
     }
 }
 
-void ButtonControl::attach(ButtonNames button, Subscriber *subscriber) {
+void ButtonControl::attach(ButtonNames button, Subscriber<int> *subscriber) {
     buttons.at(PIN_GPIOS.at(button)).attach(subscriber);
 }
 
-void ButtonControl::detach(ButtonNames button, Subscriber *subscriber) {
+void ButtonControl::detach(ButtonNames button, Subscriber<int> *subscriber) {
     buttons.at(PIN_GPIOS.at(button)).detach(subscriber);
 }
