@@ -7,9 +7,9 @@ class Subscriber {
     Subscriber() = default;
     virtual ~Subscriber() = default;
     Subscriber(const Subscriber&) = default;
-    Subscriber(Subscriber&&) = default;
+    Subscriber(Subscriber&&) noexcept = default;
     Subscriber& operator=(const Subscriber&) = default;
-    Subscriber& operator=(Subscriber&&) = default;
+    Subscriber& operator=(Subscriber&&) noexcept = default;
 
     virtual void update(const Payload& payload) = 0;
 };

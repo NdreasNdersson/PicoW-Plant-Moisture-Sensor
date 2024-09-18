@@ -9,9 +9,9 @@ class Publisher {
     Publisher() = default;
     virtual ~Publisher() = default;
     Publisher(const Publisher&) = default;
-    Publisher(Publisher&&) = default;
+    Publisher(Publisher&&) noexcept = default;
     Publisher& operator=(const Publisher&) = default;
-    Publisher& operator=(Publisher&&) = default;
+    Publisher& operator=(Publisher&&) noexcept = default;
 
     virtual void attach(Subscriber<Payload>* subscriber) = 0;
     virtual void detach(Subscriber<Payload>* subscriber) = 0;
