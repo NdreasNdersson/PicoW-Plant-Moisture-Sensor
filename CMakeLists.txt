@@ -40,6 +40,7 @@ add_executable(${NAME}
     src/utils/config_handler.cpp
     src/utils/json_converter.cpp
     src/main.cpp
+    src/plant_moisture_sensor.cpp
     src/network/wifi_helper.cpp
     src/network/rest_api.cpp
     src/network/rest_api_command_handler.cpp

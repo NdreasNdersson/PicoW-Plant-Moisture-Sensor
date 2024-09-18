@@ -6,20 +6,21 @@
 #include <memory>
 #include <string>
 
-#include "FreeRTOS.h"
 #include "lwip/pbuf.h"
 #include "lwip/tcp.h"
 #include "network/rest_api_command_handler.h"
-#include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
-#include "sensors/sensor.h"
 
 class RestApi {
    public:
-    RestApi(std::function<void(bool)> led_control,
-            const std::vector<std::shared_ptr<Sensor>> &sensors);
+    RestApi(std::function<void(bool)> led_control);
 
-    auto start() -> bool;
+    auto start(
+        std::function<bool(const std::string &resource, std::string &payload)>
+            get_callback,
+        std::function<bool(const std::string &resource,
+                           const std::string &payload)>
+            post_callback) -> bool;
 
    private:
     using TCP_SERVER_T = struct TCP_SERVER_T_ {
