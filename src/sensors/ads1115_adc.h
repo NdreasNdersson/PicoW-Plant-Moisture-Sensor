@@ -9,7 +9,6 @@
 
 #include "ads1115.h"
 #include "hardware/i2c.h"
-#include "patterns/publisher.h"
 #include "patterns/subscriber.h"
 #include "registers.h"
 #include "sensors/sensor.h"
@@ -17,14 +16,7 @@
 #include "utils/button/button_control.h"
 #include "utils/low_pass_filter.h"
 
-struct Measurement_t {
-    uint16_t raw_value;
-    float value;
-};
-
-class Ads1115Adc : public Sensor,
-                   public Subscriber<int>,
-                   public Publisher<Measurement_t> {
+class Ads1115Adc : public Sensor, public Subscriber<int> {
    public:
     Ads1115Adc(sensor_config_t &config,
                std::shared_ptr<ButtonControl> button_control,
@@ -37,11 +29,7 @@ class Ads1115Adc : public Sensor,
 
     void init(i2c_inst_t *i2c, uint8_t address,
               const ads1115_mux_t mux_setting);
-    void get_name(std::string &name) override;
-    void get_config(sensor_config_t &config) override;
-    auto read() -> SensorReadStatus override;
-    auto get_raw_value() -> std::uint16_t override;
-    auto get_value() -> float override;
+    auto read(sensor_config_t &config) -> SensorReadStatus override;
 
     // Subscriber
     void update(const int &) override;
@@ -59,8 +47,6 @@ class Ads1115Adc : public Sensor,
     int calibration_samples_;
     std::string name_;
     std::function<void(bool)> led_callback_;
-    std::uint16_t adc_value_;
-    float value_;
     LowPassFilter<float> low_pass_filter_;
     std::list<Subscriber<Measurement_t> *> list_subscribers_;
     std::shared_ptr<ButtonControl> button_control_;

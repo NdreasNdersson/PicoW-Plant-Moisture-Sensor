@@ -17,8 +17,6 @@ Ads1115Adc::Ads1115Adc(sensor_config_t &config,
       calibration_samples_{0},
       name_(config_.type + "_" + std::to_string(config_.pin)),
       led_callback_{std::move(led_callback)},
-      adc_value_{0U},
-      value_{0.0F},
       low_pass_filter_(0.01f, delta_time),
       list_subscribers_{},
       button_control_{std::move(button_control)} {
@@ -38,23 +36,21 @@ void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address,
     ads1115_write_config(&adc_state_);
 }
 
-void Ads1115Adc::get_name(std::string &name) { name = name_; }
-
-void Ads1115Adc::get_config(sensor_config_t &config) { config = config_; }
-
-auto Ads1115Adc::read() -> SensorReadStatus {
+auto Ads1115Adc::read(sensor_config_t &config) -> SensorReadStatus {
     led_callback_(true);
     auto return_status{SensorReadStatus::Ok};
 
-    ads1115_read_adc(&adc_value_, &adc_state_);
+    uint16_t adc_value{};
+    float value{};
+    ads1115_read_adc(&adc_value, &adc_state_);
 
     if (calibration_run_) {
         return_status = SensorReadStatus::Calibrating;
-        config_.min_value = std::min(config_.min_value, adc_value_);
-        config_.max_value = std::max(config_.max_value, adc_value_);
+        config_.min_value = std::min(config_.min_value, adc_value);
+        config_.max_value = std::max(config_.max_value, adc_value);
         calibration_samples_++;
         LogDebug(("Calibrate: sample %u, Value %u", calibration_samples_,
-                  adc_value_));
+                  adc_value));
         if (calibration_samples_ >= SAMPLES_TO_COMPLETE_CALIBRATION) {
             return_status = SensorReadStatus::CalibrationComplete;
             calibration_run_ = false;
@@ -62,23 +58,21 @@ auto Ads1115Adc::read() -> SensorReadStatus {
                       config_.min_value));
         }
     } else {
-        value_ = static_cast<float>(adc_value_ - config_.min_value) * 100 /
-                 static_cast<float>(config_.max_value - config_.min_value);
+        value = static_cast<float>(adc_value - config_.min_value) * 100 /
+                static_cast<float>(config_.max_value - config_.min_value);
         if (config_.inverse_measurement) {
-            value_ = (value_ - 100.0f) * (-1.0f);
+            value = (value - 100.0f) * (-1.0f);
         }
-        value_ = low_pass_filter_.update(value_);
+        value = low_pass_filter_.update(value);
         led_callback_(false);
     }
 
-    const Measurement_t measurement{adc_value_, value_};
+    const Measurement_t measurement{name_, adc_value, value, config_};
     notify(measurement);
 
+    config = config_;
     return return_status;
 }
-
-auto Ads1115Adc::get_raw_value() -> std::uint16_t { return adc_value_; }
-auto Ads1115Adc::get_value() -> float { return value_; }
 
 // Subscriber
 void Ads1115Adc::update(const int &) {

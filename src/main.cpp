@@ -146,15 +146,20 @@ void main_task(void *) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
         auto save_config{false};
-        for (size_t i{0}; i < sensors.size(); i++) {
-            if (sensors[i]->read() == SensorReadStatus::CalibrationComplete) {
-                sensors[i]->get_config(sensor_config[i]);
+        std::vector<sensor_config_t> temp_sensor_config{};
+        for (const auto &sensor : sensors) {
+            sensor_config_t temp_config{};
+            if (sensor->read(temp_config) ==
+                SensorReadStatus::CalibrationComplete) {
                 save_config = true;
+                if (temp_config.type != "") {
+                    temp_sensor_config.push_back(temp_config);
+                }
             }
         }
 
         if (save_config) {
-            config_handler.write_config(sensor_config);
+            config_handler.write_config(temp_sensor_config);
         }
 
         if (!WifiHelper::isJoined()) {

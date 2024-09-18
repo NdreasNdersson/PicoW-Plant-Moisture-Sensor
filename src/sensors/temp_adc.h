@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <functional>
+#include <list>
 #include <string>
 
 #include "sensors/sensor.h"
@@ -13,18 +14,18 @@ class TempAdc : public Sensor {
     TempAdc(sensor_config_t &config, std::function<void(bool)> led_callback);
 
     void init();
-    void get_name(std::string &name) override;
-    void get_config(sensor_config_t &config) override;
-    auto read() -> SensorReadStatus override;
-    auto get_raw_value() -> std::uint16_t override;
-    auto get_value() -> float override;
+    auto read(sensor_config_t &config) -> SensorReadStatus override;
+
+    // Publisher
+    void attach(Subscriber<Measurement_t> *subscriber) override;
+    void detach(Subscriber<Measurement_t> *subscriber) override;
+    void notify(const Measurement_t &) override;
 
    private:
     sensor_config_t config_;
     std::string name_;
     std::function<void(bool)> led_callback_;
-    std::uint16_t adc_value_;
-    float value_;
+    std::list<Subscriber<Measurement_t> *> list_subscribers_;
 };
 
 #endif  // PICO_REST_SENSOR_SENSORS_TEMP_ADC_H_

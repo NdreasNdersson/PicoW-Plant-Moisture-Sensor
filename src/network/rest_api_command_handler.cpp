@@ -2,11 +2,9 @@
 
 #include <cctype>
 #include <charconv>
-#include <utility>
 #include <vector>
 
 #include "bootloader_lib.h"
-#include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
@@ -15,27 +13,37 @@ RestApiCommandHandler::RestApiCommandHandler(
     std::vector<std::shared_ptr<Sensor>> sensors)
     : m_config_handler{},
       m_software_download{},
-      m_sensors{std::move(sensors)} {}
+      m_sensors{std::move(sensors)},
+      m_rest_api_data{},
+      m_bin_sem{xSemaphoreCreateMutex()} {
+    for (const auto &sensor : m_sensors) {
+        sensor->attach(this);
+    }
+}
+
+RestApiCommandHandler::~RestApiCommandHandler() {
+    for (const auto &sensor : m_sensors) {
+        sensor->detach(this);
+    }
+}
 
 auto RestApiCommandHandler::get_callback(const std::string &resource,
                                          std::string &payload) -> bool {
     auto status{false};
     if ("SENSORS" == resource) {
-        nlohmann::json rest_api_data;
-        for (size_t i{0}; i < m_sensors.size(); i++) {
-            std::string name{};
-            m_sensors[i]->get_name(name);
+        if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
+            payload = m_rest_api_data["sensors"].dump();
+            xSemaphoreGive(m_bin_sem);
 
-            rest_api_data[name]["value"] = m_sensors[i]->get_value();
-            rest_api_data[name]["raw_value"] = m_sensors[i]->get_raw_value();
+            status = true;
         }
-        payload = rest_api_data.dump();
-        status = true;
 
     } else if ("CONFIG" == resource) {
-        std::vector<sensor_config_t> sensor_config(m_sensors.size());
-        for (size_t i{0}; i < m_sensors.size(); i++) {
-            m_sensors[i]->get_config(sensor_config[i]);
+        std::vector<sensor_config_t> sensor_config{};
+        for (const sensor_config_t &sensor : m_rest_api_data["config"]) {
+            if (sensor.type != "") {
+                sensor_config.push_back(sensor);
+            }
         }
         payload = nlohmann::json{sensor_config}.dump();
         status = true;
@@ -122,4 +130,16 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
     }
 
     return status;
+}
+
+// Subscriber
+void RestApiCommandHandler::update(const Measurement_t &measurement) {
+    if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
+        m_rest_api_data["sensors"][measurement.name]["value"] =
+            measurement.value;
+        m_rest_api_data["sensors"][measurement.name]["raw_value"] =
+            measurement.raw_value;
+        m_rest_api_data["config"][measurement.name] = measurement.config;
+        xSemaphoreGive(m_bin_sem);
+    }
 }
