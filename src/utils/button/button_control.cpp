@@ -23,7 +23,7 @@ ButtonControl::ButtonControl() {
 
     gpio_set_irq_callback(button_press_callback);
     for (const auto &pin : PIN_GPIOS) {
-        buttons[pin.second] = Button(pin.second);
+        buttons.emplace(pin.second, pin.second);
         gpio_set_irq_enabled(pin.second,
                              GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true);
     }

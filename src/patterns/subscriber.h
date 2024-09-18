@@ -6,10 +6,10 @@ class Subscriber {
    public:
     Subscriber() = default;
     virtual ~Subscriber() = default;
-    Subscriber(const Subscriber&) = default;
-    Subscriber(Subscriber&&) noexcept = default;
-    Subscriber& operator=(const Subscriber&) = default;
-    Subscriber& operator=(Subscriber&&) noexcept = default;
+    Subscriber(const Subscriber&) = delete;
+    Subscriber(Subscriber&&) noexcept = delete;
+    Subscriber& operator=(const Subscriber&) = delete;
+    Subscriber& operator=(Subscriber&&) noexcept = delete;
 
     virtual void update(const Payload& payload) = 0;
 };
