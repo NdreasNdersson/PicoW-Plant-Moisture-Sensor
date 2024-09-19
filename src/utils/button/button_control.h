@@ -20,6 +20,7 @@ class ButtonControl {
    private:
     static void button_press_callback(uint gpio, uint32_t event_mask);
     static void queue_task(void *params);
+    static void enable_irq(bool state, uint gpio);
 };
 
 #endif  // PICO_REST_SENSOR_UTILS_BUTTON_BUTTON_CONTROL_H_
