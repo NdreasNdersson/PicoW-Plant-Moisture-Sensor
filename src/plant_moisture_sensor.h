@@ -29,7 +29,7 @@ class PlantMoistureSensor : public Subscriber<int> {
     void set_led_in_connected_mode();
 
     ConfigHandler config_handler_;
-    ButtonControl button_control_;
+    std::unique_ptr<ButtonControl> button_control_;
     std::vector<std::shared_ptr<Sensor>> sensors_;
     LedControl led_control_;
     wifi_config_t wifi_config_;

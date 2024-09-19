@@ -30,9 +30,7 @@ ButtonControl::ButtonControl() {
 }
 
 void ButtonControl::button_press_callback(uint gpio, uint32_t event_mask) {
-    LogDebug(("Button pressed 1 %u: ", gpio));
     if (event_mask == GPIO_IRQ_EDGE_RISE) {
-        LogDebug(("Button pressed 2 %u: ", gpio));
         xQueueSendToBackFromISR(queue, &gpio, nullptr);
     }
 }

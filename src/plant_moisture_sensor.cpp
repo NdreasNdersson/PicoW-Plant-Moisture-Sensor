@@ -1,6 +1,7 @@
 #include "src/plant_moisture_sensor.h"
 
 #include <cstdio>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -27,16 +28,15 @@ PlantMoistureSensor::PlantMoistureSensor()
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
       software_download_{},
-      rest_api_command_handler_{} {
-    button_control_.attach(ButtonNames::B, this);
-}
+      rest_api_command_handler_{} {}
 
 PlantMoistureSensor::~PlantMoistureSensor() {
-    button_control_.detach(ButtonNames::B, this);
+    if (button_control_ != nullptr) {
+        button_control_->detach(ButtonNames::B, this);
+    }
 }
 void PlantMoistureSensor::init() {
-    LogDebug(("Started NEWEST APP"));
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    LogDebug(("Started"));
 
     std::vector<sensor_config_t> sensor_config{};
     {
@@ -107,10 +107,12 @@ void PlantMoistureSensor::init() {
     WifiHelper::getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
+    button_control_ = std::make_unique<ButtonControl>();
+    button_control_->attach(ButtonNames::B, this);
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     sensor_factory.create(
-        sensor_config, sensors_, button_control_,
+        sensor_config, sensors_, *button_control_,
         [this](bool value) { led_control_.set(LedPin::led_a, value); },
         static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
