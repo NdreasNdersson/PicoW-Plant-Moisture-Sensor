@@ -9,7 +9,7 @@
 #include "portmacro.h"
 #include "queue.h"
 #include "task.h"
-#include "utils/button/button.h"
+#include "utils/logging.h"
 
 static std::map<pin_t, Button> buttons;
 static QueueHandle_t queue = nullptr;
@@ -17,16 +17,16 @@ constexpr int BUTTON_PRESSED_VALUE{};
 
 ButtonControl::ButtonControl() {
     queue = xQueueCreate(8, sizeof(uint));
-    xTaskCreate(&ButtonControl::queue_task, "ButtonThread",
-                configMINIMAL_STACK_SIZE, nullptr, BUTTON_PRESS_TASK_PRIORITY,
-                nullptr);
 
     gpio_set_irq_callback(button_press_callback);
     for (const auto &pin : PIN_GPIOS) {
         buttons.emplace(pin.second, pin.second);
-        gpio_set_irq_enabled(pin.second,
-                             GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true);
+        enable_irq(true, pin.second);
     }
+
+    xTaskCreate(&ButtonControl::queue_task, "ButtonThread",
+                configMINIMAL_STACK_SIZE, nullptr, BUTTON_PRESS_TASK_PRIORITY,
+                nullptr);
 }
 
 void ButtonControl::button_press_callback(uint gpio, uint32_t event_mask) {
@@ -43,9 +43,14 @@ void ButtonControl::queue_task(void * /*params*/) {
             auto button_it{buttons.find(gpio)};
             if (button_it != buttons.end()) {
                 button_it->second.notify(BUTTON_PRESSED_VALUE);
+                LogDebug(("Notify that button %u was pressed: ", gpio));
             }
         }
     }
+}
+
+void ButtonControl::enable_irq(bool state, uint gpio) {
+    gpio_set_irq_enabled(gpio, GPIO_IRQ_EDGE_RISE, state);
 }
 
 void ButtonControl::attach(ButtonNames button, Subscriber<int> *subscriber) {

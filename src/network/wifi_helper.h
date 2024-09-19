@@ -2,7 +2,6 @@
 #define PICO_REST_SENSOR_NETWORK_WIFI_HELPER_H_
 
 #include <cstdlib>
-#include <string>
 
 #include "pico/stdlib.h"
 #include "wifi_config.h"

@@ -10,9 +10,10 @@
 #include "utils/logging.h"
 
 RestApiCommandHandler::RestApiCommandHandler(
+    SoftwareDownload &software_download,
     std::vector<std::shared_ptr<Sensor>> sensors)
     : m_config_handler{},
-      m_software_download{},
+      m_software_download{software_download},
       m_sensors{std::move(sensors)},
       m_rest_api_data{},
       m_bin_sem{xSemaphoreCreateMutex()} {
@@ -31,22 +32,33 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
                                          std::string &payload) -> bool {
     auto status{false};
     if ("SENSORS" == resource) {
-        if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
-            payload = m_rest_api_data["sensors"].dump();
-            xSemaphoreGive(m_bin_sem);
+        if (m_rest_api_data.contains("sensors")) {
+            if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
+                payload = m_rest_api_data["sensors"].dump();
+                xSemaphoreGive(m_bin_sem);
 
-            status = true;
+                status = true;
+            }
+        } else {
+            LogError(("No config data available"));
         }
 
     } else if ("CONFIG" == resource) {
-        std::vector<sensor_config_t> sensor_config{};
-        for (auto &sensor : m_rest_api_data["config"].items()) {
-            sensor_config.push_back(sensor.value());
+        if (m_rest_api_data.contains("config")) {
+            std::vector<sensor_config_t> sensor_config{};
+            if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
+                for (auto &sensor : m_rest_api_data["config"].items()) {
+                    sensor_config.push_back(sensor.value());
+                }
+                xSemaphoreGive(m_bin_sem);
+                nlohmann::json json{};
+                json["config"] = sensor_config;
+                payload = json.dump();
+                status = true;
+            }
+        } else {
+            LogError(("No config data available"));
         }
-        nlohmann::json json{};
-        json["config"] = sensor_config;
-        payload = json.dump();
-        status = true;
     } else {
         LogError(("'GET /%s' is not implemented", resource.c_str()));
     }

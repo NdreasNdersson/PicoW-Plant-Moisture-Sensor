@@ -4,7 +4,6 @@
 #include <cstdint>
 #include <functional>
 #include <list>
-#include <memory>
 #include <string>
 
 #include "ads1115.h"
@@ -18,14 +17,13 @@
 
 class Ads1115Adc : public Sensor, public Subscriber<int> {
    public:
-    Ads1115Adc(sensor_config_t &config,
-               std::shared_ptr<ButtonControl> button_control,
+    Ads1115Adc(sensor_config_t &config, ButtonControl &button_control,
                std::function<void(bool)> led_callback, float delta_time);
     ~Ads1115Adc();
-    Ads1115Adc(const Ads1115Adc &) = default;
-    Ads1115Adc(Ads1115Adc &&) = default;
-    Ads1115Adc &operator=(const Ads1115Adc &) = default;
-    Ads1115Adc &operator=(Ads1115Adc &&) = default;
+    Ads1115Adc(const Ads1115Adc &) = delete;
+    Ads1115Adc(Ads1115Adc &&) = delete;
+    Ads1115Adc &operator=(const Ads1115Adc &) = delete;
+    Ads1115Adc &operator=(Ads1115Adc &&) = delete;
 
     void init(i2c_inst_t *i2c, uint8_t address,
               const ads1115_mux_t mux_setting);
@@ -49,7 +47,7 @@ class Ads1115Adc : public Sensor, public Subscriber<int> {
     std::function<void(bool)> led_callback_;
     LowPassFilter<float> low_pass_filter_;
     std::list<Subscriber<Measurement_t> *> list_subscribers_;
-    std::shared_ptr<ButtonControl> button_control_;
+    ButtonControl &button_control_;
 };
 
 #endif  // PICO_REST_SENSOR_SENSORS_ADS1115_ADC_H_

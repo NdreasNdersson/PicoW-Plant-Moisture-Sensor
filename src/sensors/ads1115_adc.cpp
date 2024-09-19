@@ -8,8 +8,7 @@
 #include "sensors/sensor_config.h"
 #include "utils/logging.h"
 
-Ads1115Adc::Ads1115Adc(sensor_config_t &config,
-                       std::shared_ptr<ButtonControl> button_control,
+Ads1115Adc::Ads1115Adc(sensor_config_t &config, ButtonControl &button_control,
                        std::function<void(bool)> led_callback, float delta_time)
     : adc_state_{},
       config_{config},
@@ -19,11 +18,11 @@ Ads1115Adc::Ads1115Adc(sensor_config_t &config,
       led_callback_{std::move(led_callback)},
       low_pass_filter_(0.01f, delta_time),
       list_subscribers_{},
-      button_control_{std::move(button_control)} {
-    button_control_->attach(ButtonNames::A, this);
+      button_control_{button_control} {
+    button_control_.attach(ButtonNames::A, this);
 }
 
-Ads1115Adc::~Ads1115Adc() { button_control_->detach(ButtonNames::A, this); }
+Ads1115Adc::~Ads1115Adc() { button_control_.detach(ButtonNames::A, this); }
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address,
                       const ads1115_mux_t mux_setting) {

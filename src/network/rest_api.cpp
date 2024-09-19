@@ -8,7 +8,6 @@
 
 #include "FreeRTOS.h"
 #include "lwip/err.h"
-#include "network/rest_api_command_handler.h"
 #include "nlohmann/json.hpp"
 #include "utils/logging.h"
 
@@ -17,27 +16,21 @@ static const std::string HTTP_BAD_RESPONSE{"HTTP/1.0 400 NOK\r\n"};
 static const std::string HTTP_CONTENT_TYPE{
     "Content-type: application/json\r\n\r\n"};
 
-RestApi::RestApi(std::function<void(bool)> led_control,
-                 const std::vector<std::shared_ptr<Sensor>> &sensors)
-    : m_rest_api_command_handler{std::make_unique<RestApiCommandHandler>(
-          sensors)},
-      m_ip_address{"0.0.0.0"},
+RestApi::RestApi(std::function<void(bool)> led_control)
+    : m_ip_address{"0.0.0.0"},
       m_port{80},
 
       m_server_state{std::make_unique<TCP_SERVER_T>()} {
     m_server_state->led_control = std::move(led_control);
-
-    m_server_state->get_callback = [this](const std::string &resource,
-                                          std::string &payload) -> bool {
-        return m_rest_api_command_handler->get_callback(resource, payload);
-    };
-    m_server_state->post_callback = [this](const std::string &resource,
-                                           const std::string &payload) -> bool {
-        return m_rest_api_command_handler->post_callback(resource, payload);
-    };
 }
 
-auto RestApi::start() -> bool {
+auto RestApi::start(
+    std::function<bool(const std::string &resource, std::string &payload)>
+        get_callback,
+    std::function<bool(const std::string &resource, const std::string &payload)>
+        post_callback) -> bool {
+    m_server_state->get_callback = get_callback;
+    m_server_state->post_callback = post_callback;
     if (m_server_state == nullptr) {
         return false;
     }

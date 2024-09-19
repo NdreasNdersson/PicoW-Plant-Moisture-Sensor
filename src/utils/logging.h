@@ -10,6 +10,8 @@
  * 3. Include the header file "logging_stack.h".
  */
 
+#include <cstdio>
+
 #include "logging_levels.h"
 
 /* Logging configurations for the application. */
