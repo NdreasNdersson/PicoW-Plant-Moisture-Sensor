@@ -27,8 +27,7 @@ PlantMoistureSensor::PlantMoistureSensor()
       led_control_{},
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
-      software_download_pico_interface_{},
-      software_download_{software_download_pico_interface_},
+      software_download_{},
       rest_api_command_handler_{} {}
 
 PlantMoistureSensor::~PlantMoistureSensor() {
