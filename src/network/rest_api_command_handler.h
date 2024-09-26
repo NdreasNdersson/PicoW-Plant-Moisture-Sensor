@@ -5,11 +5,11 @@
 #include <string>
 
 #include "FreeRTOS.h"
-#include "bootloader_lib.h"
 #include "nlohmann/json.hpp"
 #include "patterns/subscriber.h"
 #include "semphr.h"
 #include "sensors/sensor.h"
+#include "software_download.h"
 #include "utils/config_handler.h"
 
 class RestApiCommandHandler : public Subscriber<Measurement_t> {

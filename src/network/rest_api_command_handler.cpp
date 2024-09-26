@@ -4,8 +4,8 @@
 #include <charconv>
 #include <vector>
 
-#include "bootloader_lib.h"
 #include "sensors/sensor_config.h"
+#include "software_download.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
@@ -92,7 +92,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("size")) {
             uint32_t size{json_data["size"]};
             LogDebug(("Store app size %u", size));
-            m_software_download.init_download(size);
+            status &= m_software_download.init_download(size);
         }
         if (json_data.contains("hash")) {
             unsigned char temp[SHA256_DIGEST_SIZE]{};
@@ -104,7 +104,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                                     temp[i / 2], 16);
                 }
                 LogDebug(("Store app hash %s", hash_c_str));
-                m_software_download.set_hash(temp);
+                status &= m_software_download.set_hash(temp);
             } else {
                 status = false;
                 LogError(("Received hash has wrong length"));
@@ -134,7 +134,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         }
         if (json_data.contains("complete")) {
             LogInfo(("SWDL complete"));
-            m_software_download.download_complete();
+            status &= m_software_download.download_complete();
         }
     } else {
         status = false;

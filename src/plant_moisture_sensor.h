@@ -6,7 +6,9 @@
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
 #include "patterns/subscriber.h"
+#include "pico_interface_impl.h"
 #include "sensors/sensor.h"
+#include "software_download.h"
 #include "utils/button/button_control.h"
 #include "utils/config_handler.h"
 #include "utils/led/led_control.h"
@@ -34,6 +36,7 @@ class PlantMoistureSensor : public Subscriber<int> {
     LedControl led_control_;
     wifi_config_t wifi_config_;
     RestApi rest_api_;
+    PicoInterfaceImpl software_download_pico_interface_;
     SoftwareDownload software_download_;
     std::unique_ptr<RestApiCommandHandler> rest_api_command_handler_;
 };

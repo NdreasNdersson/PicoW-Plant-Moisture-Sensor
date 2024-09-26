@@ -67,7 +67,7 @@ target_link_libraries(${NAME}
     LWIP_PORT                          # LWIP config files
     pico-ads1115
     nlohmann_json::nlohmann_json
-    PICO_BOOTLOADER_LIB
+    software_download_lib
     hardware_adc
 )
 
@@ -85,3 +85,9 @@ pico_enable_stdio_uart(${NAME} 1)
 pico_add_extra_outputs(${NAME})
 
 target_include_directories(${NAME} PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
+
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E create_symlink
+        ${CMAKE_BINARY_DIR}/compile_commands.json
+        ${CMAKE_SOURCE_DIR}/compile_commands.json
+)
