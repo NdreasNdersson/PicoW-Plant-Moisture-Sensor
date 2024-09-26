@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 RUN apt-get update && \
-    apt-get install -y cmake ninja-build curl xz-utils build-essential git cppcheck clang clang-tidy clang-tools gcc
+    apt-get install -y cmake ninja-build curl xz-utils build-essential git cppcheck clang clang-tidy clang-tools
 
 # install arm toolchain
 ARG ARM_TOOLCHAIN_VERSION=12.3.Rel1
@@ -26,5 +26,8 @@ ADD requirements.txt /temp/requirements.txt
 RUN pip install -r /temp/requirements.txt
 
 RUN rm -r /temp
+
+RUN apt-get update && \
+    apt-get install -y gcc g++ gcc-multilib g++-multilib gdb
 
 ENTRYPOINT ["/bin/bash"]

@@ -6,13 +6,13 @@
 #include <vector>
 
 #include "FreeRTOS.h"
-#include "bootloader_lib.h"
 #include "network/wifi_helper.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
 #include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
+#include "software_download.h"
 #include "src/plant_moisture_sensor.h"
 #include "task.h"
 #include "utils/button/button_control.h"
@@ -27,7 +27,8 @@ PlantMoistureSensor::PlantMoistureSensor()
       led_control_{},
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
-      software_download_{},
+      software_download_pico_interface_{},
+      software_download_{software_download_pico_interface_},
       rest_api_command_handler_{} {}
 
 PlantMoistureSensor::~PlantMoistureSensor() {

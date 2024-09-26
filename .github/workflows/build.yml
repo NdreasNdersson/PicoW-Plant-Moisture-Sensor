@@ -1,6 +1,4 @@
-# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
-name: build
+name: Build
 
 on:
   push:
@@ -9,10 +7,18 @@ on:
     branches: [ "main" ]
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v3
+      - uses: pre-commit/action@v3.0.1
+
   build:
     runs-on: ubuntu-latest
     container:
@@ -21,28 +27,28 @@ jobs:
         - ${{ github.workspace }}:/project
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: recursive
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - run: ./build_and_combine.sh ${{env.BUILD_TYPE}}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Release
+          path: |
+            build/*.uf2
+            build/*.bin
+            build/**/PICO_BOOTLOADER.bin
+            ${{ steps.codechecker.outputs.result-html-dir }}
 
-    - name: Build
-      run: ./build_and_combine.sh ${{env.BUILD_TYPE}}
+  unittest:
+    runs-on: ubuntu-latest
+    container:
+      image: ndreasndersson/picow-plant-moisture-sensor:latest
+      volumes:
+        - ${{ github.workspace }}:/project
 
-    - name: Static code analysis
-      run: ./run_codechecker_and_create_report.sh
-
-    - name: Deploy
-      uses: actions/upload-artifact@v4
-      with:
-        name: Release
-        path: |
-          build/*.uf2
-          build/*.bin
-          build/**/PICO_BOOTLOADER.bin
-          ${{ steps.codechecker.outputs.result-html-dir }}
-
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - run: cmake --workflow --preset test
