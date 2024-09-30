@@ -39,6 +39,12 @@ PlantMoistureSensor::~PlantMoistureSensor() {
 void PlantMoistureSensor::init() {
     LogDebug(("Started"));
 
+    if (!config_handler_.init()) {
+        LogError(("Failed to config handler"));
+        set_led_in_failed_mode();
+        vTaskDelete(nullptr);
+    }
+
     std::vector<sensor_config_t> sensor_config{};
     {
         auto wifi_config_status{config_handler_.read_config(wifi_config_)};
