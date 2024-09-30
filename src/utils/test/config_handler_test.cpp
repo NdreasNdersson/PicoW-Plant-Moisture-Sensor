@@ -76,3 +76,5 @@ TEST_F(ConfigHandlerTest, TestInit) {
             "{\"sensors\":[],\"wifi\":{\"password\":\"\",\"ssid\":\"\"}}");
     }
 }
+
+TEST_F(ConfigHandlerTest, TestWriteConfig) {}

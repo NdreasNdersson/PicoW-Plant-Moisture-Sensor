@@ -5,6 +5,7 @@
 #include <string>
 
 #include "FreeRTOS.h"
+#include "hal/pico_interface.h"
 #include "nlohmann/json.hpp"
 #include "patterns/subscriber.h"
 #include "semphr.h"
@@ -15,7 +16,7 @@
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:
     explicit RestApiCommandHandler(
-        SoftwareDownload &software_download,
+        PicoInterface &pico_interface, SoftwareDownload &software_download,
         std::vector<std::shared_ptr<Sensor>> sensors);
     ~RestApiCommandHandler();
     RestApiCommandHandler(const RestApiCommandHandler &) = default;
@@ -32,11 +33,12 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
     void update(const Measurement_t &) override;
 
    private:
-    ConfigHandler m_config_handler;
-    SoftwareDownload &m_software_download;
-    std::vector<std::shared_ptr<Sensor>> m_sensors;
-    nlohmann::json m_rest_api_data;
-    SemaphoreHandle_t m_bin_sem;
+    ConfigHandler config_handler_;
+    PicoInterface &pico_interface_;
+    SoftwareDownload &software_download_;
+    std::vector<std::shared_ptr<Sensor>> sensors_;
+    nlohmann::json rest_api_data_;
+    SemaphoreHandle_t semaphore_;
 };
 
 #endif  // PICO_REST_SENSOR_NETWORK_REST_API_COMMAND_HANDLER_H_

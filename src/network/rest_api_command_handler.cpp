@@ -10,20 +10,21 @@
 #include "utils/logging.h"
 
 RestApiCommandHandler::RestApiCommandHandler(
-    SoftwareDownload &software_download,
+    PicoInterface &pico_interface, SoftwareDownload &software_download,
     std::vector<std::shared_ptr<Sensor>> sensors)
-    : m_config_handler{},
-      m_software_download{software_download},
-      m_sensors{std::move(sensors)},
-      m_rest_api_data{},
-      m_bin_sem{xSemaphoreCreateMutex()} {
-    for (const auto &sensor : m_sensors) {
+    : pico_interface_{pico_interface},
+      config_handler_{pico_interface_},
+      software_download_{software_download},
+      sensors_{std::move(sensors)},
+      rest_api_data_{},
+      semaphore_{xSemaphoreCreateMutex()} {
+    for (const auto &sensor : sensors_) {
         sensor->attach(this);
     }
 }
 
 RestApiCommandHandler::~RestApiCommandHandler() {
-    for (const auto &sensor : m_sensors) {
+    for (const auto &sensor : sensors_) {
         sensor->detach(this);
     }
 }
@@ -32,10 +33,10 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
                                          std::string &payload) -> bool {
     auto status{false};
     if ("SENSORS" == resource) {
-        if (m_rest_api_data.contains("sensors")) {
-            if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
-                payload = m_rest_api_data["sensors"].dump();
-                xSemaphoreGive(m_bin_sem);
+        if (rest_api_data_.contains("sensors")) {
+            if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+                payload = rest_api_data_["sensors"].dump();
+                xSemaphoreGive(semaphore_);
 
                 status = true;
             }
@@ -44,13 +45,13 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
         }
 
     } else if ("CONFIG" == resource) {
-        if (m_rest_api_data.contains("config")) {
+        if (rest_api_data_.contains("config")) {
             std::vector<sensor_config_t> sensor_config{};
-            if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
-                for (auto &sensor : m_rest_api_data["config"].items()) {
+            if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+                for (auto &sensor : rest_api_data_["config"].items()) {
                     sensor_config.push_back(sensor.value());
                 }
-                xSemaphoreGive(m_bin_sem);
+                xSemaphoreGive(semaphore_);
                 nlohmann::json json{};
                 json["config"] = sensor_config;
                 payload = json.dump();
@@ -77,10 +78,10 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("config") && json_data["config"].is_array()) {
             std::vector<sensor_config_t> config =
                 json_data["config"].get<std::vector<sensor_config_t>>();
-            if (m_config_handler.write_config(config)) {
+            if (config_handler_.write_config(config)) {
                 LogInfo(("Sensor config stored, will reboot in 3s..."));
                 uint32_t reboot_delay_ms{3000};
-                m_software_download.reboot(reboot_delay_ms);
+                software_download_.reboot(reboot_delay_ms);
             } else {
                 LogError(("Sensor config could not be stored, json_data: \n%s",
                           json_data.dump().c_str()));
@@ -92,7 +93,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("size")) {
             uint32_t size{json_data["size"]};
             LogDebug(("Store app size %u", size));
-            status &= m_software_download.init_download(size);
+            status &= software_download_.init_download(size);
         }
         if (json_data.contains("hash")) {
             unsigned char temp[SHA256_DIGEST_SIZE]{};
@@ -104,7 +105,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                                     temp[i / 2], 16);
                 }
                 LogDebug(("Store app hash %s", hash_c_str));
-                status &= m_software_download.set_hash(temp);
+                status &= software_download_.set_hash(temp);
             } else {
                 status = false;
                 LogError(("Received hash has wrong length"));
@@ -119,7 +120,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                     std::from_chars(data_c_str + i, data_c_str + i + 2,
                                     download_block[i / 2], 16);
                 }
-                if (!m_software_download.write_app(download_block)) {
+                if (!software_download_.write_app(download_block)) {
                     status = false;
                     LogError(("SWDL write to swap failed"));
                 }
@@ -134,7 +135,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         }
         if (json_data.contains("complete")) {
             LogInfo(("SWDL complete"));
-            status &= m_software_download.download_complete();
+            status &= software_download_.download_complete();
         }
     } else {
         status = false;
@@ -146,14 +147,14 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
 
 // Subscriber
 void RestApiCommandHandler::update(const Measurement_t &measurement) {
-    if (xSemaphoreTake(m_bin_sem, 10) == pdTRUE) {
-        m_rest_api_data["sensors"][measurement.name]["value"] =
+    if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+        rest_api_data_["sensors"][measurement.name]["value"] =
             measurement.value;
-        m_rest_api_data["sensors"][measurement.name]["raw_value"] =
+        rest_api_data_["sensors"][measurement.name]["raw_value"] =
             measurement.raw_value;
         if (measurement.config.type != "") {
-            m_rest_api_data["config"][measurement.name] = measurement.config;
+            rest_api_data_["config"][measurement.name] = measurement.config;
         }
-        xSemaphoreGive(m_bin_sem);
+        xSemaphoreGive(semaphore_);
     }
 }

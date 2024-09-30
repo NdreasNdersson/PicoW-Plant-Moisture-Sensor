@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "hal/pico_interface_impl.h"
 #include "network/rest_api.h"
 #include "network/wifi_config.h"
 #include "patterns/subscriber.h"
@@ -29,6 +30,7 @@ class PlantMoistureSensor : public Subscriber<int> {
     void set_led_in_failed_mode();
     void set_led_in_connected_mode();
 
+    PicoInterfaceImpl pico_interface_;
     ConfigHandler config_handler_;
     std::unique_ptr<ButtonControl> button_control_;
     std::vector<std::shared_ptr<Sensor>> sensors_;
