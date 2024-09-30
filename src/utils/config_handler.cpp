@@ -5,10 +5,13 @@
 
 #include "linker_definitions.h"
 #include "logging.h"
-#include "pico/flash.h"
 #include "utils/json_converter.h"
 
-ConfigHandler::ConfigHandler() {
+ConfigHandler::ConfigHandler(PicoInterface &pico_interface)
+    : pico_interface_{pico_interface} {}
+
+auto ConfigHandler::init() -> bool {
+    auto status{true};
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
         LogInfo(("No previously saved config data, write default values"));
@@ -18,8 +21,10 @@ ConfigHandler::ConfigHandler() {
 
         json_new["sensors"] = nlohmann::json(sensor_config);
         json_new["wifi"] = nlohmann::json(wifi_config);
-        write_json_to_flash(json_new);
+        status &= write_json_to_flash(json_new);
     }
+
+    return status;
 }
 
 auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
@@ -81,8 +86,8 @@ auto ConfigHandler::read_config(wifi_config_t &config) -> bool {
 
 auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
     -> bool {
-    flash_data_t data{};
     auto json_string{json_data.dump()};
+    auto status{true};
 
     if (json_string.length() > MAX_FLASH_STORAGE_SIZE) {
         LogError(("Can't write more than %u!", MAX_FLASH_STORAGE_SIZE));
@@ -90,10 +95,21 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
     }
     LogDebug(("Write %u of data", json_string.length()));
 
-    std::memcpy(data.data, json_string.c_str(), json_string.length());
-    data.number_of_pages =
+    auto number_of_pages =
         json_string.length() / FLASH_PAGE_SIZE + static_cast<uint8_t>(1U);
-    return write(data);
+
+    status &= pico_interface_.erase_flash(
+        ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS), FLASH_SECTOR_SIZE);
+
+    if (status) {
+        uint8_t data[FLASH_SECTOR_SIZE]{};
+        memcpy(data, json_string.c_str(), json_string.length());
+        status &= pico_interface_.store_to_flash(
+            ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS), data,
+            FLASH_PAGE_SIZE * number_of_pages);
+    }
+
+    return status;
 }
 
 auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
@@ -109,67 +125,4 @@ auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
     }
 
     return status;
-}
-
-auto ConfigHandler::write(flash_data_t &data) -> bool {
-    bool mismatch = false;
-
-    if (data.number_of_pages > (MAX_NUMBER_OF_PAGES)) {
-        LogError(("Can't write more than %u number of pages, %u bytes!",
-                  MAX_NUMBER_OF_PAGES, MAX_FLASH_STORAGE_SIZE));
-        return false;
-    }
-    LogDebug(("Flash number of pages: %u", data.number_of_pages));
-    for (auto i = 0U; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-        if (data.data[i] != g_app_storage[i]) {
-            mismatch = true;
-            break;
-        }
-    }
-
-    if (mismatch) {
-        LogDebug(("Erase region and program... "));
-
-        auto status{flash_safe_execute(&erase_and_program,
-                                       static_cast<void *>(&data), 100U)};
-        if (PICO_OK != status) {
-            LogError(("Flash safe execute failed with code: %u!", status));
-        }
-
-        mismatch = false;
-        for (auto i{0u}; i < (FLASH_PAGE_SIZE * data.number_of_pages); ++i) {
-            if (data.data[i] != g_app_storage[i]) {
-                mismatch = true;
-            }
-        }
-        if (mismatch) {
-            LogError(("Flash programming failed!"));
-        } else {
-            LogDebug(("Flash programming successful!"));
-        }
-    } else {
-        LogDebug(("No need to flash!"));
-    }
-
-    return !mismatch;
-}
-
-void ConfigHandler::erase_and_program(void *data) {
-    auto flash_data{static_cast<flash_data_t *>(data)};
-    flash_range_erase(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
-                      FLASH_SECTOR_SIZE);
-    flash_range_program(ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS),
-                        static_cast<uint8_t *>(flash_data->data),
-                        FLASH_PAGE_SIZE * flash_data->number_of_pages);
-}
-
-void ConfigHandler::print_buf(const uint8_t *buf, size_t len) {
-    for (size_t i = 0; i < len; ++i) {
-        printf("%02x", buf[i]);
-        if (i % 16 == 15) {
-            printf("\n");
-        } else {
-            printf(" ");
-        }
-    }
 }

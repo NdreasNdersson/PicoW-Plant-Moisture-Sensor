@@ -13,6 +13,10 @@ macro(package_add_test TESTNAME)
         PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
     )
     set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
+
+    target_link_libraries(${TESTNAME}
+        nlohmann_json::nlohmann_json
+    )
 endmacro()
 
 include(FetchContent)
@@ -37,4 +41,6 @@ mark_as_advanced(
     gtest_disable_pthreads gtest_force_shared_crt gtest_hide_internal_symbols
 )
 
-add_subdirectory(libs/PicoW-Bootloader/software_download/test)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils/test)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/software_download/test)

@@ -6,6 +6,7 @@
 extern "C" {
 #include <hardware/flash.h>
 };
+#include "hal/pico_interface.h"
 #include "linker_definitions.h"
 #include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
@@ -17,9 +18,11 @@ constexpr uint8_t MAX_NUMBER_OF_PAGES{FLASH_SECTOR_SIZE / FLASH_PAGE_SIZE};
 
 class ConfigHandler {
    public:
-    ConfigHandler();
+    ConfigHandler(PicoInterface &pico_interface);
 
     using return_value_t = char[MAX_VALUE_SIZE];
+
+    auto init() -> bool;
 
     auto write_config(const std::vector<sensor_config_t> &config) -> bool;
     auto write_config(const wifi_config_t &config) -> bool;
@@ -38,7 +41,8 @@ class ConfigHandler {
     auto read_json_from_flash(nlohmann::json &json_data) -> bool;
     auto write(flash_data_t &data) -> bool;
     static void erase_and_program(void *data);
-    void print_buf(const uint8_t *buf, size_t len);
+
+    PicoInterface &pico_interface_;
 };
 
 #endif  // PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_
