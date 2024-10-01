@@ -1,8 +1,0 @@
-CompileFlags:
-  Add: [
-    -ferror-limit=0,
-    -isystem,
-    /usr/include/newlib/c++/10.3.1/arm-none-eabi/,
-    -isystem,
-    /usr/include/newlib/c++/10.3.1/,
-  ]
