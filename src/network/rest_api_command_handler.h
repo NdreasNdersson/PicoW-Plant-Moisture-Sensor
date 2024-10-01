@@ -15,9 +15,9 @@
 
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:
-    explicit RestApiCommandHandler(
-        PicoInterface &pico_interface, SoftwareDownload &software_download,
-        std::vector<std::shared_ptr<Sensor>> sensors);
+    RestApiCommandHandler(ConfigHandler &config_handler,
+                          PicoBootloader::SoftwareDownload &software_download,
+                          std::vector<std::shared_ptr<Sensor>> sensors);
     ~RestApiCommandHandler();
     RestApiCommandHandler(const RestApiCommandHandler &) = default;
     RestApiCommandHandler(RestApiCommandHandler &&) = default;
@@ -33,9 +33,9 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
     void update(const Measurement_t &) override;
 
    private:
-    ConfigHandler config_handler_;
-    PicoInterface &pico_interface_;
-    SoftwareDownload &software_download_;
+    ConfigHandler &config_handler_;
+    std::shared_ptr<PicoInterface> pico_interface_;
+    PicoBootloader::SoftwareDownload &software_download_;
     std::vector<std::shared_ptr<Sensor>> sensors_;
     nlohmann::json rest_api_data_;
     SemaphoreHandle_t semaphore_;

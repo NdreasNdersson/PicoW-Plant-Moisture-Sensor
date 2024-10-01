@@ -5,7 +5,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PICO_BOARD pico_w) # Set the board used
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 else ()
@@ -46,7 +45,7 @@ else ()
         src/utils/button/button_control.cpp
         src/utils/led/led_control.cpp
         src/utils/led/led.cpp
-        src/utils/config_handler.cpp
+        src/utils/config_handler_impl.cpp
         src/utils/json_converter.cpp
         src/main.cpp
         src/plant_moisture_sensor.cpp

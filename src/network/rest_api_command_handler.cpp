@@ -2,18 +2,20 @@
 
 #include <cctype>
 #include <charconv>
+#include <memory>
 #include <vector>
 
 #include "sensors/sensor_config.h"
 #include "software_download.h"
+#include "utils/config_handler.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
 RestApiCommandHandler::RestApiCommandHandler(
-    PicoInterface &pico_interface, SoftwareDownload &software_download,
+    ConfigHandler &config_handler,
+    PicoBootloader::SoftwareDownload &software_download,
     std::vector<std::shared_ptr<Sensor>> sensors)
-    : pico_interface_{pico_interface},
-      config_handler_{pico_interface_},
+    : config_handler_{config_handler},
       software_download_{software_download},
       sensors_{std::move(sensors)},
       rest_api_data_{},
@@ -96,10 +98,10 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
             status &= software_download_.init_download(size);
         }
         if (json_data.contains("hash")) {
-            unsigned char temp[SHA256_DIGEST_SIZE]{};
+            unsigned char temp[PicoBootloader::SHA256_DIGEST_SIZE]{};
             std::string hash{json_data["hash"]};
             auto hash_c_str{hash.c_str()};
-            if (hash.size() == (SHA256_DIGEST_SIZE * 2)) {
+            if (hash.size() == (PicoBootloader::SHA256_DIGEST_SIZE * 2)) {
                 for (size_t i{0}; i < hash.size(); i += 2) {
                     std::from_chars(hash_c_str + i, hash_c_str + i + 2,
                                     temp[i / 2], 16);
@@ -114,8 +116,9 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
         if (json_data.contains("binary")) {
             std::string data{json_data["binary"]};
             auto data_c_str{data.c_str()};
-            if ((data.size() / 2) <= DOWNLOAD_BLOCK_SIZE) {
-                unsigned char download_block[DOWNLOAD_BLOCK_SIZE]{};
+            if ((data.size() / 2) <= PicoBootloader::DOWNLOAD_BLOCK_SIZE) {
+                unsigned char
+                    download_block[PicoBootloader::DOWNLOAD_BLOCK_SIZE]{};
                 for (size_t i{0}; i < data.size(); i += 2) {
                     std::from_chars(data_c_str + i, data_c_str + i + 2,
                                     download_block[i / 2], 16);
@@ -130,7 +133,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                     ("SWDL binary content must be less then (last "
                      "packages) or "
                      "equal size %d",
-                     DOWNLOAD_BLOCK_SIZE));
+                     PicoBootloader::DOWNLOAD_BLOCK_SIZE));
             }
         }
         if (json_data.contains("complete")) {

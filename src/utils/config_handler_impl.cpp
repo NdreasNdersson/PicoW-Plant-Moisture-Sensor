@@ -1,16 +1,17 @@
-#include "config_handler.h"
+#include "config_handler_impl.h"
 
 #include <cstdint>
 #include <cstring>
 
 #include "linker_definitions.h"
 #include "logging.h"
+#include "nlohmann/json.hpp"
 #include "utils/json_converter.h"
 
-ConfigHandler::ConfigHandler(PicoInterface &pico_interface)
+ConfigHandlerImpl::ConfigHandlerImpl(PicoInterface &pico_interface)
     : pico_interface_{pico_interface} {}
 
-auto ConfigHandler::init() -> bool {
+auto ConfigHandlerImpl::init() -> bool {
     auto status{true};
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
@@ -27,7 +28,7 @@ auto ConfigHandler::init() -> bool {
     return status;
 }
 
-auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
+auto ConfigHandlerImpl::write_config(const std::vector<sensor_config_t> &config)
     -> bool {
     auto status{false};
     nlohmann::json json;
@@ -44,7 +45,7 @@ auto ConfigHandler::write_config(const std::vector<sensor_config_t> &config)
     return status;
 }
 
-auto ConfigHandler::write_config(const wifi_config_t &config) -> bool {
+auto ConfigHandlerImpl::write_config(const wifi_config_t &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -60,7 +61,8 @@ auto ConfigHandler::write_config(const wifi_config_t &config) -> bool {
     return status;
 }
 
-auto ConfigHandler::read_config(std::vector<sensor_config_t> &config) -> bool {
+auto ConfigHandlerImpl::read_config(std::vector<sensor_config_t> &config)
+    -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -73,7 +75,7 @@ auto ConfigHandler::read_config(std::vector<sensor_config_t> &config) -> bool {
     return status;
 }
 
-auto ConfigHandler::read_config(wifi_config_t &config) -> bool {
+auto ConfigHandlerImpl::read_config(wifi_config_t &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
@@ -84,7 +86,7 @@ auto ConfigHandler::read_config(wifi_config_t &config) -> bool {
     return status;
 }
 
-auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
+auto ConfigHandlerImpl::write_json_to_flash(const nlohmann::json &json_data)
     -> bool {
     auto json_string{json_data.dump()};
     auto status{true};
@@ -93,29 +95,32 @@ auto ConfigHandler::write_json_to_flash(const nlohmann::json &json_data)
         LogError(("Can't write more than %u!", MAX_FLASH_STORAGE_SIZE));
         return false;
     }
-    LogDebug(("Write %u of data", json_string.length()));
 
     auto number_of_pages =
-        json_string.length() / FLASH_PAGE_SIZE + static_cast<uint8_t>(1U);
+        (json_string.length() + FLASH_PAGE_SIZE - 1) / FLASH_PAGE_SIZE;
+    LogDebug(("Write %u bytes of data, %u pages", json_string.length(),
+              number_of_pages));
 
     status &= pico_interface_.erase_flash(
-        ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS), FLASH_SECTOR_SIZE);
+        ADDR_WITH_XIP_OFFSET_AS_U32(PicoBootloader::APP_STORAGE_ADDRESS),
+        FLASH_SECTOR_SIZE);
 
     if (status) {
         uint8_t data[FLASH_SECTOR_SIZE]{};
-        memcpy(data, json_string.c_str(), json_string.length());
+        std::memcpy(data, json_string.c_str(), json_string.length());
         status &= pico_interface_.store_to_flash(
-            ADDR_WITH_XIP_OFFSET_AS_U32(APP_STORAGE_ADDRESS), data,
-            FLASH_PAGE_SIZE * number_of_pages);
+            ADDR_WITH_XIP_OFFSET_AS_U32(PicoBootloader::APP_STORAGE_ADDRESS),
+            data, static_cast<size_t>(FLASH_PAGE_SIZE * number_of_pages));
     }
 
     return status;
 }
 
-auto ConfigHandler::read_json_from_flash(nlohmann::json &json_data) -> bool {
+auto ConfigHandlerImpl::read_json_from_flash(nlohmann::json &json_data)
+    -> bool {
     uint8_t data[MAX_FLASH_STORAGE_SIZE];
     auto status{true};
-    std::memcpy(data, g_app_storage, sizeof(data));
+    std::memcpy(data, PicoBootloader::g_app_storage, sizeof(data));
     json_data =
         nlohmann::json::parse(reinterpret_cast<char *>(data), nullptr, false);
 
