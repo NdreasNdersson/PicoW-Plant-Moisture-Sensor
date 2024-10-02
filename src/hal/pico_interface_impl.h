@@ -1,5 +1,5 @@
-#ifndef PICO_BOOTLOADER_PICO_INTERFACE_IMPL_H_
-#define PICO_BOOTLOADER_PICO_INTERFACE_IMPL_H_
+#ifndef PICO_REST_SENSOR_PICO_INTERFACE_IMPL_H_
+#define PICO_REST_SENSOR_PICO_INTERFACE_IMPL_H_
 
 #include <cstddef>
 #include <cstdint>
@@ -27,4 +27,4 @@ class PicoInterfaceImpl : public PicoInterface {
     static void erase(void *data);
 };
 
-#endif  // PICO_BOOTLOADER_PICO_INTERFACE_IMPL_H_
+#endif  // PICO_REST_SENSOR_PICO_INTERFACE_IMPL_H_

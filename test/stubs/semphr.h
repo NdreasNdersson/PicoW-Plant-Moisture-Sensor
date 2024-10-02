@@ -1,0 +1,6 @@
+#ifndef PICO_REST_SENSOR_STUBS_SEMPHR_H_
+#define PICO_REST_SENSOR_STUBS_SEMPHR_H_
+
+using SemaphoreHandle_t = int;
+
+#endif  // PICO_REST_SENSOR_STUBS_SEMPHR_H_

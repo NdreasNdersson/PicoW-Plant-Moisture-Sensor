@@ -23,6 +23,7 @@ static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
 
 PlantMoistureSensor::PlantMoistureSensor()
     : pico_interface_{},
+      freertos_interface_{},
       config_handler_{pico_interface_},
       button_control_{},
       sensors_{},
@@ -125,7 +126,7 @@ void PlantMoistureSensor::init() {
         static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
     rest_api_command_handler_ = std::make_unique<RestApiCommandHandler>(
-        config_handler_, software_download_, sensors_);
+        config_handler_, software_download_, freertos_interface_, sensors_);
     auto get_callback{
         [this](const std::string &resource, std::string &payload) -> bool {
             return rest_api_command_handler_->get_callback(resource, payload);

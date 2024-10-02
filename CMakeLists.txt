@@ -41,6 +41,7 @@ else ()
 
     add_executable(${NAME}
         src/hal/pico_interface_impl.cpp
+        src/hal/freertos_interface_impl.cpp
         src/utils/button/button.cpp
         src/utils/button/button_control.cpp
         src/utils/led/led_control.cpp

@@ -4,20 +4,23 @@
 #include <memory>
 #include <string>
 
-#include "FreeRTOS.h"
+#include "hal/freertos_interface.h"
 #include "hal/pico_interface.h"
 #include "nlohmann/json.hpp"
 #include "patterns/subscriber.h"
 #include "semphr.h"
 #include "sensors/sensor.h"
 #include "software_download.h"
+#include "software_download_api.h"
 #include "utils/config_handler.h"
 
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:
-    RestApiCommandHandler(ConfigHandler &config_handler,
-                          PicoBootloader::SoftwareDownload &software_download,
-                          std::vector<std::shared_ptr<Sensor>> sensors);
+    RestApiCommandHandler(
+        ConfigHandler &config_handler,
+        PicoBootloader::SoftwareDownloadApi &software_download,
+        FreertosInterface &freertos_interface,
+        std::vector<std::shared_ptr<Sensor>> sensors);
     ~RestApiCommandHandler();
     RestApiCommandHandler(const RestApiCommandHandler &) = default;
     RestApiCommandHandler(RestApiCommandHandler &&) = default;
@@ -35,7 +38,8 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
    private:
     ConfigHandler &config_handler_;
     std::shared_ptr<PicoInterface> pico_interface_;
-    PicoBootloader::SoftwareDownload &software_download_;
+    PicoBootloader::SoftwareDownloadApi &software_download_;
+    FreertosInterface &freertos_interface_;
     std::vector<std::shared_ptr<Sensor>> sensors_;
     nlohmann::json rest_api_data_;
     SemaphoreHandle_t semaphore_;

@@ -10,5 +10,7 @@ include_directories(${CMAKE_SOURCE_DIR}/test/stubs)
 package_add_test(RestApiCommandHandlerTest
     ${CMAKE_CURRENT_SOURCE_DIR}/rest_api_command_handler_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/../rest_api_command_handler.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../json_converter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../utils/json_converter.cpp
 )
+
+include_directories(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader/software_download/include)

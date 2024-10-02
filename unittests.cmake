@@ -41,6 +41,6 @@ mark_as_advanced(
     gtest_disable_pthreads gtest_force_shared_crt gtest_hide_internal_symbols
 )
 
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/network/test)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils/test)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/software_download/test)

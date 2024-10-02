@@ -6,20 +6,21 @@
 #include <vector>
 
 #include "sensors/sensor_config.h"
-#include "software_download.h"
 #include "utils/config_handler.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
 RestApiCommandHandler::RestApiCommandHandler(
     ConfigHandler &config_handler,
-    PicoBootloader::SoftwareDownload &software_download,
+    PicoBootloader::SoftwareDownloadApi &software_download,
+    FreertosInterface &freertos_interface,
     std::vector<std::shared_ptr<Sensor>> sensors)
     : config_handler_{config_handler},
       software_download_{software_download},
+      freertos_interface_{freertos_interface},
       sensors_{std::move(sensors)},
       rest_api_data_{},
-      semaphore_{xSemaphoreCreateMutex()} {
+      semaphore_{freertos_interface_.semaphore_create_mutex()} {
     for (const auto &sensor : sensors_) {
         sensor->attach(this);
     }
@@ -36,9 +37,9 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
     auto status{false};
     if ("SENSORS" == resource) {
         if (rest_api_data_.contains("sensors")) {
-            if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+            if (freertos_interface_.semaphore_take(semaphore_, 10) == pdTRUE) {
                 payload = rest_api_data_["sensors"].dump();
-                xSemaphoreGive(semaphore_);
+                freertos_interface_.semaphore_give(semaphore_);
 
                 status = true;
             }
@@ -49,11 +50,11 @@ auto RestApiCommandHandler::get_callback(const std::string &resource,
     } else if ("CONFIG" == resource) {
         if (rest_api_data_.contains("config")) {
             std::vector<sensor_config_t> sensor_config{};
-            if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+            if (freertos_interface_.semaphore_take(semaphore_, 10) == pdTRUE) {
                 for (auto &sensor : rest_api_data_["config"].items()) {
                     sensor_config.push_back(sensor.value());
                 }
-                xSemaphoreGive(semaphore_);
+                freertos_interface_.semaphore_give(semaphore_);
                 nlohmann::json json{};
                 json["config"] = sensor_config;
                 payload = json.dump();
@@ -150,7 +151,7 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
 
 // Subscriber
 void RestApiCommandHandler::update(const Measurement_t &measurement) {
-    if (xSemaphoreTake(semaphore_, 10) == pdTRUE) {
+    if (freertos_interface_.semaphore_take(semaphore_, 10) == pdTRUE) {
         rest_api_data_["sensors"][measurement.name]["value"] =
             measurement.value;
         rest_api_data_["sensors"][measurement.name]["raw_value"] =
@@ -158,6 +159,6 @@ void RestApiCommandHandler::update(const Measurement_t &measurement) {
         if (measurement.config.type != "") {
             rest_api_data_["config"][measurement.name] = measurement.config;
         }
-        xSemaphoreGive(semaphore_);
+        freertos_interface_.semaphore_give(semaphore_);
     }
 }
