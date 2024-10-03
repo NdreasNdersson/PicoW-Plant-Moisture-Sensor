@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "sensors/sensor_config.h"
+#include "types.h"
 #include "utils/config_handler.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
@@ -78,7 +79,8 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
 
     auto status{true};
     if (resource == "SENSORS") {
-        if (json_data.contains("config") && json_data["config"].is_array()) {
+        status &= validate_sensors_content(json_data);
+        if (status) {
             std::vector<sensor_config_t> config =
                 json_data["config"].get<std::vector<sensor_config_t>>();
             if (config_handler_.write_config(config)) {
@@ -86,58 +88,43 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                 uint32_t reboot_delay_ms{3000};
                 software_download_.reboot(reboot_delay_ms);
             } else {
+                status = false;
                 LogError(("Sensor config could not be stored, json_data: \n%s",
                           json_data.dump().c_str()));
             }
-        } else {
-            status = false;
         }
     } else if (resource == "SWDL") {
-        if (json_data.contains("size")) {
+        status &= validate_swdl_content(json_data);
+        if (status && json_data.contains("size")) {
             uint32_t size{json_data["size"]};
             LogDebug(("Store app size %u", size));
             status &= software_download_.init_download(size);
         }
-        if (json_data.contains("hash")) {
+        if (status && json_data.contains("hash")) {
             unsigned char temp[PicoBootloader::SHA256_DIGEST_SIZE]{};
             std::string hash{json_data["hash"]};
             auto hash_c_str{hash.c_str()};
-            if (hash.size() == (PicoBootloader::SHA256_DIGEST_SIZE * 2)) {
-                for (size_t i{0}; i < hash.size(); i += 2) {
-                    std::from_chars(hash_c_str + i, hash_c_str + i + 2,
-                                    temp[i / 2], 16);
-                }
-                LogDebug(("Store app hash %s", hash_c_str));
-                status &= software_download_.set_hash(temp);
-            } else {
-                status = false;
-                LogError(("Received hash has wrong length"));
+            for (size_t i{0}; i < hash.size(); i += 2) {
+                std::from_chars(hash_c_str + i, hash_c_str + i + 2, temp[i / 2],
+                                16);
             }
+            LogDebug(("Store app hash %s", hash_c_str));
+            status &= software_download_.set_hash(temp);
         }
-        if (json_data.contains("binary")) {
+        if (status && json_data.contains("binary")) {
             std::string data{json_data["binary"]};
             auto data_c_str{data.c_str()};
-            if ((data.size() / 2) <= PicoBootloader::DOWNLOAD_BLOCK_SIZE) {
-                unsigned char
-                    download_block[PicoBootloader::DOWNLOAD_BLOCK_SIZE]{};
-                for (size_t i{0}; i < data.size(); i += 2) {
-                    std::from_chars(data_c_str + i, data_c_str + i + 2,
-                                    download_block[i / 2], 16);
-                }
-                if (!software_download_.write_app(download_block)) {
-                    status = false;
-                    LogError(("SWDL write to swap failed"));
-                }
-            } else {
+            unsigned char download_block[PicoBootloader::DOWNLOAD_BLOCK_SIZE]{};
+            for (size_t i{0}; i < data.size(); i += 2) {
+                std::from_chars(data_c_str + i, data_c_str + i + 2,
+                                download_block[i / 2], 16);
+            }
+            if (!software_download_.write_app(download_block)) {
                 status = false;
-                LogError(
-                    ("SWDL binary content must be less then (last "
-                     "packages) or "
-                     "equal size %d",
-                     PicoBootloader::DOWNLOAD_BLOCK_SIZE));
+                LogError(("SWDL write to swap failed"));
             }
         }
-        if (json_data.contains("complete")) {
+        if (status && json_data.contains("complete")) {
             LogInfo(("SWDL complete"));
             status &= software_download_.download_complete();
         }
@@ -161,4 +148,45 @@ void RestApiCommandHandler::update(const Measurement_t &measurement) {
         }
         freertos_interface_.semaphore_give(semaphore_);
     }
+}
+
+auto RestApiCommandHandler::validate_sensors_content(
+    const nlohmann::json &json_data) -> bool {
+    return json_data.contains("config") && json_data["config"].is_array();
+}
+
+auto RestApiCommandHandler::validate_swdl_content(
+    const nlohmann::json &json_data) -> bool {
+    auto status{true};
+
+    if (json_data.contains("size") && !json_data["size"].is_number_integer()) {
+        status = false;
+        LogError(("SWDL size must be a number"));
+    }
+
+    if (json_data.contains("hash") && !json_data["hash"].is_string()) {
+        status = false;
+        LogError(("SWDL hash must be a string"));
+    }
+
+    if (json_data.contains("hash") && json_data["hash"].is_string() &&
+        (std::string{json_data["hash"]}.size() !=
+         (PicoBootloader::SHA256_DIGEST_SIZE * 2))) {
+        status = false;
+        LogError(("SWDL hash was too large"));
+    }
+
+    if (json_data.contains("binary") && !json_data["binary"].is_string()) {
+        status = false;
+        LogError(("SWDL binary must be a string"));
+    }
+
+    if (json_data.contains("binary") && json_data["binary"].is_string() &&
+        (std::string{json_data["binary"]}.size() >
+         (PicoBootloader::DOWNLOAD_BLOCK_SIZE * 2))) {
+        status = false;
+        LogError(("SWDL binary was too large"));
+    }
+
+    return status;
 }

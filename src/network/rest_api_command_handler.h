@@ -36,6 +36,8 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
     void update(const Measurement_t &) override;
 
    private:
+    auto validate_sensors_content(const nlohmann::json &json_data) -> bool;
+    auto validate_swdl_content(const nlohmann::json &json_data) -> bool;
     ConfigHandler &config_handler_;
     std::shared_ptr<PicoInterface> pico_interface_;
     PicoBootloader::SoftwareDownloadApi &software_download_;
