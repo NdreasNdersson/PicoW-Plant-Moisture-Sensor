@@ -21,15 +21,15 @@ endmacro()
 
 include(FetchContent)
 FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        v1.15.2
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG        v1.15.2
 )
 
 FetchContent_GetProperties(googletest)
 if(NOT googletest_POPULATED)
-  FetchContent_Populate(googletest)
-  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+    FetchContent_Populate(googletest)
+    add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 endif()
 
 enable_testing()
@@ -40,6 +40,21 @@ mark_as_advanced(
     gmock_build_tests gtest_build_samples gtest_build_tests
     gtest_disable_pthreads gtest_force_shared_crt gtest_hide_internal_symbols
 )
+
+SET(GCC_COVERAGE_COMPILE_FLAGS "-coverage")
+SET(GCC_COVERAGE_LINK_FLAGS    "-coverage")
+SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
+SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
+SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
+
+find_program(LCOV lcov REQUIRED)
+find_program(GENHTML genhtml REQUIRED)
+
+add_custom_target(coverage
+    COMMAND ${LCOV} --directory . --capture --output-file coverage.info
+    COMMAND ${LCOV} --remove coverage.info -o coverage_filtered.info '/usr/*' '${CMAKE_CURRENT_SOURCE_DIR}/test/*' '${CMAKE_CURRENT_SOURCE_DIR}/build/*'
+    COMMAND ${GENHTML} --demangle-cpp -o coverage coverage_filtered.info
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/network/test)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils/test)
