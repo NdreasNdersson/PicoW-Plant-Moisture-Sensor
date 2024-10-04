@@ -28,6 +28,6 @@ RUN pip install -r /temp/requirements.txt
 RUN rm -r /temp
 
 RUN apt-get update && \
-    apt-get install -y gcc g++ gcc-multilib g++-multilib gdb
+    apt-get install -y gcc g++ gcc-multilib g++-multilib gdb lcov
 
 ENTRYPOINT ["/bin/bash"]
