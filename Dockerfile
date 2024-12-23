@@ -31,9 +31,9 @@ RUN apt-get update && \
     apt-get install -y gcc g++ gcc-multilib g++-multilib gdb
 
 RUN curl -Lo bazelisk-linux-amd64 --create-dirs --output-dir /opt/bazelisk/bin https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-amd64 && \
-    chmod 755 /opt/bazelisk/bin/bazelisk-linux-amd64 && \
-    alias bazelisk=bazelisk-linux-amd64 && \
-    alias bazel=bazelisk
+    chmod 755 /opt/bazelisk/bin/bazelisk-linux-amd64
 ENV PATH="/opt/bazelisk/bin:${PATH}"
+RUN echo 'alias bazelisk="bazelisk-linux-amd64"' >> ~/.bashrc
+RUN echo 'alias bazel="bazelisk"' >> ~/.bashrc
 
 ENTRYPOINT ["/bin/bash"]
