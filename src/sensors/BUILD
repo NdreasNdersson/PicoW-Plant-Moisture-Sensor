@@ -21,4 +21,5 @@ cc_library(
         "//src/utils:utils",
         "//src/utils/button:button",
     ],
+    visibility = ["//visibility:public"],
 )

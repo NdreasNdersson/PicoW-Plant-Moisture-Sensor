@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v3
       - uses: pre-commit/action@v3.0.1
 
-  build:
+  build-cmake:
     runs-on: ubuntu-latest
     container:
       image: ndreasndersson/picow-plant-moisture-sensor:latest
@@ -39,6 +39,19 @@ jobs:
             build/*.bin
             build/**/PICO_BOOTLOADER.bin
             ${{ steps.codechecker.outputs.result-html-dir }}
+
+  build-bazel:
+    runs-on: ubuntu-latest
+    container:
+      image: ndreasndersson/picow-plant-moisture-sensor:latest
+      volumes:
+        - ${{ github.workspace }}:/project
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - run: bazel build --platforms=@pico-sdk//bazel/platform:rp2040 --@pico-sdk//bazel/config:PICO_BOARD=pico_w //src:plant_moisture_sensor
 
   unittest:
     runs-on: ubuntu-latest
