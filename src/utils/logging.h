@@ -12,7 +12,7 @@
 
 #include <cstdio>
 
-#include "logging_levels.h"
+#include "configs/FreeRTOS-Kernel/logging_levels.h"
 
 /* Logging configurations for the application. */
 
@@ -44,5 +44,5 @@
 
 #endif
 
-#include "logging_stack.h"
+#include "configs/FreeRTOS-Kernel/logging_stack.h"
 /************ End of logging configuration ****************/

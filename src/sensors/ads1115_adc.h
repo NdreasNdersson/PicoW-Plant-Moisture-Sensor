@@ -8,12 +8,12 @@
 
 #include "ads1115.h"
 #include "hardware/i2c.h"
-#include "patterns/subscriber.h"
 #include "registers.h"
-#include "sensors/sensor.h"
-#include "sensors/sensor_config.h"
-#include "utils/button/button_control.h"
-#include "utils/low_pass_filter.h"
+#include "sensor.h"
+#include "sensor_config.h"
+#include "src/patterns/subscriber.h"
+#include "src/utils/button/button_control.h"
+#include "src/utils/low_pass_filter.h"
 
 class Ads1115Adc : public Sensor, public Subscriber<int> {
    public:

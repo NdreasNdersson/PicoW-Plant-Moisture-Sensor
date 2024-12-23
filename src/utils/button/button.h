@@ -3,9 +3,9 @@
 
 #include <list>
 
-#include "patterns/publisher.h"
-#include "patterns/subscriber.h"
 #include "pico/types.h"
+#include "src/patterns/publisher.h"
+#include "src/patterns/subscriber.h"
 
 using pin_t = uint;
 

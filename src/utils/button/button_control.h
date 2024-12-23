@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <map>
 
-#include "utils/button/button.h"
+#include "button.h"
 
 enum class ButtonNames : uint8_t { A, B, C };
 static const std::map<ButtonNames, pin_t> PIN_GPIOS{

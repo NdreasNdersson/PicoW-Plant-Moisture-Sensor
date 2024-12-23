@@ -5,8 +5,8 @@
 #include <limits>
 #include <string>
 
-#include "sensors/sensor_config.h"
-#include "utils/logging.h"
+#include "sensor_config.h"
+#include "src/utils/logging.h"
 
 Ads1115Adc::Ads1115Adc(sensor_config_t &config, ButtonControl &button_control,
                        std::function<void(bool)> led_callback, float delta_time)

@@ -6,9 +6,9 @@
 #include <memory>
 #include <vector>
 
+#include "sensor.h"
 #include "sensor_config.h"
-#include "sensors/sensor.h"
-#include "utils/button/button_control.h"
+#include "src/utils/button/button_control.h"
 
 constexpr uint8_t MAX_NUMBER_OF_DACS{4};
 constexpr uint8_t MAX_NUMBER_OF_ANALOG_PINS{4};

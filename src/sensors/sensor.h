@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "patterns/publisher.h"
-#include "sensors/sensor_config.h"
+#include "sensor_config.h"
+#include "src/patterns/publisher.h"
 
 enum class SensorReadStatus : uint8_t { Calibrating, CalibrationComplete, Ok };
 

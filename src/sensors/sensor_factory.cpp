@@ -3,13 +3,13 @@
 #include <functional>
 #include <limits>
 
+#include "ads1115_adc.h"
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
-#include "sensors/ads1115_adc.h"
-#include "sensors/sensor_config.h"
-#include "sensors/temp_adc.h"
-#include "utils/button/button_control.h"
-#include "utils/logging.h"
+#include "sensor_config.h"
+#include "src/utils/button/button_control.h"
+#include "src/utils/logging.h"
+#include "temp_adc.h"
 
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,
                            std::vector<std::shared_ptr<Sensor>> &sensors,
