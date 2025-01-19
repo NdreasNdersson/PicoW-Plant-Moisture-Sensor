@@ -10,6 +10,8 @@ struct sensor_config_t {
     std::uint16_t min_value;
     std::uint16_t max_value;
     bool inverse_measurement;
+    bool calibrate_min_value;
+    bool calibrate_max_value;
 };
 
 #endif  // PICO_REST_SENSOR_SENSORS_SENSOR_CONFIG_H_
