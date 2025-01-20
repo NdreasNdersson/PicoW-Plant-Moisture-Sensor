@@ -35,7 +35,7 @@ PlantMoistureSensor::PlantMoistureSensor()
 
 PlantMoistureSensor::~PlantMoistureSensor() {
     if (button_control_ != nullptr) {
-        button_control_->detach(ButtonNames::B, this);
+        button_control_->detach(ButtonNames::C, this);
     }
 }
 void PlantMoistureSensor::init() {
@@ -117,7 +117,7 @@ void PlantMoistureSensor::init() {
     LogInfo(("IP ADDRESS: %s", ipStr));
 
     button_control_ = std::make_unique<ButtonControl>();
-    button_control_->attach(ButtonNames::B, this);
+    button_control_->attach(ButtonNames::C, this);
     LogInfo(("Initialise sensors"));
     auto sensor_factory = SensorFactory();
     sensor_factory.create(
@@ -147,20 +147,27 @@ void PlantMoistureSensor::init() {
 
 void PlantMoistureSensor::loop() {
     while (true) {
-        auto save_config{false};
+        vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
+
+        auto any_calibration_complete{false};
+        auto any_calibrating{false};
         std::vector<sensor_config_t> temp_sensor_config{};
         for (const auto &sensor : sensors_) {
             sensor_config_t temp_config{};
-            if (sensor->read(temp_config) ==
-                SensorReadStatus::CalibrationComplete) {
-                save_config = true;
-                if (temp_config.type != "") {
-                    temp_sensor_config.push_back(temp_config);
-                }
+
+            auto status{sensor->read(temp_config)};
+            if (status == SensorReadStatus::CalibrationComplete) {
+                any_calibration_complete = true;
+            } else if (status == SensorReadStatus::Calibrating) {
+                any_calibrating = true;
+            }
+
+            if (temp_config.type != "") {
+                temp_sensor_config.push_back(temp_config);
             }
         }
 
-        if (save_config) {
+        if (any_calibration_complete && !any_calibrating) {
             config_handler_.write_config(temp_sensor_config);
         }
 

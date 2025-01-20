@@ -12,17 +12,12 @@ Ads1115Adc::Ads1115Adc(sensor_config_t &config, ButtonControl &button_control,
                        std::function<void(bool)> led_callback, float delta_time)
     : adc_state_{},
       config_{config},
-      calibration_run_{false},
       calibration_samples_{0},
       name_(config_.type + "_" + std::to_string(config_.pin)),
       led_callback_{std::move(led_callback)},
       low_pass_filter_(0.01f, delta_time),
       list_subscribers_{},
-      button_control_{button_control} {
-    button_control_.attach(ButtonNames::A, this);
-}
-
-Ads1115Adc::~Ads1115Adc() { button_control_.detach(ButtonNames::A, this); }
+      button_control_{button_control} {}
 
 void Ads1115Adc::init(i2c_inst_t *i2c, uint8_t address,
                       const ads1115_mux_t mux_setting) {
@@ -43,16 +38,27 @@ auto Ads1115Adc::read(sensor_config_t &config) -> SensorReadStatus {
     float value{};
     ads1115_read_adc(&adc_value, &adc_state_);
 
-    if (calibration_run_) {
+    if (config_.calibrate_min_value || config_.calibrate_max_value) {
         return_status = SensorReadStatus::Calibrating;
-        config_.min_value = std::min(config_.min_value, adc_value);
-        config_.max_value = std::max(config_.max_value, adc_value);
+        if (config_.calibrate_min_value) {
+            if (calibration_samples_ == 0) {
+                config_.min_value = std::numeric_limits<std::uint16_t>::max();
+            }
+            config_.min_value = std::min(config_.min_value, adc_value);
+        }
+        if (config_.calibrate_max_value) {
+            if (calibration_samples_ == 0) {
+                config_.max_value = std::numeric_limits<std::uint16_t>::min();
+            }
+            config_.max_value = std::max(config_.max_value, adc_value);
+        }
         calibration_samples_++;
         LogDebug(("Calibrate: sample %u, Value %u", calibration_samples_,
                   adc_value));
         if (calibration_samples_ >= SAMPLES_TO_COMPLETE_CALIBRATION) {
             return_status = SensorReadStatus::CalibrationComplete;
-            calibration_run_ = false;
+            config_.calibrate_min_value = false;
+            config_.calibrate_max_value = false;
             LogDebug(("New max value %u, min value %u", config_.max_value,
                       config_.min_value));
         }
@@ -63,24 +69,14 @@ auto Ads1115Adc::read(sensor_config_t &config) -> SensorReadStatus {
             value = (value - 100.0f) * (-1.0f);
         }
         value = low_pass_filter_.update(value);
-        led_callback_(false);
     }
+    led_callback_(false);
 
     const Measurement_t measurement{name_, adc_value, value, config_};
     notify(measurement);
 
     config = config_;
     return return_status;
-}
-
-// Subscriber
-void Ads1115Adc::update(const int &) {
-    if (!calibration_run_) {
-        calibration_run_ = true;
-        calibration_samples_ = 0;
-        config_.max_value = std::numeric_limits<std::uint16_t>::min();
-        config_.min_value = std::numeric_limits<std::uint16_t>::max();
-    }
 }
 
 // Publisher
