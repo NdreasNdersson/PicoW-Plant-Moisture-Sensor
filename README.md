@@ -11,8 +11,10 @@ also prepend hash to application so it will be launched by the bootloader.
 ./build_and_combine.sh
 ```
 
-# Flash
+# Flash first time
 Connect Pico Probe and run ./flash_combined.sh
+
+This will flash bootloader, default app info/storage and app.
 
 # Config
 Enter wifi SSID and password over serial when promted. Once it have connected, the sensors can be configured with REST API.
@@ -22,7 +24,7 @@ Host: 192.168.X.X
 Content-Type: application/json
 Content-Length: 147
 
-{"config": [{"inversed":true,"max":18214,"min":8387,"pin":1,"type":"moisture"},{"inversed":true,"max":18204,"min":8180,"pin":2,"type":"moisture"}]}
+{"config":[{"calibrate_max_value":false,"calibrate_min_value":false,"inversed":true,"max":17736,"min":8266,"pin":1,"type":"moisture"},{"calibrate_max_value":false,"calibrate_min_value":true,"inversed":true,"max":16509,"min":1,"pin":2,"type":"moisture"}]}
 ```
 
 # Rest get
@@ -41,7 +43,7 @@ Host: 192.168.50.205
 # SW download
 Run
 ```
-./python/upload_new_binary.py --host 192.168.X.X --app-file build/PICO_REST_SENSOR.bin
+./python/upload_new_binary.py --host 192.168.X.X --app-file build/ninja-release/PICO_REST_SENSOR_STRIPPED.bin
 ```
 
 # Raspberry Pi Pico W Analog sensor board

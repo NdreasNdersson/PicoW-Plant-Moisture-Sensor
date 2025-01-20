@@ -6,7 +6,9 @@ void to_json(json &json_data, const sensor_config_t &config) {
                      {"max", config.max_value},
                      {"min", config.min_value},
                      {"type", config.type},
-                     {"inversed", config.inverse_measurement}};
+                     {"inversed", config.inverse_measurement},
+                     {"calibrate_min_value", config.calibrate_min_value},
+                     {"calibrate_max_value", config.calibrate_max_value}};
 }
 
 void from_json(const json &json_data, sensor_config_t &config) {
@@ -24,6 +26,12 @@ void from_json(const json &json_data, sensor_config_t &config) {
     }
     if (json_data.contains("inversed")) {
         json_data["inversed"].get_to(config.inverse_measurement);
+    }
+    if (json_data.contains("calibrate_min_value")) {
+        json_data["calibrate_min_value"].get_to(config.calibrate_min_value);
+    }
+    if (json_data.contains("calibrate_max_value")) {
+        json_data["calibrate_max_value"].get_to(config.calibrate_max_value);
     }
 }
 
