@@ -72,7 +72,8 @@ TEST_F(RestApiCommandHandlerTest, TestGetCallback) {
     uut_->update(measurement);
     EXPECT_TRUE(uut_->get_callback("CONFIG", payload));
     EXPECT_EQ(payload,
-              "{\"config\":[{\"inversed\":false,\"max\":0,\"min\":0,\"pin\":0,"
+              "{\"config\":[{\"calibrate_max_value\":false,\"calibrate_min_"
+              "value\":false,\"inversed\":false,\"max\":0,\"min\":0,\"pin\":0,"
               "\"type\":\"temp\"}]}");
 }
 
