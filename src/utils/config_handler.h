@@ -3,42 +3,17 @@
 
 #include <vector>
 
-extern "C" {
-#include <hardware/flash.h>
-};
-#include "linker_definitions.h"
 #include "network/wifi_config.h"
-#include "nlohmann/json.hpp"
 #include "sensors/sensor_config.h"
-
-constexpr uint8_t MAX_VALUE_SIZE{32};
-constexpr uint16_t MAX_FLASH_STORAGE_SIZE{FLASH_SECTOR_SIZE};
-constexpr uint8_t MAX_NUMBER_OF_PAGES{FLASH_SECTOR_SIZE / FLASH_PAGE_SIZE};
 
 class ConfigHandler {
    public:
-    ConfigHandler();
-
-    using return_value_t = char[MAX_VALUE_SIZE];
-
-    auto write_config(const std::vector<sensor_config_t> &config) -> bool;
-    auto write_config(const wifi_config_t &config) -> bool;
-
-    auto read_config(std::vector<sensor_config_t> &config) -> bool;
-    auto read_config(wifi_config_t &config) -> bool;
-
-   private:
-    using pages_t = uint8_t[FLASH_SECTOR_SIZE];
-    using flash_data_t = struct flash_data_t_ {
-        pages_t data;
-        size_t number_of_pages;
-    };
-
-    auto write_json_to_flash(const nlohmann::json &json_data) -> bool;
-    auto read_json_from_flash(nlohmann::json &json_data) -> bool;
-    auto write(flash_data_t &data) -> bool;
-    static void erase_and_program(void *data);
-    void print_buf(const uint8_t *buf, size_t len);
+    virtual auto init() -> bool = 0;
+    virtual auto write_config(const std::vector<sensor_config_t> &config)
+        -> bool = 0;
+    virtual auto write_config(const wifi_config_t &config) -> bool = 0;
+    virtual auto read_config(std::vector<sensor_config_t> &config) -> bool = 0;
+    virtual auto read_config(wifi_config_t &config) -> bool = 0;
 };
 
 #endif  // PICO_REST_SENSOR_UTILS_CONFIG_HANDLER_H_

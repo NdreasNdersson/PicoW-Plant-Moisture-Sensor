@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "FreeRTOS.h"
+#include "hal/pico_interface_impl.h"
 #include "network/wifi_helper.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
@@ -21,7 +22,9 @@
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
 
 PlantMoistureSensor::PlantMoistureSensor()
-    : config_handler_{},
+    : pico_interface_{},
+      freertos_interface_{},
+      config_handler_{pico_interface_},
       button_control_{},
       sensors_{},
       led_control_{},
@@ -37,6 +40,12 @@ PlantMoistureSensor::~PlantMoistureSensor() {
 }
 void PlantMoistureSensor::init() {
     LogDebug(("Started"));
+
+    if (!config_handler_.init()) {
+        LogError(("Failed to config handler"));
+        set_led_in_failed_mode();
+        vTaskDelete(nullptr);
+    }
 
     std::vector<sensor_config_t> sensor_config{};
     {
@@ -116,8 +125,8 @@ void PlantMoistureSensor::init() {
         [this](bool value) { led_control_.set(LedPin::led_a, value); },
         static_cast<float>(MAIN_LOOP_SLEEP_MS) / 1000.0F);
 
-    rest_api_command_handler_ =
-        std::make_unique<RestApiCommandHandler>(software_download_, sensors_);
+    rest_api_command_handler_ = std::make_unique<RestApiCommandHandler>(
+        config_handler_, software_download_, freertos_interface_, sensors_);
     auto get_callback{
         [this](const std::string &resource, std::string &payload) -> bool {
             return rest_api_command_handler_->get_callback(resource, payload);
@@ -173,6 +182,8 @@ void PlantMoistureSensor::loop() {
                 set_led_in_not_connected_mode();
             }
         }
+
+        vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
     }
 }
 

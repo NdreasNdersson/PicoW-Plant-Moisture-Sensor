@@ -5,7 +5,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(PICO_BOARD pico_w) # Set the board used
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 else ()
@@ -14,6 +13,10 @@ else ()
 endif()
 
 project(PICO_REST_SENSOR C CXX ASM)
+
+include(FetchContent)
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
+FetchContent_MakeAvailable(json)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     include(unittests.cmake)
@@ -35,16 +38,15 @@ else ()
     add_subdirectory(libs/pico-ads1115/lib)
     add_subdirectory(${CMAKE_SOURCE_DIR}/libs/PicoW-Bootloader)
 
-    include(FetchContent)
-    FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
-    FetchContent_MakeAvailable(json)
 
     add_executable(${NAME}
+        src/hal/pico_interface_impl.cpp
+        src/hal/freertos_interface_impl.cpp
         src/utils/button/button.cpp
         src/utils/button/button_control.cpp
         src/utils/led/led_control.cpp
         src/utils/led/led.cpp
-        src/utils/config_handler.cpp
+        src/utils/config_handler_impl.cpp
         src/utils/json_converter.cpp
         src/main.cpp
         src/plant_moisture_sensor.cpp
