@@ -38,7 +38,8 @@ jobs:
           path: |
             build/*.uf2
             build/*.bin
-            build/**/PICO_BOOTLOADER.bin
+            build/ninja-release/*.uf2
+            build/ninja-release/*.bin
             ${{ steps.codechecker.outputs.result-html-dir }}
 
   unittest:
