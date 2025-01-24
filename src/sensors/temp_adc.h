@@ -6,8 +6,8 @@
 #include <list>
 #include <string>
 
-#include "sensors/sensor.h"
-#include "sensors/sensor_config.h"
+#include "sensor.h"
+#include "sensor_config.h"
 
 class TempAdc : public Sensor {
    public:

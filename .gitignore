@@ -113,3 +113,5 @@ KiCad/picow_plant_moisture_sensor/jlcpcb/
 reports*/
 results/
 venv/
+/bazel-*
+MODULE.bazel.lock
