@@ -4,7 +4,7 @@
 #include <utility>
 
 #include "hardware/adc.h"
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
 #include "utils/logging.h"
 
 constexpr float CONVERSION_FACTOR = 3.3f / (1 << 12);

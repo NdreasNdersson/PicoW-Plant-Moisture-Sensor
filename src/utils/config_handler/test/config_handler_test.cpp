@@ -54,11 +54,6 @@ TEST_F(ConfigHandlerTest, TestInit) {
     }
 
     {
-        nlohmann::json actual_data;
-        auto copy_write_data =
-            [&actual_data](uint32_t arg0, const uint8_t *arg1, size_t arg2) {
-                actual_data = nlohmann::json::parse(arg1);
-            };
         EXPECT_CALL(mock_pico_interface_,
                     erase_flash(ADDR_WITH_XIP_OFFSET_AS_U32(
                                     PicoBootloader::APP_STORAGE_ADDRESS),
@@ -68,11 +63,7 @@ TEST_F(ConfigHandlerTest, TestInit) {
                     store_to_flash(ADDR_WITH_XIP_OFFSET_AS_U32(
                                        PicoBootloader::APP_STORAGE_ADDRESS),
                                    testing::_, FLASH_PAGE_SIZE))
-            .WillOnce(testing::DoAll(testing::Invoke(copy_write_data),
-                                     testing::Return(true)));
+            .WillOnce(testing::Return(true));
         EXPECT_TRUE(uut_.init());
-        EXPECT_EQ(
-            actual_data.dump(),
-            "{\"sensors\":[],\"wifi\":{\"password\":\"\",\"ssid\":\"\"}}");
     }
 }

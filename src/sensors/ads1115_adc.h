@@ -11,8 +11,8 @@
 #include "patterns/subscriber.h"
 #include "registers.h"
 #include "sensors/sensor.h"
-#include "sensors/sensor_config.h"
 #include "utils/button/button_control.h"
+#include "utils/config_handler/configs/sensor_config.h"
 #include "utils/low_pass_filter.h"
 
 class Ads1115Adc : public Sensor {

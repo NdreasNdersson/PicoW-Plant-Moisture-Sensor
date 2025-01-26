@@ -4,16 +4,17 @@
 #include <memory>
 #include <vector>
 
-#include "utils/config_handler.h"
+#include "config_handler.h"
 
 extern "C" {
 #include <hardware/flash.h>
 };
 #include "hal/pico_interface.h"
 #include "linker_definitions.h"
-#include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 
 constexpr uint8_t MAX_VALUE_SIZE{32};
 constexpr uint16_t MAX_FLASH_STORAGE_SIZE{FLASH_SECTOR_SIZE};
@@ -28,9 +29,11 @@ class ConfigHandlerImpl : public ConfigHandler {
     auto write_config(const std::vector<sensor_config_t> &config)
         -> bool override;
     auto write_config(const wifi_config_t &config) -> bool override;
+    auto write_config(const mqtt_config_t &config) -> bool override;
 
     auto read_config(std::vector<sensor_config_t> &config) -> bool override;
     auto read_config(wifi_config_t &config) -> bool override;
+    auto read_config(mqtt_config_t &config) -> bool override;
 
    private:
     auto write_json_to_flash(const nlohmann::json &json_data) -> bool;

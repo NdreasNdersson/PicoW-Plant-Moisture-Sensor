@@ -7,16 +7,19 @@
 
 #include "FreeRTOS.h"
 #include "hal/pico_interface_impl.h"
+#include "network/mqtt_client.h"
 #include "network/wifi_helper.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
-#include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "software_download.h"
 #include "src/plant_moisture_sensor.h"
 #include "task.h"
 #include "utils/button/button_control.h"
+#include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 #include "utils/logging.h"
 
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
@@ -30,6 +33,7 @@ PlantMoistureSensor::PlantMoistureSensor()
       led_control_{},
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
+      mqtt_client_{},
       software_download_{},
       rest_api_command_handler_{} {}
 
@@ -75,7 +79,6 @@ void PlantMoistureSensor::init() {
                 wifi_config_.ssid = ssid;
                 wifi_config_.password = password;
             }
-            config_handler_.write_config(wifi_config_);
         }
 
         if (config_handler_.read_config(sensor_config)) {
@@ -91,7 +94,8 @@ void PlantMoistureSensor::init() {
         }
     }
 
-    if (WifiHelper::init()) {
+    WifiHelper wifi_helper;
+    if (wifi_helper.init()) {
         LogDebug(("Wifi Controller Initialised"));
         set_led_in_not_connected_mode();
     } else {
@@ -100,20 +104,21 @@ void PlantMoistureSensor::init() {
         vTaskDelete(nullptr);
     }
 
-    if (WifiHelper::join(wifi_config_)) {
+    if (wifi_helper.join(wifi_config_)) {
         set_led_in_connected_mode();
+        config_handler_.write_config(wifi_config_);
     } else {
         LogError(("Failed to connect to Wifi "));
     }
 
     // Print MAC Address
     char macStr[20];
-    WifiHelper::getMACAddressStr(macStr);
+    wifi_helper.getMACAddressStr(macStr);
     LogInfo(("MAC ADDRESS: %s", macStr));
 
     // Print IP Address
     char ipStr[20];
-    WifiHelper::getIPAddressStr(ipStr);
+    wifi_helper.getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
     button_control_ = std::make_unique<ButtonControl>();
@@ -142,10 +147,20 @@ void PlantMoistureSensor::init() {
         vTaskDelete(nullptr);
     }
 
-    nlohmann::json rest_api_data;
+    mqtt_config_t mqtt_config{};
+    if (config_handler_.read_config(mqtt_config)) {
+        mqtt_client_ = std::make_unique<MqttClient>(mqtt_config, sensors_);
+        if (!mqtt_client_->connect()) {
+            LogError(("MQTT failed to connect"));
+        }
+    } else {
+        LogInfo(("MQTT not configured"));
+    }
 }
 
 void PlantMoistureSensor::loop() {
+    WifiHelper wifi_helper;
+
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -171,10 +186,10 @@ void PlantMoistureSensor::loop() {
             config_handler_.write_config(temp_sensor_config);
         }
 
-        if (!WifiHelper::isJoined()) {
+        if (!wifi_helper.isJoined()) {
             LogError(("AP Link is down"));
 
-            if (WifiHelper::join(wifi_config_)) {
+            if (wifi_helper.join(wifi_config_)) {
                 LogInfo(("Connect to Wifi"));
                 set_led_in_connected_mode();
             } else {

@@ -46,13 +46,14 @@ else ()
         src/utils/button/button_control.cpp
         src/utils/led/led_control.cpp
         src/utils/led/led.cpp
-        src/utils/config_handler_impl.cpp
+        src/utils/config_handler/config_handler_impl.cpp
         src/utils/json_converter.cpp
         src/main.cpp
         src/plant_moisture_sensor.cpp
         src/network/wifi_helper.cpp
         src/network/rest_api.cpp
         src/network/rest_api_command_handler.cpp
+        src/network/mqtt_client.cpp
         src/run_time_stats/run_time_stats.cpp
         src/sensors/sensor_factory.cpp
         src/sensors/ads1115_adc.cpp
@@ -78,6 +79,7 @@ else ()
         nlohmann_json::nlohmann_json
         software_download_lib
         hardware_adc
+        pico_lwip_mqtt
     )
 
     # Set logging level

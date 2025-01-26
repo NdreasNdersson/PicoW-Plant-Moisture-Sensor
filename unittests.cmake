@@ -57,5 +57,5 @@ add_custom_target(coverage
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/network/test)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils/test)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src/utils/config_handler/test)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/libs/PicoW-Bootloader/software_download/test)

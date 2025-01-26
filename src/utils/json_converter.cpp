@@ -1,5 +1,7 @@
 #include "json_converter.h"
 
+#include "utils/config_handler/configs/mqtt_config.h"
+
 // sensor_config_t
 void to_json(json &json_data, const sensor_config_t &config) {
     json_data = json{{"pin", config.pin},
@@ -46,5 +48,32 @@ void from_json(const json &json_data, wifi_config_t &config) {
     }
     if (json_data.contains("password")) {
         json_data["password"].get_to(config.password);
+    }
+}
+
+// mqtt_config_t
+void to_json(json &json_data, const mqtt_config_t &config) {
+    json_data = json{{"user", config.user},
+                     {"password", config.password},
+                     {"ip", config.ip},
+                     {"port", config.port},
+                     {"client_name", config.client_name}};
+}
+
+void from_json(const json &json_data, mqtt_config_t &config) {
+    if (json_data.contains("user")) {
+        json_data["user"].get_to(config.user);
+    }
+    if (json_data.contains("password")) {
+        json_data["password"].get_to(config.password);
+    }
+    if (json_data.contains("ip")) {
+        json_data["ip"].get_to(config.ip);
+    }
+    if (json_data.contains("port")) {
+        json_data["port"].get_to(config.port);
+    }
+    if (json_data.contains("client_name")) {
+        json_data["client_name"].get_to(config.client_name);
     }
 }

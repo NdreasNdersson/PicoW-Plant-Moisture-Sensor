@@ -16,8 +16,8 @@
 #include "mocks/mock_freertos_interface.h"
 #include "mocks/mock_sensor.h"
 #include "mocks/mock_software_download.h"
-#include "sensors/sensor_config.h"
 #include "types.h"
+#include "utils/config_handler/configs/sensor_config.h"
 
 class RestApiCommandHandlerTest : public testing::Test {
    protected:

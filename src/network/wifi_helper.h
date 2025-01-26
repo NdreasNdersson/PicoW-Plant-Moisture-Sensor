@@ -4,7 +4,7 @@
 #include <cstdlib>
 
 #include "pico/stdlib.h"
-#include "wifi_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 
 #ifndef WIFI_RETRIES
 #define WIFI_RETRIES 3

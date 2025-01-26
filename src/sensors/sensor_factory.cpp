@@ -6,9 +6,9 @@
 #include "hardware/gpio.h"
 #include "hardware/i2c.h"
 #include "sensors/ads1115_adc.h"
-#include "sensors/sensor_config.h"
 #include "sensors/temp_adc.h"
 #include "utils/button/button_control.h"
+#include "utils/config_handler/configs/sensor_config.h"
 #include "utils/logging.h"
 
 void SensorFactory::create(std::vector<sensor_config_t> &pin_configs,

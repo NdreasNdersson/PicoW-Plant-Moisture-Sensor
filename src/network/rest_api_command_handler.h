@@ -12,7 +12,7 @@
 #include "sensors/sensor.h"
 #include "software_download.h"
 #include "software_download_api.h"
-#include "utils/config_handler.h"
+#include "utils/config_handler/config_handler.h"
 
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:
@@ -37,6 +37,7 @@ class RestApiCommandHandler : public Subscriber<Measurement_t> {
 
    private:
     auto validate_sensors_content(const nlohmann::json &json_data) -> bool;
+    auto validate_mqtt_content(const nlohmann::json &json_data) -> bool;
     auto validate_swdl_content(const nlohmann::json &json_data) -> bool;
     ConfigHandler &config_handler_;
     std::shared_ptr<PicoInterface> pico_interface_;

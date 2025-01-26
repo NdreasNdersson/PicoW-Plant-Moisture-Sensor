@@ -4,7 +4,7 @@
 #include <string>
 
 #include "patterns/publisher.h"
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
 
 enum class SensorReadStatus : uint8_t { Calibrating, CalibrationComplete, Ok };
 

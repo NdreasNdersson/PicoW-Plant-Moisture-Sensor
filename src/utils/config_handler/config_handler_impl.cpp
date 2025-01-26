@@ -4,9 +4,10 @@
 #include <cstring>
 
 #include "linker_definitions.h"
-#include "logging.h"
 #include "nlohmann/json.hpp"
+#include "utils/config_handler/configs/mqtt_config.h"
 #include "utils/json_converter.h"
+#include "utils/logging.h"
 
 ConfigHandlerImpl::ConfigHandlerImpl(PicoInterface &pico_interface)
     : pico_interface_{pico_interface} {}
@@ -15,13 +16,8 @@ auto ConfigHandlerImpl::init() -> bool {
     auto status{true};
     nlohmann::json json;
     if (!read_json_from_flash(json)) {
-        LogInfo(("No previously saved config data, write default values"));
-        std::vector<sensor_config_t> sensor_config{};
-        wifi_config_t wifi_config{};
+        LogInfo(("No previously saved config data, write empty json"));
         nlohmann::json json_new;
-
-        json_new["sensors"] = nlohmann::json(sensor_config);
-        json_new["wifi"] = nlohmann::json(wifi_config);
         status &= write_json_to_flash(json_new);
     }
 
@@ -61,15 +57,33 @@ auto ConfigHandlerImpl::write_config(const wifi_config_t &config) -> bool {
     return status;
 }
 
+auto ConfigHandlerImpl::write_config(const mqtt_config_t &config) -> bool {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        json["mqtt"] = nlohmann::json(config);
+        status = write_json_to_flash(json);
+    } else {
+        nlohmann::json json_new;
+        LogInfo(("No previously saved data, write wifi config"));
+        json_new["mqtt"] = nlohmann::json(config);
+        status = write_json_to_flash(json_new);
+    }
+
+    return status;
+}
+
 auto ConfigHandlerImpl::read_config(std::vector<sensor_config_t> &config)
     -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
-        for (const auto &sensor : json["sensors"]) {
-            config.emplace_back(sensor.get<sensor_config_t>());
+        if (json.contains("sensors")) {
+            for (const auto &sensor : json["sensors"]) {
+                config.emplace_back(sensor.get<sensor_config_t>());
+            }
+            status = true;
         }
-        status = true;
     }
 
     return status;
@@ -79,8 +93,23 @@ auto ConfigHandlerImpl::read_config(wifi_config_t &config) -> bool {
     auto status{false};
     nlohmann::json json;
     if (read_json_from_flash(json)) {
-        config = json["wifi"].get<wifi_config_t>();
-        status = true;
+        if (json.contains("wifi")) {
+            config = json["wifi"].get<wifi_config_t>();
+            status = true;
+        }
+    }
+
+    return status;
+}
+
+auto ConfigHandlerImpl::read_config(mqtt_config_t &config) -> bool {
+    auto status{false};
+    nlohmann::json json;
+    if (read_json_from_flash(json)) {
+        if (json.contains("mqtt")) {
+            config = json["mqtt"].get<mqtt_config_t>();
+            status = true;
+        }
     }
 
     return status;

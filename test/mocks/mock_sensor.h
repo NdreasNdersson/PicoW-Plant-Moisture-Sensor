@@ -2,7 +2,7 @@
 
 #include "patterns/subscriber.h"
 #include "sensors/sensor.h"
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
 
 class MockSensor : public Sensor {
    public:
