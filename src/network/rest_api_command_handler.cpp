@@ -8,6 +8,7 @@
 #include "sensors/sensor_config.h"
 #include "types.h"
 #include "utils/config_handler.h"
+#include "utils/config_handler/configs/mqtt_config.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
@@ -93,6 +94,20 @@ auto RestApiCommandHandler::post_callback(const std::string &resource,
                           json_data.dump().c_str()));
             }
         }
+    } else if (resource == "MQTT") {
+        status &= validate_mqtt_content(json_data);
+        if (status) {
+            auto config{json_data.get<mqtt_config_t>()};
+            if (config_handler_.write_config(config)) {
+                LogInfo(("MQTT config stored, will reboot in 3s..."));
+                uint32_t reboot_delay_ms{3000};
+                software_download_.reboot(reboot_delay_ms);
+            } else {
+                status = false;
+                LogError(("MQTT config could not be stored, json_data: \n%s",
+                          json_data.dump().c_str()));
+            }
+        }
     } else if (resource == "SWDL") {
         status &= validate_swdl_content(json_data);
         if (status && json_data.contains("size")) {
@@ -153,6 +168,20 @@ void RestApiCommandHandler::update(const Measurement_t &measurement) {
 auto RestApiCommandHandler::validate_sensors_content(
     const nlohmann::json &json_data) -> bool {
     return json_data.contains("config") && json_data["config"].is_array();
+}
+
+auto RestApiCommandHandler::validate_mqtt_content(
+    const nlohmann::json &json_data) -> bool {
+    auto status{true};
+    status &= (json_data.contains("user") && json_data["user"].is_string());
+    status &=
+        (json_data.contains("password") && json_data["password"].is_string());
+    status &= (json_data.contains("ip") && json_data["ip"].is_string());
+    status &=
+        (json_data.contains("port") && json_data["port"].is_number_integer());
+    status &= (json_data.contains("client_name") &&
+               json_data["client_name"].is_string());
+    return status;
 }
 
 auto RestApiCommandHandler::validate_swdl_content(
