@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "utils/config_handler/config_handler.h"
+#include "config_handler.h"
 
 extern "C" {
 #include <hardware/flash.h>
