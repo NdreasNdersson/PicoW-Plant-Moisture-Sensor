@@ -4,17 +4,17 @@
 #include <memory>
 #include <vector>
 
-#include "utils/config_handler.h"
-#include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/config_handler.h"
 
 extern "C" {
 #include <hardware/flash.h>
 };
 #include "hal/pico_interface.h"
 #include "linker_definitions.h"
-#include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 
 constexpr uint8_t MAX_VALUE_SIZE{32};
 constexpr uint16_t MAX_FLASH_STORAGE_SIZE{FLASH_SECTOR_SIZE};

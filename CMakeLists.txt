@@ -46,7 +46,7 @@ else ()
         src/utils/button/button_control.cpp
         src/utils/led/led_control.cpp
         src/utils/led/led.cpp
-        src/utils/config_handler_impl.cpp
+        src/utils/config_handler/config_handler_impl.cpp
         src/utils/json_converter.cpp
         src/main.cpp
         src/plant_moisture_sensor.cpp

@@ -12,13 +12,14 @@
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
 #include "pico/stdlib.h"
-#include "sensors/sensor_config.h"
 #include "sensors/sensor_factory.h"
 #include "software_download.h"
 #include "src/plant_moisture_sensor.h"
 #include "task.h"
 #include "utils/button/button_control.h"
 #include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 #include "utils/logging.h"
 
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
@@ -93,7 +94,8 @@ void PlantMoistureSensor::init() {
         }
     }
 
-    if (WifiHelper::init()) {
+    WifiHelper wifi_helper;
+    if (wifi_helper.init()) {
         LogDebug(("Wifi Controller Initialised"));
         set_led_in_not_connected_mode();
     } else {
@@ -102,7 +104,7 @@ void PlantMoistureSensor::init() {
         vTaskDelete(nullptr);
     }
 
-    if (WifiHelper::join(wifi_config_)) {
+    if (wifi_helper.join(wifi_config_)) {
         set_led_in_connected_mode();
         config_handler_.write_config(wifi_config_);
     } else {
@@ -111,12 +113,12 @@ void PlantMoistureSensor::init() {
 
     // Print MAC Address
     char macStr[20];
-    WifiHelper::getMACAddressStr(macStr);
+    wifi_helper.getMACAddressStr(macStr);
     LogInfo(("MAC ADDRESS: %s", macStr));
 
     // Print IP Address
     char ipStr[20];
-    WifiHelper::getIPAddressStr(ipStr);
+    wifi_helper.getIPAddressStr(ipStr);
     LogInfo(("IP ADDRESS: %s", ipStr));
 
     button_control_ = std::make_unique<ButtonControl>();
@@ -157,6 +159,8 @@ void PlantMoistureSensor::init() {
 }
 
 void PlantMoistureSensor::loop() {
+    WifiHelper wifi_helper;
+
     while (true) {
         vTaskDelay(MAIN_LOOP_SLEEP_MS / portTICK_PERIOD_MS);
 
@@ -182,10 +186,10 @@ void PlantMoistureSensor::loop() {
             config_handler_.write_config(temp_sensor_config);
         }
 
-        if (!WifiHelper::isJoined()) {
+        if (!wifi_helper.isJoined()) {
             LogError(("AP Link is down"));
 
-            if (WifiHelper::join(wifi_config_)) {
+            if (wifi_helper.join(wifi_config_)) {
                 LogInfo(("Connect to Wifi"));
                 set_led_in_connected_mode();
             } else {

@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "network/wifi_config.h"
-#include "sensors/sensor_config.h"
 #include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 
 class ConfigHandler {
    public:

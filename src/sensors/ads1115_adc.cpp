@@ -5,7 +5,7 @@
 #include <limits>
 #include <string>
 
-#include "sensors/sensor_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
 #include "utils/logging.h"
 
 Ads1115Adc::Ads1115Adc(sensor_config_t &config, ButtonControl &button_control,

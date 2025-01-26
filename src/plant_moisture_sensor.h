@@ -7,12 +7,12 @@
 #include "hal/pico_interface_impl.h"
 #include "network/mqtt_client.h"
 #include "network/rest_api.h"
-#include "network/wifi_config.h"
 #include "patterns/subscriber.h"
 #include "sensors/sensor.h"
 #include "software_download.h"
 #include "utils/button/button_control.h"
-#include "utils/config_handler_impl.h"
+#include "utils/config_handler/config_handler_impl.h"
+#include "utils/config_handler/configs/wifi_config.h"
 #include "utils/led/led_control.h"
 
 class PlantMoistureSensor : public Subscriber<int> {

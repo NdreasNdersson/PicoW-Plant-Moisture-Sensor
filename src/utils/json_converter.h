@@ -1,10 +1,10 @@
 #ifndef PICO_REST_SENSOR_UTILS_JSON_CONVERTER_H_
 #define PICO_REST_SENSOR_UTILS_JSON_CONVERTER_H_
 
-#include "network/wifi_config.h"
 #include "nlohmann/json.hpp"
-#include "sensors/sensor_config.h"
 #include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
+#include "utils/config_handler/configs/wifi_config.h"
 
 using json = nlohmann::json;
 

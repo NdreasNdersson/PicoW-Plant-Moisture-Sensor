@@ -12,7 +12,7 @@
 #include "sensors/sensor.h"
 #include "software_download.h"
 #include "software_download_api.h"
-#include "utils/config_handler.h"
+#include "utils/config_handler/config_handler.h"
 
 class RestApiCommandHandler : public Subscriber<Measurement_t> {
    public:

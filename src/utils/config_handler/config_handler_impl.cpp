@@ -4,10 +4,10 @@
 #include <cstring>
 
 #include "linker_definitions.h"
-#include "logging.h"
 #include "nlohmann/json.hpp"
 #include "utils/config_handler/configs/mqtt_config.h"
 #include "utils/json_converter.h"
+#include "utils/logging.h"
 
 ConfigHandlerImpl::ConfigHandlerImpl(PicoInterface &pico_interface)
     : pico_interface_{pico_interface} {}

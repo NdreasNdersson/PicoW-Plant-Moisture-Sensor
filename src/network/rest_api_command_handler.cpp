@@ -5,10 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include "sensors/sensor_config.h"
 #include "types.h"
-#include "utils/config_handler.h"
+#include "utils/config_handler/config_handler.h"
 #include "utils/config_handler/configs/mqtt_config.h"
+#include "utils/config_handler/configs/sensor_config.h"
 #include "utils/json_converter.h"
 #include "utils/logging.h"
 
