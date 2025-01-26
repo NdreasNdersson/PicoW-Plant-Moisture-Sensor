@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "utils/config_handler.h"
+#include "utils/config_handler/configs/mqtt_config.h"
 
 extern "C" {
 #include <hardware/flash.h>
@@ -28,9 +29,11 @@ class ConfigHandlerImpl : public ConfigHandler {
     auto write_config(const std::vector<sensor_config_t> &config)
         -> bool override;
     auto write_config(const wifi_config_t &config) -> bool override;
+    auto write_config(const mqtt_config_t &config) -> bool override;
 
     auto read_config(std::vector<sensor_config_t> &config) -> bool override;
     auto read_config(wifi_config_t &config) -> bool override;
+    auto read_config(mqtt_config_t &config) -> bool override;
 
    private:
     auto write_json_to_flash(const nlohmann::json &json_data) -> bool;

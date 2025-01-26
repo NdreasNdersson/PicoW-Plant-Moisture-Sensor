@@ -7,6 +7,7 @@
 
 #include "FreeRTOS.h"
 #include "hal/pico_interface_impl.h"
+#include "network/mqtt_client.h"
 #include "network/wifi_helper.h"
 #include "nlohmann/json.hpp"
 #include "pico/cyw43_arch.h"
@@ -17,6 +18,7 @@
 #include "src/plant_moisture_sensor.h"
 #include "task.h"
 #include "utils/button/button_control.h"
+#include "utils/config_handler/configs/mqtt_config.h"
 #include "utils/logging.h"
 
 static constexpr TickType_t MAIN_LOOP_SLEEP_MS{5000U};
@@ -30,6 +32,7 @@ PlantMoistureSensor::PlantMoistureSensor()
       led_control_{},
       wifi_config_{},
       rest_api_([this](bool value) { led_control_.set(LedPin::led_b, value); }),
+      mqtt_client_{},
       software_download_{},
       rest_api_command_handler_{} {}
 
@@ -75,7 +78,6 @@ void PlantMoistureSensor::init() {
                 wifi_config_.ssid = ssid;
                 wifi_config_.password = password;
             }
-            config_handler_.write_config(wifi_config_);
         }
 
         if (config_handler_.read_config(sensor_config)) {
@@ -102,6 +104,7 @@ void PlantMoistureSensor::init() {
 
     if (WifiHelper::join(wifi_config_)) {
         set_led_in_connected_mode();
+        config_handler_.write_config(wifi_config_);
     } else {
         LogError(("Failed to connect to Wifi "));
     }
@@ -142,7 +145,15 @@ void PlantMoistureSensor::init() {
         vTaskDelete(nullptr);
     }
 
-    nlohmann::json rest_api_data;
+    mqtt_config_t mqtt_config{};
+    if (config_handler_.read_config(mqtt_config)) {
+        mqtt_client_ = std::make_unique<MqttClient>(mqtt_config, sensors_);
+        if (!mqtt_client_->connect()) {
+            LogError(("MQTT failed to connect"));
+        }
+    } else {
+        LogInfo(("MQTT not configured"));
+    }
 }
 
 void PlantMoistureSensor::loop() {
